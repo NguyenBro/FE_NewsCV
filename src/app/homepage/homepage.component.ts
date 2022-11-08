@@ -12,6 +12,7 @@ import { newsService } from './services/news.service';
 })
 export class HomepageComponent implements OnInit {
   public isShow = false;
+  showLogo = true;
   user: user = new user();
   constructor(
     private router: Router,
@@ -20,12 +21,14 @@ export class HomepageComponent implements OnInit {
     private modal: NzModalService,
     private message: NzMessageService
   ) {
+    this.showLogo = true;
     this.user = sevices.userLogin;
   }
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';
   ngOnInit(): void {}
   page() {
+    this.showLogo = true;
     this.router.navigate(['./homepage/page']);
   }
   login() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, map, of } from 'rxjs';
+import { HomepageComponent } from '../homepage.component';
 import { scholarship } from '../model/news.model';
 import { newsService } from '../services/news.service';
 
@@ -36,8 +37,11 @@ export class NewsEventComponent implements OnInit {
   constructor(
     private router: Router,
     private sevices: newsService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private homepage: HomepageComponent
+  ) {
+    homepage.showLogo = false;
+  }
 
   ngOnInit(): void {
     this.initData();

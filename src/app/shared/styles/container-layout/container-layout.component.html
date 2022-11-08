@@ -1,6 +1,6 @@
 <div class="bg-light h-full">
   <div
-    class="flex px-8 h-16 bg-white border-b-2 w-full justify-between items-center"
+    class="flex px-8 h-12 bg-white border-b-2 w-full justify-between items-center bg-neutral-200"
   >
     <div>
       <ng-container [ngTemplateOutlet]="leftHeader"></ng-container>
@@ -9,8 +9,11 @@
       <ng-container [ngTemplateOutlet]="rightHeader"></ng-container>
     </div>
   </div>
-  <div class="bg-light flex flex-col px-8" style="height: calc(100% - 4rem)">
-    <div class="flex-none flex items-center h-16 py-1" *ngIf="showTopBody">
+  <div
+    class="flex flex-col px-8 bg-neutral-200"
+    style="height: calc(100% + 4rem)"
+  >
+    <div class="flex-none flex items-center h-12 py-1" *ngIf="showTopBody">
       <ng-container [ngTemplateOutlet]="topBody"></ng-container>
     </div>
     <div
@@ -30,7 +33,7 @@
       </div>
       <div
         [ngClass]="showSideBar ? 'w-8/12' : 'hidden'"
-        class="pl-8 bg-light h-full rounded-lg transition-all duration-300"
+        class="pl-8 h-full rounded-lg transition-all duration-300 bg-white"
       >
         <ng-container [ngTemplateOutlet]="rightBody"></ng-container>
       </div>

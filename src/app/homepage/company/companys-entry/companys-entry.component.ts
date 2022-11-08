@@ -13,6 +13,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
+import { HomepageComponent } from '../../homepage.component';
 
 @Component({
   selector: 'app-companys-entry',
@@ -61,8 +62,10 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     private router: Router,
     private message: NzMessageService,
     private service: CompetenceFramesService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private homepage: HomepageComponent
   ) {
+    homepage.showLogo = false;
     this.getPageList(this.currentPage);
   }
   onPageIndexChange(event: number) {
