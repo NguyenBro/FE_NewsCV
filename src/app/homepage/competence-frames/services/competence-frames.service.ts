@@ -17,8 +17,7 @@ export class CompetenceFramesService {
   public listCom: ComFrame[] = [];
   public recruit = new Recruit();
   public listRecruit: Recruit[] = [];
-  urlPath =
-    'http://newscv-env.eba-3k8gbtyu.ap-southeast-1.elasticbeanstalk.com';
+  urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {

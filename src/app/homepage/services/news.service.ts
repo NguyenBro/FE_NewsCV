@@ -99,8 +99,7 @@ export class newsService {
     this.initlistEvent();
     this.initlistCompetiton();
   }
-  urlPath =
-    'http://newscv-env.eba-3k8gbtyu.ap-southeast-1.elasticbeanstalk.com';
+  urlPath = 'https://server-api.newscv.tech';
   login(data: any) {
     return this.http.post<ResponseObject>(
       `${this.urlPath + '/api/v1/login'}`,
