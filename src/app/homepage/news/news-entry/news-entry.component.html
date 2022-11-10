@@ -2,7 +2,12 @@
   <div class="layout-header"> -->
 <div class="all">
   <ng-template #leftHeader>
-    <div class="list-tag">
+    <div class="list-tag headersearch">
+      <div class="headersearch-title2">Cuộc thi</div>
+      <div class="headersearch-title3">
+        Học bổng toàn phần, bán phần của chính phủ, các tổ chức, công ty và
+        trường đại học trong nước và quốc tế hấp dẫn
+      </div>
       <app-search-bar (listOfSearchesChange)="onListOfSearchesChange($event)">
       </app-search-bar>
 
@@ -49,44 +54,44 @@
 
   <!-- <div class="layout-body"> -->
   <ng-template #topBody>
-    <div class="text-xl text-primary-1 font-bold">Thông tin tuyển dụng</div>
+    <div class="text-xl text-primary-1 font-bold">Thông tin các cuộc thi</div>
   </ng-template>
   <ng-template #competenceFrameList>
     <div class="h-full">
       <div class="site-showList">
         <!-- <div class="site-showList">  -->
         <div
-          class="layout-grid"
+          class="flex flex-col gap-4"
           [ngClass]="
             isDetailShown ? 'grid-cols-1' : 'md:grid-cols-3 grid-cols-1'
           "
         >
           <div
             class="card rounded-lg bg-white h-48 relative"
-            [ngClass]="test.id === selectedCompetenceFrame ? 'active' : ''"
+            [ngClass]="test.code === selectedCompetenceFrame ? 'active' : ''"
             *ngFor="let test of listCom$ | async"
-            (click)="selectCompetenceFrame(test.id, test, cardRef)"
+            (click)="selectCompetenceFrame(test.code, test, cardRef)"
             #cardRef
           >
             <div
               class="font-bold h-14 bg-secondary-5 rounded-t-lg p-4 flex items-center"
             >
-              <span>{{ test.name }}</span>
+              <span>{{ test.codeCategory }}</span>
             </div>
 
             <div class="body p-4">
               <div class="inline-flex flex-wrap">
-                <div
+                <!-- <div
                   class="tag mr-2 mb-2"
                   *ngFor="let item of test.competences"
                 >
                   {{ item }}
-                </div>
+                </div> -->
               </div>
             </div>
             <button
               class="text-lg px-2 mr-3 absolute right-0 top-3"
-              (click)="deleteCompetenceFrame(test.name, $event)"
+              (click)="deleteCompetenceFrame(test.title, $event)"
             >
               <span nz-icon nzType="svg:trash"> </span>
             </button>

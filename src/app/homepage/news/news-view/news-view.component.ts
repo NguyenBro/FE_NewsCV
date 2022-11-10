@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
+import { competion } from '../../model/news.model';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
 import { NewsService } from '../services/news.service';
 
@@ -14,7 +15,7 @@ import { NewsService } from '../services/news.service';
   styleUrls: ['./news-view.component.less'],
 })
 export class NewsViewComponent implements OnInit {
-  public comFrame: ComFrame | undefined = new ComFrame();
+  public comFrame: competion | undefined = new competion();
   public id = '';
   company = 'FPT';
   exp = '20 năm';
@@ -24,7 +25,7 @@ export class NewsViewComponent implements OnInit {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      return this.service.getComFrameInfo(p['comFrameId']);
+      return this.service.getCompetionInfo(p['comFrameId']);
     }),
     tap((it) => (this.comFrame = it))
   );
@@ -39,7 +40,7 @@ export class NewsViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.comFrame = this.service.comframe;
+    this.comFrame = this.service.competion;
   }
 
   public create() {
@@ -55,7 +56,7 @@ export class NewsViewComponent implements OnInit {
   }
   public delete() {
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa năng lực ${this.comFrame?.name} không?`,
+      nzTitle: `Bạn có muốn xóa năng lực ${this.comFrame?.title} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {

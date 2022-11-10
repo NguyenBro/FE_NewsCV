@@ -13,6 +13,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
+import { HomepageComponent } from '../../homepage.component';
+import { competion } from '../../model/news.model';
 
 @Component({
   selector: 'app-news-entry',
@@ -61,8 +63,10 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     private router: Router,
     private message: NzMessageService,
     private service: NewsService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private homepage: HomepageComponent
   ) {
+    homepage.showLogo = false;
     this.getPageList(this.currentPage);
   }
   onPageIndexChange(event: number) {
@@ -74,19 +78,19 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
   onListOfSearchesChange(event: string[]) {
     this.listOfSearches$.next(event);
   }
-  isSearchCompetence(competence: ComFrame, searches: string[]): boolean {
+  isSearchCompetence(competence: competion, searches: string[]): boolean {
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>
-        competence.name
+        competence.title
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) ||
-        competence.description
+        competence.shortContent
           ?.toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) ||
-        competence.competences.some((com) =>
-          com.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-        )
+        competence.codeCategory
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase())
     );
   }
   ngOnDestroy(): void {
@@ -97,7 +101,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     this.getSearchKeyword();
   }
 
-  selectCompetenceFrame(value: string, obj: ComFrame, cardRef: HTMLElement) {
+  selectCompetenceFrame(value: string, obj: competion, cardRef: HTMLElement) {
     this.subscriptions.add(
       timer(50).subscribe(() => {
         cardRef.scrollIntoView({
@@ -106,7 +110,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.service.comframe = obj;
+    this.service.competion = obj;
     this.selectedCompetenceFrame = value;
 
     this.router.navigate(['./homepage/news/' + value]);

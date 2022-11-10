@@ -11,6 +11,8 @@ import { newsService } from '../services/news.service';
   styleUrls: ['./news-competion.component.less'],
 })
 export class NewsCompetionComponent implements OnInit {
+  private listOfSearches$ = new BehaviorSubject<string[]>([]);
+  searchKeywords: string[] = [];
   competion: competion = new competion();
   filterList: string[] = [];
   Category = '';
@@ -78,9 +80,26 @@ export class NewsCompetionComponent implements OnInit {
       filterText.length > 0
     ) {
       this.filterList.push(filterText);
+      this.saveSearchKeyword(filterText);
       // this.getPageList(0, true, filterText);
     }
   }
+  saveSearchKeyword(keyword: string) {
+    if (
+      !this.searchKeywords.some((x) => x.toLowerCase() == keyword.toLowerCase())
+    ) {
+      if (this.searchKeywords.length >= 5) {
+        this.searchKeywords.pop();
+      }
+
+      this.searchKeywords.unshift(keyword);
+      localStorage.setItem(
+        'searchKeyword',
+        JSON.stringify(this.searchKeywords)
+      );
+    }
+  }
+
   search(event: Event) {
     if (event.target) {
       const element = event.target as HTMLInputElement;
@@ -109,5 +128,8 @@ export class NewsCompetionComponent implements OnInit {
   }
   detail() {
     this.router.navigate(['./homepage/news-competion/create']);
+  }
+  onListOfSearchesChange(event: string[]) {
+    this.listOfSearches$.next(event);
   }
 }

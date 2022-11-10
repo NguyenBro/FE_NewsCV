@@ -7,6 +7,23 @@
         Học bổng toàn phần, bán phần của chính phủ, các tổ chức, công ty và
         trường đại học trong nước và quốc tế hấp dẫn
       </div>
+      <div class="list-tag">
+        <app-search-bar (listOfSearchesChange)="onListOfSearchesChange($event)">
+        </app-search-bar>
+
+        <div
+          class="header-left-item"
+          *ngFor="let keyword of searchKeywords"
+          (click)="addFilter(keyword)"
+        >
+          <button
+            class="button-secondary"
+            style="width: fit-content; padding: 0 0.5rem"
+          >
+            {{ keyword }}
+          </button>
+        </div>
+      </div>
       <div class="left-check">
         <div class="filter">
           <div class="filter-search">
