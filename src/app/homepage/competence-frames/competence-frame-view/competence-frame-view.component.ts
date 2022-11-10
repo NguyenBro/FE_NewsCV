@@ -20,7 +20,6 @@ export class CompetenceFrameViewComponent implements OnInit {
   public comFrame: Recruit | undefined = new Recruit();
   public id = '';
   des = '';
-  comName = '';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -42,23 +41,33 @@ export class CompetenceFrameViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.comName = this.service.nameCompany;
     this.comFrame = this.service.recruit;
-    const result = htmlToText(this.comFrame.description, {
-      singleNewLineParagraphs: true,
-      ignoreImage: true,
-      formatters: {
-        anchor: (el, walk, builder, opts) => {
-          builder.openBlock();
-          walk(el.children, builder);
-          builder.closeBlock();
-        },
-      },
+    // const result = htmlToText(this.comFrame.description, {
+    //   singleNewLineParagraphs: true,
+    //   ignoreImage: true,
+    //   formatters: {
+    //     anchor: (el, walk, builder, opts) => {
+    //       builder.openBlock();
+    //       walk(el.children, builder);
+    //       builder.closeBlock();
+    //     },
+    //   },
+    // });
+    // // const appDiv: HTMLElement = document.getElementById('app') as HTMLElement;
+    // // appDiv.innerHTML = result;
+    // this.des = result;
+    // console.log(this.des);
+    const { htmlToText } = require('html-to-text');
+
+    this.comFrame.description = htmlToText(this.comFrame.description, {
+      wordwrap: 130,
     });
-    // const appDiv: HTMLElement = document.getElementById('app') as HTMLElement;
-    // appDiv.innerHTML = result;
-    this.des = result;
-    console.log(this.des);
+    this.comFrame.requirement = htmlToText(this.comFrame.requirement, {
+      wordwrap: 130,
+    });
+    this.comFrame.treatment = htmlToText(this.comFrame.treatment, {
+      wordwrap: 130,
+    });
   }
 
   public create() {

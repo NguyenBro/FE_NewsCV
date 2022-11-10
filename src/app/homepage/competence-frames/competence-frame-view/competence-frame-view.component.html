@@ -46,18 +46,19 @@
       <span nz-icon nzType="svg:trash"> </span>
     </button>
     <div container-title>
-      {{ (comFrameInfo$ | async)?.title }}
+      <div>{{ (comFrameInfo$ | async)?.title }}</div>
+      <div class="font-normal">
+        {{ (comFrameInfo$ | async)?.shortContent }}
+      </div>
     </div>
-    <div container-title>
-      {{ comName }}
-    </div>
+
     <div container-body>
       <div class="content list-section">
         <div class="image"><img [src]="comFrame?.thumbnail" /></div>
         <app-section title="Mô tả">
           <div container>
             <div section-container class="competence-tags">
-              <div>{{ des }}</div>
+              <div>{{ (comFrameInfo$ | async)?.description }}</div>
             </div>
             <!-- <textarea
               nz-input
@@ -74,15 +75,56 @@
             ></textarea> -->
           </div>
         </app-section>
-        <app-section title="Danh sách năng lực" [collapsible]="false">
+        <app-section title="Chi tiết tin tuyển dụng" [collapsible]="false">
           <div section-container class="competence-tags">
-            <!-- <span
-              class="tag"
-              *ngFor="let item of (comFrameInfo$ | async)?.['competences']"
-              >{{ item }}</span
-            > -->
-            <div>{{ comFrame?.experience }}</div>
-            <div>{{ comFrame?.salary }}</div>
+            <div class="tags">
+              <div class="tagitem tag">
+                <span class="icon" nz-icon nzType="svg:bag"> </span>
+                <div>
+                  <div class="font-bold">Kinh nghiệm</div>
+                  <div>{{ comFrame?.experience }}</div>
+                </div>
+              </div>
+              <div class="tagitem tag">
+                <span class="icon" nz-icon nzType="svg:rank"> </span>
+                <div>
+                  <div class="font-bold">Cấp bậc</div>
+                  <div>{{ comFrame?.level }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tags">
+              <div class="tagitem tag">
+                <span class="icon" nz-icon nzType="svg:language"> </span>
+                <div>
+                  <div class="font-bold">Ngôn ngữ</div>
+                  <div>{{ comFrame?.language }}</div>
+                </div>
+              </div>
+              <div class="tagitem tag">
+                <span class="icon" nz-icon nzType="svg:salary"> </span>
+                <div>
+                  <div class="font-bold">Mức lương</div>
+                  <div>{{ comFrame?.salary }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </app-section>
+        <app-section title="Địa điểm làm việc" [collapsible]="false">
+          <div section-container class="competence-tags">
+            <div>{{ comFrame?.location }}</div>
+          </div>
+        </app-section>
+        <app-section title="Yêu cầu ứng viên" [collapsible]="false">
+          <div section-container class="competence-tags">
+            <div>{{ comFrame?.requirement }}</div>
+          </div>
+        </app-section>
+        <app-section title="Quyền lợi" [collapsible]="false">
+          <div section-container class="competence-tags">
+            <div>{{ comFrame?.treatment }}</div>
           </div>
         </app-section>
       </div>

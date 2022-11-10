@@ -12,7 +12,6 @@ import { Recruit, ResponseObject } from '../../model/news.model';
 export class CompetenceFramesService {
   public listviet = listOfVietnamese;
   public conditionDup = false;
-  nameCompany = '';
   public comframe = new ComFrame();
   public listCom: ComFrame[] = [];
   public recruit = new Recruit();

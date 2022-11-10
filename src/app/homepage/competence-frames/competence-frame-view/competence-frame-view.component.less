@@ -1,5 +1,6 @@
 @import "/src/app/shared/styles/variables.less";
 @import "/src/app/shared/styles/ehiring.less";
+@import "/src/app/shared/styles/generate-style.less";
 .layout {
   height: 100%;
   display: flex;
@@ -10,6 +11,7 @@
     padding: 0;
     position: relative;
     display: inline-block;
+    color: white;
   }
   .button-primary .tooltiptext {
     visibility: hidden;
@@ -82,7 +84,7 @@
 
 .tag {
   // .text-style(9);
-  background: @light;
+  background: rgb(190, 188, 188);
   border-radius: 0.5rem;
 
   padding: 0.25rem 0.75rem;
@@ -90,7 +92,7 @@
 }
 
 .competence-tags {
-  margin-top: 1.5rem;
+  // margin-top: 1.5rem;
   padding: 1.5rem;
   border-radius: 0.5rem;
   border: @primary-1 solid 1px;
@@ -99,6 +101,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  justify-content: space-around;
+  .tags {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .tagitem {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      .icon {
+        padding: 0.5rem;
+        border: 1px solid transparent;
+        font-size: 24px;
+        border-radius: 3rem;
+        background-color: @primary-1;
+      }
+    }
+  }
 }
 .image {
   text-align: -webkit-center;

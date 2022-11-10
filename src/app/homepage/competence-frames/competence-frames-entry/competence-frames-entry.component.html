@@ -1,5 +1,3 @@
-<!-- <div class="layout" [ngClass]="{ 'layout-minimized': isDetailShown }">
-  <div class="layout-header"> -->
 <div class="all">
   <ng-template #leftHeader>
     <div class="list-tag">
@@ -72,7 +70,7 @@
               class="h-14 bg-secondary-5 rounded-t-lg p-4 flex flex-col items-start"
             >
               <div class="font-bold">{{ test.title }}</div>
-              <div>{{ test.companyCode }}</div>
+              <div>{{ test.shortContent }}</div>
             </div>
             <div class="divimage">
               <img class="image" [src]="test.thumbnail" />
