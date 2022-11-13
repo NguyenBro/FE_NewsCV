@@ -10,16 +10,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map, mergeMap, tap } from 'rxjs';
-import { NewsEntryComponent } from '../news-entry/news-entry.component';
-import { NewsService } from '../services/news.service';
+import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-scholarship-entry.component';
+import { NewsScholarshipService } from '../services/news-scholarship.service';
 import { ComFrame } from '../../model/competence-frames.model';
 
 @Component({
   selector: 'app-news-form',
-  templateUrl: './news-form.component.html',
-  styleUrls: ['./news-form.component.less'],
+  templateUrl: './news-scholarship-form.component.html',
+  styleUrls: ['./news-scholarship-form.component.less'],
 })
-export class NewsFormComponent {
+export class NewsScholarshipFormComponent {
   public isEmptyName = false;
   public isVisibleModal = false;
   public currentComFrame: ComFrame = new ComFrame();
@@ -47,11 +47,11 @@ export class NewsFormComponent {
     )
   );
   constructor(
-    private readonly service: NewsService,
+    private readonly service: NewsScholarshipService,
     private message: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private news: NewsEntryComponent
+    private news: NewsScholarshipEntryComponent
   ) {
     this.comFrame$.subscribe();
   }
@@ -84,7 +84,7 @@ export class NewsFormComponent {
   }
 
   public cancel() {
-    this.router.navigate(['.homepage/news-competion']);
+    this.router.navigate(['.homepage/news-scholarship']);
     this.news.isDetailShown = false;
   }
   public save() {
@@ -104,7 +104,7 @@ export class NewsFormComponent {
       this.news.getPageList(0, true);
       this.service.comframe = this.currentComFrame;
       this.router.navigate([
-        '.homepage/news-competion/' + this.currentComFrame.id,
+        '.homepage/news-scholarship/' + this.currentComFrame.id,
       ]);
       // this.cancel();
     } else if (this.currentComFrame.name === '') {

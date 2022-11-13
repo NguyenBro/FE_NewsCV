@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { NewsService } from '../services/news.service';
+import { NewsEventService } from '../services/news-event.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -18,10 +18,10 @@ import { competion } from '../../model/news.model';
 
 @Component({
   selector: 'app-news-entry',
-  templateUrl: './news-entry.component.html',
-  styleUrls: ['./news-entry.component.less'],
+  templateUrl: './news-event-entry.component.html',
+  styleUrls: ['./news-event-entry.component.less'],
 })
-export class NewsEntryComponent implements OnInit, OnDestroy {
+export class NewsEventEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   flex = false;
@@ -62,7 +62,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private message: NzMessageService,
-    private service: NewsService,
+    private service: NewsEventService,
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
@@ -115,7 +115,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     this.selectedCompetenceFrame = value;
 
     console.log('flex', this.flex);
-    this.router.navigate(['./homepage/news-competion/' + value]);
+    this.router.navigate(['./homepage/news-event/' + value]);
   }
 
   getSearchKeyword() {
@@ -184,7 +184,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
   deleteById(id: string) {
     this.service.deleteById(id);
     this.message.success('Xoá thành công khung năng lực');
-    this.router.navigate(['./homepage/news-competion']);
+    this.router.navigate(['./homepage/news-event']);
     this.isDetailShown = false;
     this.getPageList(this.currentPage);
   }
@@ -192,10 +192,10 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     console.log('create');
     this.service.conditionDup = false;
     this.router
-      .navigate(['./homepage/news-competion'], { skipLocationChange: true })
+      .navigate(['./homepage/news-event'], { skipLocationChange: true })
       .then(() => {
         console.log('create1');
-        this.router.navigate(['./homepage/news-competion/create']);
+        this.router.navigate(['./homepage/news-event/create']);
       });
 
     this.isDetailShown = true;

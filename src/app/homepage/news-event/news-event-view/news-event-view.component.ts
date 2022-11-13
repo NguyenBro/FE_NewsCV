@@ -6,15 +6,15 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
 import { competion } from '../../model/news.model';
-import { NewsEntryComponent } from '../news-entry/news-entry.component';
-import { NewsService } from '../services/news.service';
+import { NewsEventEntryComponent } from '../news-event-entry/news-event-entry.component';
+import { NewsEventService } from '../services/news-event.service';
 
 @Component({
   selector: 'app-news-view',
-  templateUrl: './news-view.component.html',
-  styleUrls: ['./news-view.component.less'],
+  templateUrl: './news-event-view.component.html',
+  styleUrls: ['./news-event-view.component.less'],
 })
-export class NewsViewComponent implements OnInit {
+export class NewsEventViewComponent implements OnInit {
   @ViewChild('app') app: HTMLElement | null | undefined;
   public comFrame: competion | undefined = new competion();
   public temp: HTMLElement | undefined;
@@ -36,9 +36,9 @@ export class NewsViewComponent implements OnInit {
   constructor(
     private message: NzMessageService,
     private route: ActivatedRoute,
-    private service: NewsService,
+    private service: NewsEventService,
     private router: Router,
-    private news: NewsEntryComponent,
+    private news: NewsEventEntryComponent,
     private modal: NzModalService
   ) {
     this.news.flex = true;
@@ -93,13 +93,13 @@ export class NewsViewComponent implements OnInit {
   // }
   public create() {
     this.service.conditionDup = false;
-    this.router.navigate(['./news-competion/create']);
+    this.router.navigate(['./news-event/create']);
   }
   public update() {
-    this.router.navigate(['./news-competion/' + this.id + '/edit']);
+    this.router.navigate(['./news-event/' + this.id + '/edit']);
   }
   public cancel() {
-    this.router.navigate(['./news-competion/']);
+    this.router.navigate(['./news-event/']);
 
     console.log('flex-cancel', this.news.flex);
     this.news.cancelDetailShow();
@@ -130,7 +130,7 @@ export class NewsViewComponent implements OnInit {
   public duplicateClick() {
     this.message.success('Sao chép thành công khung năng lực');
     this.service.conditionDup = true;
-    this.router.navigate(['./news-competion/create'], {
+    this.router.navigate(['./news-event/create'], {
       state: {
         id: this.comFrame?.id,
       },

@@ -10,16 +10,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map, mergeMap, tap } from 'rxjs';
-import { NewsEntryComponent } from '../news-entry/news-entry.component';
-import { NewsService } from '../services/news.service';
+import { NewsEventEntryComponent } from '../news-event-entry/news-event-entry.component';
+import { NewsEventService } from '../services/news-event.service';
 import { ComFrame } from '../../model/competence-frames.model';
 
 @Component({
   selector: 'app-news-form',
-  templateUrl: './news-form.component.html',
-  styleUrls: ['./news-form.component.less'],
+  templateUrl: './news-event-form.component.html',
+  styleUrls: ['./news-event-form.component.less'],
 })
-export class NewsFormComponent {
+export class NewsEventFormComponent {
   public isEmptyName = false;
   public isVisibleModal = false;
   public currentComFrame: ComFrame = new ComFrame();
@@ -47,11 +47,11 @@ export class NewsFormComponent {
     )
   );
   constructor(
-    private readonly service: NewsService,
+    private readonly service: NewsEventService,
     private message: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private news: NewsEntryComponent
+    private news: NewsEventEntryComponent
   ) {
     this.comFrame$.subscribe();
   }
@@ -84,7 +84,7 @@ export class NewsFormComponent {
   }
 
   public cancel() {
-    this.router.navigate(['.homepage/news-competion']);
+    this.router.navigate(['.homepage/news-event']);
     this.news.isDetailShown = false;
   }
   public save() {
@@ -103,9 +103,7 @@ export class NewsFormComponent {
 
       this.news.getPageList(0, true);
       this.service.comframe = this.currentComFrame;
-      this.router.navigate([
-        '.homepage/news-competion/' + this.currentComFrame.id,
-      ]);
+      this.router.navigate(['.homepage/news-event/' + this.currentComFrame.id]);
       // this.cancel();
     } else if (this.currentComFrame.name === '') {
       this.message.error('Vui lòng nhập tên bộ khung năng lực!', {

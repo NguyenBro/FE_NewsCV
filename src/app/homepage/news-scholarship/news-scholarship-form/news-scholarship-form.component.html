@@ -1,0 +1,118 @@
+<div class="layout">
+  <app-right-side
+    [isPrimary]="false"
+    [status]="
+      currentComFrame.name !== '' && currentComFrame.name !== undefined
+        ? 'Chỉnh sửa năng lực '
+        : 'Tạo mới năng lực'
+    "
+    [sectionName]="
+      currentComFrame.name !== '' && currentComFrame.name !== undefined
+        ? currentComFrame.name
+        : ''
+    "
+    (cancel)="cancel()"
+    (save)="save()"
+    style="height: 100%"
+  >
+    <div
+      container-body-custom
+      class="body list-section"
+      style="height: 100%; padding: 1.5rem"
+    >
+      <app-section title="Tên khung năng lực" [collapsible]="false">
+        <input
+          section-container
+          [(ngModel)]="currentComFrame.name"
+          placeholder="Tên khung năng lực"
+          class="h-10 p-4 w-full border-mid rounded-lg input-custom"
+          style="outline: none"
+        />
+      </app-section>
+      <app-section title="Mô tả" [collapsible]="false">
+        <textarea
+          section-container
+          [(ngModel)]="currentComFrame.description"
+          class="descriptioninput p-4"
+          nz-input
+          placeholder="Nhập mô tả"
+          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        ></textarea>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section
+        class="flex-auto flex-col"
+        title="Danh sách năng lực mẫu"
+        [collapsible]="false"
+        style="display: flex"
+      >
+        <div
+          section-container
+          class="section-content flex-auto"
+          style="height: 100%; display: flex; flex-direction: column"
+        >
+          <div class="competence-search">
+            <div class="input-postfix">
+              <input
+                type="text"
+                placeholder="Tìm kiếm năng lực"
+                (keyup)="search($event)"
+              />
+
+              <span class="icon" nz-icon nzType="svg:search"></span>
+            </div>
+          </div>
+
+          <div cdkDropListGroup class="competence-frame">
+            <div class="competence-frame-item">
+              <div
+                class="competence-list"
+                cdkDropList
+                [cdkDropListData]="todo"
+                (cdkDropListDropped)="drop($event)"
+              >
+                <span
+                  class="tag"
+                  *ngFor="let item of todo"
+                  (click)="add(item)"
+                  cdkDrag
+                >
+                  {{ item }}
+                </span>
+              </div>
+            </div>
+            <div class="competence-frame-item">
+              <div
+                class="absolute flex items-center justify-center inset-0 pointer-events-none text-edit"
+                *ngIf="currentComFrame.competences.length === 0"
+              >
+                Kéo thả các năng lực bên trái vào đây<br />để thêm năng lực và
+                ngược lại
+              </div>
+              <div
+                class="competence-list chosen"
+                cdkDropList
+                [cdkDropListData]="currentComFrame.competences"
+                (cdkDropListDropped)="drop($event)"
+              >
+                <span
+                  class="tag"
+                  *ngFor="
+                    let item1 of currentComFrame.competences;
+                    index as idx
+                  "
+                  (click)="remove(item1)"
+                  cdkDrag
+                >
+                  {{ item1 }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-section>
+    </div>
+  </app-right-side>
+</div>

@@ -29,14 +29,6 @@ import { ResignComponent } from './resign/resign.component';
             path: 'infomation',
             component: InfomationComponent,
           },
-          // {
-          //   path: 'news-scholarship',
-          //   component: NewsScholarshipComponent,
-          // },
-          // {
-          //   path: 'news-event',
-          //   component: NewsEventComponent,
-          // },
           {
             path: 'competence-frames',
             loadChildren: () =>
@@ -45,9 +37,23 @@ import { ResignComponent } from './resign/resign.component';
               ),
           },
           {
-            path: 'news',
+            path: 'news-competion',
             loadChildren: () =>
               import('./news/news.module').then((m) => m.NewsModule),
+          },
+          {
+            path: 'news-scholarship',
+            loadChildren: () =>
+              import('./news-scholarship/news-scholarship.module').then(
+                (m) => m.NewsScholarshipModule
+              ),
+          },
+          {
+            path: 'news-event',
+            loadChildren: () =>
+              import('./news-event/news-event.module').then(
+                (m) => m.NewsEventModule
+              ),
           },
           {
             path: 'companys',
