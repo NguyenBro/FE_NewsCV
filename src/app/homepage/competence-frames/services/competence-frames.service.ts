@@ -21,7 +21,9 @@ export class CompetenceFramesService {
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.initListPool();
+  }
 
   public getRefresh() {
     return this.refreshBehavior;
@@ -30,7 +32,6 @@ export class CompetenceFramesService {
     this.refreshBehavior.next(this.refreshBehavior.value + 1);
   }
   public getListOfCompetences() {
-    this.initListPool();
     console.log('complet');
     return of(this.listRecruit);
   }

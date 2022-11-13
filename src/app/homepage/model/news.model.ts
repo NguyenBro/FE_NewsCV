@@ -323,6 +323,37 @@ export class Recruit {
     }
   }
 }
+export class Company {
+  code: string;
+  name: string;
+  logo: string;
+  background: string;
+  link: string;
+  address: string;
+  email: string;
+  intro: string;
+  constructor(clone?: Company) {
+    if (clone) {
+      this.code = clone.code;
+      this.name = clone.name;
+      this.logo = clone.logo;
+      this.background = clone.background;
+      this.link = clone.link;
+      this.address = clone.address;
+      this.email = clone.email;
+      this.intro = clone.intro;
+    } else {
+      this.code = '';
+      this.name = '';
+      this.logo = '';
+      this.background = '';
+      this.link = '';
+      this.address = '';
+      this.email = '';
+      this.intro = '';
+    }
+  }
+}
 export class ResponseObject {
   errorCode = '';
   status: Number = new Number();

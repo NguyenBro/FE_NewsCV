@@ -60,27 +60,17 @@
         </app-section>
         <app-section title="Giới thiệu" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div #app></div>
-            <!-- <span
-              class="tag"
-              *ngFor="let item of (comFrameInfo$ | async)?.['competences']"
-              >{{ item }}</span
-            > -->
+            <div [innerHTML]="(comFrameInfo$ | async)?.introduction"></div>
           </div>
         </app-section>
-        <app-section title="Thông tin" [collapsible]="false">
+        <app-section title="Yêu cầu" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.information"></div>
+            <div [innerHTML]="(comFrameInfo$ | async)?.requirement"></div>
           </div>
         </app-section>
-        <app-section title="Chủ đề cuộc thi" [collapsible]="false">
+        <app-section title="Lợi ích" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.subject"></div>
-          </div>
-        </app-section>
-        <app-section title="Giải thưởng" [collapsible]="false">
-          <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.prize"></div>
+            <div [innerHTML]="(comFrameInfo$ | async)?.benefit"></div>
           </div>
         </app-section>
         <app-section title="Hình thức đăng ký" [collapsible]="false">

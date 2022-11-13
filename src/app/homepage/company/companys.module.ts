@@ -23,7 +23,6 @@ import { FooterModule } from 'src/app/shared/styles/footer/footer.module';
 import { RightSideModule } from 'src/app/shared/styles/right-side/right-side.module';
 import { SearchBarModule } from 'src/app/shared/styles/search-bar/search-bar.module';
 import { SectionModule } from 'src/app/shared/styles/section/section.module';
-import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyViewComponent } from './company-view/company-view.component';
 import { CompetenceFrameRoutingModule } from './company.routing';
@@ -34,7 +33,6 @@ import { CompanysEntryComponent } from './companys-entry/companys-entry.componen
     CompanysEntryComponent,
     CompanyViewComponent,
     CompanyFormComponent,
-    CompanyDetailComponent,
   ],
   imports: [
     CommonModule,

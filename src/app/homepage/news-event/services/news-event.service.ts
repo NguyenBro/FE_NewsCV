@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { env } from 'process';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { competion, ResponseObject } from '../../model/news.model';
+import { competion, event, ResponseObject } from '../../model/news.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,37 +16,13 @@ export class NewsEventService {
   public conditionDup = false;
   public comframe = new ComFrame();
   public listCom: ComFrame[] = [];
-  public competion = new competion();
-  public listCompetion: competion[] = [];
+  public event = new event();
+  public listEvent: event[] = [];
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {
     this.initListPool();
-    // this.temp.type = 'cuoc-thi';
-    // this.temp.id = 0;
-    //   this.temp.code = '';
-    //   this.temp.datePost = '';
-    //   this.temp.dateUpdate = '';
-    //   this.temp.codeCategory = '';
-    //   this.temp.userId = 0;
-    //   this.temp.title = '';
-    //   this.temp.codeCategory = '';
-    //   this.temp.userId = 0;
-    //   this.temp.title = '';
-    //   this.temp.shortContent = '';
-    //   this.temp.thumbnail = '';
-    //   this.temp.status = '';
-    //   this.temp.link = '';
-    //   this.temp.numLike = 0;
-    //   this.temp.numDisLike = 0;
-    //   this.temp.typeNews = '';
-    //   this.temp.location = '';
-    //   this.temp.introduction = '';
-    //   this.temp.information = '';
-    //   this.temp.subject = '';
-    //   this.temp.prize = '';
-    //   this.temp.contact = '';
   }
 
   public getRefresh() {
@@ -56,19 +33,19 @@ export class NewsEventService {
   }
   public getListOfCompetences() {
     console.log('complet');
-    return of(this.listCompetion);
+    return of(this.listEvent);
   }
 
   initListPool() {
-    this.getListCompetion().subscribe((res) => {
-      this.listCompetion = res.data;
-      console.log('listRecruit', this.listCompetion);
+    this.getListEvent().subscribe((res) => {
+      this.listEvent = res.data;
+      console.log('listRecruit', this.listEvent);
     });
   }
 
-  getListCompetion() {
+  getListEvent() {
     return this.http.get<ResponseObject>(
-      `${this.urlPath + '/api/v1/contest-news/get-all'}`
+      `${this.urlPath + '/api/v1/event-news/get-all'}`
     );
   }
   getCompanyByCode(code: string) {
@@ -91,9 +68,9 @@ export class NewsEventService {
       }
     });
   }
-  delete(newCom: competion) {
+  delete(newCom: event) {
     for (let i = 0; i < this.listCom.length; i++) {
-      if (this.listCompetion[i] === newCom) {
+      if (this.listEvent[i] === newCom) {
         this.listCom.splice(i, 1);
       }
     }
@@ -115,17 +92,17 @@ export class NewsEventService {
     }
     return of(this.listCom.find((item) => item.id === id));
   }
-  public getCompetionInfo(id?: string): Observable<competion | undefined> {
+  public getCompetionInfo(id?: string): Observable<event | undefined> {
     if (!id) {
-      return of(new competion());
+      return of(new event());
     }
-    return of(this.listCompetion.find((item) => item.code === id));
+    return of(this.listEvent.find((item) => item.code === id));
   }
-  public getRecruitInfo(id?: string): Observable<competion | undefined> {
+  public getRecruitInfo(id?: string): Observable<event | undefined> {
     if (!id) {
-      return of(new competion());
+      return of(new event());
     }
-    return of(this.listCompetion.find((item) => item.code === id));
+    return of(this.listEvent.find((item) => item.code === id));
   }
   public getRandomId(): string {
     let text = '';
@@ -136,11 +113,11 @@ export class NewsEventService {
   }
 
   public isComFrameExist(id: string) {
-    return this.listCompetion.find((item) => item.code === id) ? true : false;
+    return this.listEvent.find((item) => item.code === id) ? true : false;
   }
 
   public getComFrame(id: string) {
-    return this.listCompetion.find((item) => item.code === id);
+    return this.listEvent.find((item) => item.code === id);
   }
   checkVietnames(str: string) {
     str = str.toLowerCase();

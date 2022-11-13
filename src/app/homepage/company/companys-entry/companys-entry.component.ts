@@ -14,6 +14,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
 import { HomepageComponent } from '../../homepage.component';
+import { Company } from '../../model/news.model';
 
 @Component({
   selector: 'app-companys-entry',
@@ -77,19 +78,16 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   onListOfSearchesChange(event: string[]) {
     this.listOfSearches$.next(event);
   }
-  isSearchCompetence(competence: ComFrame, searches: string[]): boolean {
+  isSearchCompetence(competence: Company, searches: string[]): boolean {
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>
         competence.name
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) ||
-        competence.description
+        competence.intro
           ?.toLocaleLowerCase()
-          .includes(search.toLocaleLowerCase()) ||
-        competence.competences.some((com) =>
-          com.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-        )
+          .includes(search.toLocaleLowerCase())
     );
   }
   ngOnDestroy(): void {
@@ -100,7 +98,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     this.getSearchKeyword();
   }
 
-  selectCompetenceFrame(value: string, obj: ComFrame, cardRef: HTMLElement) {
+  selectCompetenceFrame(value: string, obj: Company, cardRef: HTMLElement) {
     this.subscriptions.add(
       timer(50).subscribe(() => {
         cardRef.scrollIntoView({
@@ -109,7 +107,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.service.comframe = obj;
+    this.service.company = obj;
     this.selectedCompetenceFrame = value;
 
     this.router.navigate(['./homepage/companys/' + value]);

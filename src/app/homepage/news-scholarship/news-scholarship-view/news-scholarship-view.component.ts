@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
-import { competion } from '../../model/news.model';
+import { competion, scholarship } from '../../model/news.model';
 import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-scholarship-entry.component';
 import { NewsScholarshipService } from '../services/news-scholarship.service';
 
@@ -16,7 +16,7 @@ import { NewsScholarshipService } from '../services/news-scholarship.service';
 })
 export class NewsScholarshipViewComponent implements OnInit {
   @ViewChild('app') app: HTMLElement | null | undefined;
-  public comFrame: competion | undefined = new competion();
+  public comFrame: scholarship | undefined = new scholarship();
   public temp: HTMLElement | undefined;
   public id = '';
   public comFrameInfo$ = this.route.params.pipe(
@@ -45,7 +45,7 @@ export class NewsScholarshipViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.comFrame = this.service.competion;
+    this.comFrame = this.service.scholarship;
     var support = (function () {
       if (!window.DOMParser) return false;
       var parser = new DOMParser();

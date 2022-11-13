@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { Recruit, ResponseObject } from '../../model/news.model';
+import { Company, Recruit, ResponseObject } from '../../model/news.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +14,13 @@ export class CompetenceFramesService {
   public conditionDup = false;
   public comframe = new ComFrame();
   public listCom: ComFrame[] = [];
-  public listRecruit: Recruit[] = [];
-  urlPath =
-    'http://newscv-env.eba-3k8gbtyu.ap-southeast-1.elasticbeanstalk.com';
+  public company = new Company();
+  public listCompany: Company[] = [];
+  urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
+
+  constructor(private http: HttpClient) {}
+
   public getRefresh() {
     return this.refreshBehavior;
   }
@@ -25,515 +28,26 @@ export class CompetenceFramesService {
     this.refreshBehavior.next(this.refreshBehavior.value + 1);
   }
   public getListOfCompetences() {
-    return of(this.listCom);
-  }
-  constructor(private http: HttpClient) {
     this.initListPool();
-    console.log('initListPool', this.initListPool());
-    // this.initListRecruit();
-  }
-  initListRecruit() {
-    this.getListRecruit().subscribe((res) => {
-      this.listRecruit.push(Object.assign(new Recruit(), res.data));
-      console.log(this.listRecruit);
-      // if (this.subjects == null) {
-      //   this.message.success('Đăng nhập thất bại');
-      // } else {
-      //   this.message.success('Đăng nhập thành công');
-      //   this.router.navigate(['./homepage/page']);
-      //   this.homepagecom.isShow = true;
-      // }
-    });
-    // this.listRecruit=this.getListRecruit();
-  }
-  initListPool() {
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'r7nh4ssd8js83nrhffhs2vb0',
-        name: 'Pending Pool',
-        description:
-          'Đây là Talent Pool mặc định được hệ thống tự động tạo ra để lưu thông tin ứng viên trong trường hợp không thể tìm thấy bài đăng tuyển tương ứng.',
-        competences: [
-          'chơi1',
-          'học1',
-          'đá bóng1',
-          'thể thao1',
-          'âm nhạc1',
-          'tiếng anh1',
-          'kỹ năng mềm1',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'j8dh45gd8js83nrh8dhs8h3e',
-        name: 'DevOps',
-        description: 'Đây là nhóm DevOps',
-        competences: [
-          'chơi2',
-          'học2',
-          'đá bóng2',
-          'thể thao2',
-          'âm nhạc2',
-          'tiếng anh2',
-          'kỹ năng mềm2',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '6295bfd471ea517f1c2e4593',
-        name: 'Hành chính - HR',
-        description: 'Đây là nhóm Hành chính - nhân sự',
-        competences: [
-          'chơi3',
-          'học3',
-          'đá bóng3',
-          'thể thao3',
-          'âm nhạ3c',
-          'tiếng anh3',
-          'kỹ năng mềm3',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629aa6e9fd31520018e406bb',
-        name: 'BrSE',
-        description: 'Đây là nhóm BrSE',
-        competences: [
-          'chơi4',
-          'học4',
-          'đá bóng4',
-          'thể thao4',
-          'âm nhạc4',
-          'tiếng anh4',
-          'kỹ năng mềm4',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629aa6e9fd31520018e406bt',
-        name: 'DevOps',
-        description: 'Đây là nhóm DevOps',
-        competences: [
-          'chơi4',
-          'học4',
-          'đá bóng4',
-          'thể thao4',
-          'âm nhạc4',
-          'tiếng anh4',
-          'kỹ năng mềm4',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629ebee1fd31520018e58d30',
-        name: 'Kinh doanh',
-        description: 'Đây là nhóm Kinh doanh',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629f3db1fd31520018e5e920',
-        name: 'Fullstack',
-        description: 'Đây là nhóm Fullstack',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '62a6b117e189bb43b24ca105',
-        name: 'Sale',
-        description: 'Đây là nhóm Sale',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '6295bfd471ea517f1c2e4599',
-        name: 'Marketing',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'j8dh45gd8js83nrh8dhs8h39',
-        name: 'Kế toán',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'r7nh4ssd8js83nrhffhs2vb9',
-        name: 'Trưởng phòng',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629aa6e9fd31520018e406b9',
-        name: 'UI/UX',
-        description: 'Đây là nhóm UI/UX',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629ebee1fd31520018e58d39',
-        name: 'QC/QA',
-        description: 'Đây là nhóm QC/QA',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629f3db1fd31520018e5e929',
-        name: 'DBA',
-        description: 'Đây là nhóm DBA',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '62a6b117e189bb43b24ca109',
-        name: 'TA',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'r7nh4ssd8js83nrhffhs2vb0',
-        name: 'Pending Pool-copy',
-        description:
-          'Đây là Talent Pool mặc định được hệ thống tự động tạo ra để lưu thông tin ứng viên trong trường hợp không thể tìm thấy bài đăng tuyển tương ứng.',
-        competences: [
-          'chơi1',
-          'học1',
-          'đá bóng1',
-          'thể thao1',
-          'âm nhạc1',
-          'tiếng anh1',
-          'kỹ năng mềm1',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'j8dh45gd8js83nrh8dhs8h3e',
-        name: 'DevOps-copy',
-        description: 'Đây là nhóm DevOps',
-        competences: [
-          'chơi2',
-          'học2',
-          'đá bóng2',
-          'thể thao2',
-          'âm nhạc2',
-          'tiếng anh2',
-          'kỹ năng mềm2',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '6295bfd471ea517f1c2e4593',
-        name: 'Hành chính - HR-copy',
-        description: 'Đây là nhóm Hành chính - nhân sự',
-        competences: [
-          'chơi3',
-          'học3',
-          'đá bóng3',
-          'thể thao3',
-          'âm nhạ3c',
-          'tiếng anh3',
-          'kỹ năng mềm3',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629aa6e9fd31520018e406bb',
-        name: 'BrSE-copy',
-        description: 'Đây là nhóm BrSE',
-        competences: [
-          'chơi4',
-          'học4',
-          'đá bóng4',
-          'thể thao4',
-          'âm nhạc4',
-          'tiếng anh4',
-          'kỹ năng mềm4',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629aa6e9fd31520018e406bt',
-        name: 'DevOps-copy',
-        description: 'Đây là nhóm DevOps',
-        competences: [
-          'chơi4',
-          'học4',
-          'đá bóng4',
-          'thể thao4',
-          'âm nhạc4',
-          'tiếng anh4',
-          'kỹ năng mềm4',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629ebee1fd31520018e58d30',
-        name: 'Kinh doanh-copy',
-        description: 'Đây là nhóm Kinh doanh',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629f3db1fd31520018e5e920',
-        name: 'Fullstack',
-        description: 'Đây là nhóm Fullstack',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '62a6b117e189bb43b24ca105',
-        name: 'Sale',
-        description: 'Đây là nhóm Sale',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '6295bfd471ea517f1c2e4599',
-        name: 'Marketing',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'j8dh45gd8js83nrh8dhs8h39',
-        name: 'Kế toán',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: 'r7nh4ssd8js83nrhffhs2vb9',
-        name: 'Trưởng phòng',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629aa6e9fd31520018e406b9',
-        name: 'UI/UX',
-        description: 'Đây là nhóm UI/UX',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629ebee1fd31520018e58d39',
-        name: 'QC/QA',
-        description: 'Đây là nhóm QC/QA',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '629f3db1fd31520018e5e929',
-        name: 'DBA',
-        description: 'Đây là nhóm DBA',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
-    this.listCom.push(
-      Object.assign(new ComFrame(), {
-        id: '62a6b117e189bb43b24ca109',
-        name: 'TA',
-        description: '',
-        competences: [
-          'chơi',
-          'học',
-          'đá bóng',
-          'thể thao',
-          'âm nhạc',
-          'tiếng anh',
-          'kỹ năng mềm',
-        ],
-      })
-    );
+    console.log('complet');
+    return of(this.listCompany);
   }
 
-  getListRecruit() {
+  async initListPool() {
+    await this.getListCompany().subscribe((res) => {
+      this.listCompany = res.data;
+    });
+  }
+
+  getListCompany() {
     return this.http.get<ResponseObject>(
-      `${this.urlPath + '/api/v1/job-news/get-all'}`
+      `${this.urlPath + '/api/v1/company/get-all'}`
+    );
+  }
+  getCompanyByCode(code: string) {
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/company/get-by-code/' + code}`,
+      ''
     );
   }
   create(newCom: ComFrame) {
@@ -550,9 +64,9 @@ export class CompetenceFramesService {
       }
     });
   }
-  delete(newCom: ComFrame) {
+  delete(newCom: Company) {
     for (let i = 0; i < this.listCom.length; i++) {
-      if (this.listCom[i] === newCom) {
+      if (this.listCompany[i] === newCom) {
         this.listCom.splice(i, 1);
       }
     }
@@ -574,6 +88,12 @@ export class CompetenceFramesService {
     }
     return of(this.listCom.find((item) => item.id === id));
   }
+  public getRecruitInfo(id?: string): Observable<Company | undefined> {
+    if (!id) {
+      return of(new Company());
+    }
+    return of(this.listCompany.find((item) => item.code === id));
+  }
   public getRandomId(): string {
     let text = '';
     const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -583,11 +103,11 @@ export class CompetenceFramesService {
   }
 
   public isComFrameExist(id: string) {
-    return this.listCom.find((item) => item.id === id) ? true : false;
+    return this.listCompany.find((item) => item.code === id) ? true : false;
   }
 
   public getComFrame(id: string) {
-    return this.listCom.find((item) => item.id === id);
+    return this.listCompany.find((item) => item.code === id);
   }
   checkVietnames(str: string) {
     str = str.toLowerCase();

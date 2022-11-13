@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
+import { Company } from '../../model/news.model';
 import { CompanysEntryComponent } from '../companys-entry/companys-entry.component';
 import { CompetenceFramesService } from '../services/companys.service';
 
@@ -14,17 +15,15 @@ import { CompetenceFramesService } from '../services/companys.service';
   styleUrls: ['./company-view.component.less'],
 })
 export class CompanyViewComponent implements OnInit {
-  public comFrame: ComFrame | undefined = new ComFrame();
+  public comFrame: Company | undefined = new Company();
   public id = '';
-  company = 'FPT';
-  exp = '20 năm';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      return this.service.getComFrameInfo(p['comFrameId']);
+      return this.service.getRecruitInfo(p['comFrameId']);
     }),
     tap((it) => (this.comFrame = it))
   );
@@ -39,7 +38,7 @@ export class CompanyViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.comFrame = this.service.comframe;
+    this.comFrame = this.service.company;
   }
 
   public create() {
@@ -81,7 +80,7 @@ export class CompanyViewComponent implements OnInit {
     this.service.conditionDup = true;
     this.router.navigate(['./companys/create'], {
       state: {
-        id: this.comFrame?.id,
+        id: this.comFrame?.code,
       },
     });
   }

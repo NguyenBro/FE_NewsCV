@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyViewComponent } from './company-view/company-view.component';
 import { CompanysEntryComponent } from './companys-entry/companys-entry.component';

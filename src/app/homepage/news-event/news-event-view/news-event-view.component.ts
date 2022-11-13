@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
-import { competion } from '../../model/news.model';
+import { event } from '../../model/news.model';
 import { NewsEventEntryComponent } from '../news-event-entry/news-event-entry.component';
 import { NewsEventService } from '../services/news-event.service';
 
@@ -16,7 +16,7 @@ import { NewsEventService } from '../services/news-event.service';
 })
 export class NewsEventViewComponent implements OnInit {
   @ViewChild('app') app: HTMLElement | null | undefined;
-  public comFrame: competion | undefined = new competion();
+  public comFrame: event | undefined = new event();
   public temp: HTMLElement | undefined;
   public id = '';
   public comFrameInfo$ = this.route.params.pipe(
@@ -45,7 +45,7 @@ export class NewsEventViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.comFrame = this.service.competion;
+    this.comFrame = this.service.event;
     var support = (function () {
       if (!window.DOMParser) return false;
       var parser = new DOMParser();
@@ -69,7 +69,7 @@ export class NewsEventViewComponent implements OnInit {
       dom.innerHTML = str;
       return dom;
     };
-    this.temp = stringToHTML(this.comFrame.introduction);
+    this.temp = stringToHTML(this.comFrame.information);
     this.x = this.temp.getElementsByTagName('div')[0];
     // this.app = document.getElementById('app');
     // this.app?.appendChild(this.temp);

@@ -14,7 +14,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
 import { HomepageComponent } from '../../homepage.component';
-import { competion } from '../../model/news.model';
+import { event } from '../../model/news.model';
 
 @Component({
   selector: 'app-news-entry',
@@ -25,7 +25,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   flex = false;
-  public list: competion[] = [];
+  public list: event[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
 
@@ -79,7 +79,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
   onListOfSearchesChange(event: string[]) {
     this.listOfSearches$.next(event);
   }
-  isSearchCompetence(competence: competion, searches: string[]): boolean {
+  isSearchCompetence(competence: event, searches: string[]): boolean {
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>
@@ -102,7 +102,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     this.getSearchKeyword();
   }
 
-  selectCompetenceFrame(value: string, obj: competion, cardRef: HTMLElement) {
+  selectCompetenceFrame(value: string, obj: event, cardRef: HTMLElement) {
     this.subscriptions.add(
       timer(50).subscribe(() => {
         cardRef.scrollIntoView({
@@ -111,7 +111,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.service.competion = obj;
+    this.service.event = obj;
     this.selectedCompetenceFrame = value;
 
     console.log('flex', this.flex);
@@ -210,8 +210,8 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     this.currentPage = page == undefined ? this.currentPage : page;
 
     if (this.filterList) {
-      let tempList: competion[] = [];
-      this.service.listCompetion.forEach((comFrame: competion) => {
+      let tempList: event[] = [];
+      this.service.listEvent.forEach((comFrame: event) => {
         if (
           this.filterList.every((filterKeyword: string) => {
             const lowerFilterKeyword = filterKeyword.toLowerCase();
@@ -272,7 +272,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
       );
     } else {
       this.listLength = this.service.listCom.length;
-      this.list = this.service.listCompetion.slice(
+      this.list = this.service.listEvent.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount
       );

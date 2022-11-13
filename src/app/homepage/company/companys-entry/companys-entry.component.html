@@ -62,26 +62,25 @@
           "
         >
           <div
-            class="card rounded-lg bg-white h-48 relative"
-            [ngClass]="test.id === selectedCompetenceFrame ? 'active' : ''"
+            class="card rounded-lg bg-white h-48 relative h-fit"
+            [ngClass]="test.code === selectedCompetenceFrame ? 'active' : ''"
             *ngFor="let test of listCom$ | async"
-            (click)="selectCompetenceFrame(test.id, test, cardRef)"
+            (click)="selectCompetenceFrame(test.code, test, cardRef)"
             #cardRef
           >
             <div
-              class="font-bold h-14 bg-secondary-5 rounded-t-lg p-4 flex items-center"
+              class="font-bold bg-secondary-5 rounded-t-lg p-4 flex items-center"
             >
               <span>{{ test.name }}</span>
             </div>
-
+            <div class="divimage">
+              <img class="image" [src]="test.logo" />
+            </div>
             <div class="body p-4">
               <div class="inline-flex flex-wrap">
-                <div
-                  class="tag mr-2 mb-2"
-                  *ngFor="let item of test.competences"
-                >
-                  {{ item }}
-                </div>
+                <div class="tag mr-2 mb-2">{{ test.link }}</div>
+                <div class="tag mr-2 mb-2">{{ test.address }}</div>
+                <div class="tag mr-2 mb-2">{{ test.email }}</div>
               </div>
             </div>
             <button

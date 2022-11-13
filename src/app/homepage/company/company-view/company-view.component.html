@@ -47,36 +47,33 @@
     </button>
     <div container-title>
       {{ (comFrameInfo$ | async)?.name }}
+      <div class="font-normal">
+        {{ (comFrameInfo$ | async)?.link }}
+      </div>
     </div>
     <div container-body>
       <div class="content list-section">
-        <div class="image"></div>
-        <app-section title="Mô tả">
+        <div class="image"><img [src]="comFrame?.logo" /></div>
+        <div class="image"><img [src]="comFrame?.background" /></div>
+        <app-section title="Giới thiệu về công ty">
           <div container>
-            <textarea
-              nz-input
-              placeholder="Nhập mô tả"
-              [value]="(comFrameInfo$ | async)?.['description']"
-              style="
-                border-color: #32cc4c;
-                resize: none;
-                border-radius: 8px;
-                font-weight: 400;
-                padding: 1rem;
-                pointer-events: none;
-              "
-            ></textarea>
+            <div section-container class="competence-tags">
+              <div [innerHTML]="(comFrameInfo$ | async)?.intro"></div>
+            </div>
           </div>
         </app-section>
-        <app-section title="Danh sách năng lực" [collapsible]="false">
-          <div section-container class="competence-tags">
-            <!-- <span
-              class="tag"
-              *ngFor="let item of (comFrameInfo$ | async)?.['competences']"
-              >{{ item }}</span
-            > -->
-            <div>{{ company }}</div>
-            <div>{{ exp }}</div>
+        <app-section title="Thông tin thêm">
+          <div container>
+            <div section-container class="competence-tags">
+              <div>
+                Địa chỉ:
+                <div [innerHTML]="(comFrameInfo$ | async)?.address"></div>
+              </div>
+              <div>
+                Email:
+                <div [innerHTML]="(comFrameInfo$ | async)?.email"></div>
+              </div>
+            </div>
           </div>
         </app-section>
       </div>
