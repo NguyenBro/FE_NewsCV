@@ -3,10 +3,16 @@
     <img src="../../assets/images/logo.png" alt="" class="logo" />
     <div class="login">ĐĂNG KÝ</div>
     <button class="button">Tiếp tục với facebook</button>
-    <input placeholder="Họ tên" class="input" />
+    <input placeholder="Họ tên" class="input" [(ngModel)]="user.name" />
     <div class="dropdown">
       <ng-template #title>
-        <span class="title"> {{ gender }}</span></ng-template
+        <span class="title">
+          {{
+            user.gender !== "" && user.gender !== undefined
+              ? user.gender
+              : "Giới tính"
+          }}</span
+        ></ng-template
       >
       <ehiring-dropdown
         [temRef]="title"
@@ -14,10 +20,20 @@
         (selectionChange)="onSelectionChange($event)"
       ></ehiring-dropdown>
     </div>
-    <input placeholder="Email" class="input" />
-    <input placeholder="Nhập lại email" class="input" />
-    <input type="password" placeholder="Mật khẩu" class="input" />
-    <button class="buttonlg">Đăng ký</button>
+    <input placeholder="Email" class="input" [(ngModel)]="user.email" />
+    <input placeholder="Mật khẩu" class="input" [(ngModel)]="user.password" />
+    <input
+      type="password"
+      placeholder="Nhập lại mật khẩu"
+      class="input"
+      [(ngModel)]="user.password"
+    />
+    <div class="buttonlg" (click)="resign()">Đăng ký</div>
+    <div *ngIf="isShow">
+      <input placeholder="Nhập mã OTP" class="input" [(ngModel)]="otp.otp" />
+      <div class="buttonlg" (click)="send()">Gửi</div>
+    </div>
+
     <div class="resign">
       Đã có tài khoản?<a href="" class="link">Đăng nhập ngay</a>
     </div>

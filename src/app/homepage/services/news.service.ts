@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { stringify } from 'querystring';
 import { catchError, Observable, of, tap } from 'rxjs';
 import {
   competion,
   event,
+  Otp,
   ResponseObject,
   scholarship,
   user,
@@ -99,10 +101,29 @@ export class newsService {
     this.initlistCompetiton();
   }
   urlPath = 'https://server-api.newscv.tech';
-  login(data: any) {
+  login(user: user) {
     return this.http.post<ResponseObject>(
       `${this.urlPath + '/api/v1/login'}`,
-      data
+      user
+    );
+  }
+  createOtpMail(user: user) {
+    console.log('mail-2');
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/client/create'}`,
+      user
+    );
+  }
+  checkOtp(otp: Otp) {
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/client/check-otp'}`,
+      otp
+    );
+  }
+  addUser(user: user) {
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/user'}`,
+      user
     );
   }
   // getInfo(email: string) {

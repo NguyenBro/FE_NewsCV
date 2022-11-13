@@ -221,10 +221,53 @@ export class competion {
   }
 }
 export class user {
-  id = 0;
-  email = '';
-  name = '';
-  password = '';
+  email: string;
+  name: string;
+  password: string;
+  avatar: string;
+  isActive: string;
+  background: string;
+  birthDate: string;
+  address: string;
+  phone: string;
+  gender: string;
+  facebook: string;
+  linkedin: string;
+  intro: string;
+  roleCodes: string[];
+  constructor(clone?: user) {
+    if (clone) {
+      this.email = clone.email;
+      this.name = clone.name;
+      this.password = clone.password;
+      this.avatar = clone.avatar;
+      this.isActive = clone.isActive;
+      this.background = clone.background;
+      this.birthDate = clone.birthDate;
+      this.address = clone.address;
+      this.phone = clone.phone;
+      this.gender = clone.gender;
+      this.facebook = clone.facebook;
+      this.linkedin = clone.linkedin;
+      this.intro = clone.intro;
+      this.roleCodes = [...clone.roleCodes];
+    } else {
+      this.email = '';
+      this.name = '';
+      this.password = '';
+      this.avatar = '';
+      this.isActive = '';
+      this.background = '';
+      this.birthDate = '';
+      this.address = '';
+      this.phone = '';
+      this.gender = '';
+      this.facebook = '';
+      this.linkedin = '';
+      this.intro = '';
+      this.roleCodes = [];
+    }
+  }
 }
 export class Recruit {
   id: number;
@@ -359,4 +402,17 @@ export class ResponseObject {
   status: Number = new Number();
   message = '';
   data: any;
+}
+export class Otp {
+  email: string;
+  otp: string;
+  constructor(clone?: Otp) {
+    if (clone) {
+      this.email = clone.email;
+      this.otp = clone.otp;
+    } else {
+      this.email = '';
+      this.otp = '';
+    }
+  }
 }

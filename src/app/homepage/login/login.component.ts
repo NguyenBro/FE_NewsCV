@@ -12,8 +12,6 @@ import { newsService } from '../services/news.service';
 })
 export class LoginComponent implements OnInit {
   public listgender = ['Nam', 'Nữ', 'Khác'];
-  email = '';
-  pass = '';
   user: user = new user();
   subjects: any;
   constructor(
@@ -25,8 +23,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   login() {
-    this.user.email = this.email;
-    this.user.password = this.pass;
     this.service.login(this.user).subscribe((res) => {
       this.subjects = res.data;
       this.service.token = res.data;
