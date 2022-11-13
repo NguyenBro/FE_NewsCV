@@ -73,7 +73,7 @@ export class HomepageComponent implements OnInit {
       this.router.navigate(['./homepage/news-event']);
     } else if (event === 'Cuộc thi') {
       console.log(event);
-      this.router.navigate(['./homepage/news-competion']);
+      this.router.navigate(['./homepage/news']);
     }
   }
 }

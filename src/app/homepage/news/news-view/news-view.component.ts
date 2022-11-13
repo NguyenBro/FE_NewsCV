@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -15,10 +15,10 @@ import { NewsService } from '../services/news.service';
   styleUrls: ['./news-view.component.less'],
 })
 export class NewsViewComponent implements OnInit {
+  @ViewChild('app') app: HTMLElement | null | undefined;
   public comFrame: competion | undefined = new competion();
+  public temp: HTMLElement | undefined;
   public id = '';
-  company = 'FPT';
-  exp = '20 năm';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -29,6 +29,9 @@ export class NewsViewComponent implements OnInit {
     }),
     tap((it) => (this.comFrame = it))
   );
+  x: Element | undefined;
+  // app: HTMLElement | null | undefined;
+  // app: HTMLElement | null | undefined;
 
   constructor(
     private message: NzMessageService,
@@ -41,8 +44,51 @@ export class NewsViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.comFrame = this.service.competion;
-  }
+    var support = (function () {
+      if (!window.DOMParser) return false;
+      var parser = new DOMParser();
+      try {
+        parser.parseFromString('x', 'text/html');
+      } catch (err) {
+        return false;
+      }
+      return true;
+    })();
+    var stringToHTML = function (str: any) {
+      // If DOMParser is supported, use it
+      if (support) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(str, 'text/html');
+        return doc.body;
+      }
 
+      // Otherwise, fallback to old-school method
+      var dom = document.createElement('div');
+      dom.innerHTML = str;
+      return dom;
+    };
+    this.temp = stringToHTML(this.comFrame.introduction);
+    this.x = this.temp.getElementsByTagName('div')[0];
+    // this.app = document.getElementById('app');
+    // this.app?.appendChild(this.temp);
+    // 1. Select the div element using the id property
+    this.app = document.getElementById('app');
+    // 2. Create a new <p></p> element programmatically
+    const p = document.createElement('p');
+    // 3. Add the text content
+    p.textContent = 'Hello, World!';
+    // 4. Append the p element to the div element
+    this.app?.appendChild(p);
+  }
+  // loadHtml() {
+  //   if (
+  //     this.divID &&
+  //     this.divID.nativeElement &&
+  //     this.divID.nativeElement.innerHTML
+  //   ) {
+  //     this.divID.nativeElement.innerHTML = this.comFrame?.introduction;
+  //   }
+  // }
   public create() {
     this.service.conditionDup = false;
     this.router.navigate(['./news/create']);
@@ -52,6 +98,8 @@ export class NewsViewComponent implements OnInit {
   }
   public cancel() {
     this.router.navigate(['./news/']);
+    this.news.flex = false;
+    console.log('flex-cancel', this.news.flex);
     this.news.cancelDetailShow();
   }
   public delete() {

@@ -1,4 +1,5 @@
 @import "/src/app/shared/styles/variables.less";
+@import "/src/app/shared/styles/generate-style.less";
 
 .tag {
   font-size: 0.875rem;
@@ -15,12 +16,12 @@
   &-title1 {
     font-size: 1rem;
     font-family: sans-serif;
-    color: #eca829;
+    color: @secondary-6;
   }
   &-title2 {
     font-size: 2rem;
     font-family: inherit;
-    color: #eca829;
+    color: @secondary-6;
   }
   &-title3 {
     font-size: 1.25rem;
@@ -29,7 +30,9 @@
     font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
   }
 }
-
+.editflex {
+  flex-direction: column;
+}
 // .layout {
 //   background: @light;
 //   display: flex;
@@ -277,7 +280,7 @@
   }
   &:hover,
   &.active {
-    border-color: @primary-1;
+    border-color: @secondary-6;
     box-shadow: 0px 0px 10px #8fc5f8;
   }
   &:hover button {
@@ -311,4 +314,18 @@
 .all {
   // position: absolute;
   height: 70vh;
+}
+.image {
+  max-height: 15rem;
+  max-width: 15rem;
+  padding: 1rem;
+}
+.divimage {
+  text-align: -webkit-center;
+}
+.bodycontent {
+  display: flex;
+}
+.background {
+  background-color: @secondary-6;
 }

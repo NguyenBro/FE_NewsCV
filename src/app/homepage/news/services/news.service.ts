@@ -10,6 +10,7 @@ import { competion, ResponseObject } from '../../model/news.model';
   providedIn: 'root',
 })
 export class NewsService {
+  public temp = new competion();
   public listviet = listOfVietnamese;
   public conditionDup = false;
   public comframe = new ComFrame();
@@ -21,6 +22,30 @@ export class NewsService {
 
   constructor(private http: HttpClient) {
     this.initListPool();
+    // this.temp.type = 'cuoc-thi';
+    // this.temp.id = 0;
+    //   this.temp.code = '';
+    //   this.temp.datePost = '';
+    //   this.temp.dateUpdate = '';
+    //   this.temp.codeCategory = '';
+    //   this.temp.userId = 0;
+    //   this.temp.title = '';
+    //   this.temp.codeCategory = '';
+    //   this.temp.userId = 0;
+    //   this.temp.title = '';
+    //   this.temp.shortContent = '';
+    //   this.temp.thumbnail = '';
+    //   this.temp.status = '';
+    //   this.temp.link = '';
+    //   this.temp.numLike = 0;
+    //   this.temp.numDisLike = 0;
+    //   this.temp.typeNews = '';
+    //   this.temp.location = '';
+    //   this.temp.introduction = '';
+    //   this.temp.information = '';
+    //   this.temp.subject = '';
+    //   this.temp.prize = '';
+    //   this.temp.contact = '';
   }
 
   public getRefresh() {
@@ -43,7 +68,7 @@ export class NewsService {
 
   getListCompetion() {
     return this.http.get<ResponseObject>(
-      `${this.urlPath + '/api/v1/get-all-news'}`
+      `${this.urlPath + '/api/v1/contest-news/get-all'}`
     );
   }
   getCompanyByCode(code: string) {

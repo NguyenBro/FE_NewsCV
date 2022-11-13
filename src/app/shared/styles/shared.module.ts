@@ -22,6 +22,8 @@ import { RightSideComponent } from './right-side/right-side.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { SectionComponent } from './section/section.component';
 import { SubSectionComponent } from './sub-section/sub-section.component';
+import { ContainerLayoutWModule } from './container-layout-w/container-layout-w.module';
+import { ContainerLayoutWComponent } from './container-layout-w/container-layout-w.component';
 @NgModule({
   declarations: [DropdownComponent],
   imports: [
@@ -31,6 +33,7 @@ import { SubSectionComponent } from './sub-section/sub-section.component';
     CommonModule,
     ButtonDropdownModule,
     ContainerLayoutModule,
+    ContainerLayoutWModule,
     DropdownTreeSelectModule,
     FooterModule,
     RightSideModule,
@@ -48,6 +51,7 @@ import { SubSectionComponent } from './sub-section/sub-section.component';
     DropdownComponent,
     ButtonDropdownComponent,
     ContainerLayoutComponent,
+    ContainerLayoutWComponent,
     DropdownTreeSelectComponent,
     FooterComponent,
     RightSideComponent,

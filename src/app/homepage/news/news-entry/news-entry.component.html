@@ -67,28 +67,36 @@
           "
         >
           <div
-            class="card rounded-lg bg-white h-48 relative"
+            class="card rounded-lg bg-white h-48 relative h-fit"
             [ngClass]="test.code === selectedCompetenceFrame ? 'active' : ''"
             *ngFor="let test of listCom$ | async"
             (click)="selectCompetenceFrame(test.code, test, cardRef)"
             #cardRef
           >
             <div
-              class="font-bold h-14 bg-secondary-5 rounded-t-lg p-4 flex items-center"
+              class="font-bold h-14 bg-secondary-5 rounded-t-lg p-4 flex items-center background"
             >
               <span>{{ test.codeCategory }}</span>
             </div>
-
-            <div class="body p-4">
-              <div class="inline-flex flex-wrap">
-                <!-- <div
-                  class="tag mr-2 mb-2"
-                  *ngFor="let item of test.competences"
-                >
-                  {{ item }}
-                </div> -->
+            <!-- <div class="bodycontent" [class.editflex]="flex === true"> -->
+            <div class="bodycontent">
+              <div class="divimage">
+                <img class="image" [src]="test.thumbnail" />
+              </div>
+              <div class="body p-4">
+                <div class="flex flex-col">
+                  <div class="tag mr-2 mb-2">
+                    {{ test.title }}
+                  </div>
+                  <div class="tag mr-2 mb-2">
+                    <span class="icon" nz-icon nzType="svg:location-alt">
+                    </span>
+                    {{ test.location }}
+                  </div>
+                </div>
               </div>
             </div>
+
             <button
               class="text-lg px-2 mr-3 absolute right-0 top-3"
               (click)="deleteCompetenceFrame(test.title, $event)"
@@ -131,7 +139,7 @@
   <!-- </div>
 </div> -->
 
-  <app-container-layout
+  <app-container-layout-w
     [rightHeader]="rightHeader"
     [leftHeader]="leftHeader"
     [topBody]="topBody"
@@ -140,5 +148,5 @@
     [showTopBody]="true"
     [showSideBar]="isDetailShown"
   >
-  </app-container-layout>
+  </app-container-layout-w>
 </div>

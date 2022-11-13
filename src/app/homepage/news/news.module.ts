@@ -27,6 +27,7 @@ import { NewsFormComponent } from './news-form/news-form.component';
 import { NewsViewComponent } from './news-view/news-view.component';
 import { NewsRoutingModule } from './news.routing';
 import { NewsEntryComponent } from './news-entry/news-entry.component';
+import { ContainerLayoutWModule } from 'src/app/shared/styles/container-layout-w/container-layout-w.module';
 
 @NgModule({
   declarations: [NewsEntryComponent, NewsViewComponent, NewsFormComponent],
@@ -36,6 +37,7 @@ import { NewsEntryComponent } from './news-entry/news-entry.component';
     SearchBarModule,
     FooterModule,
     ContainerLayoutModule,
+    ContainerLayoutWModule,
     NewsRoutingModule,
     NzLayoutModule,
     NzModalModule,

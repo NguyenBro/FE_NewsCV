@@ -24,8 +24,8 @@ import { competion } from '../../model/news.model';
 export class NewsEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
-
-  public list: ComFrame[] = [];
+  flex = false;
+  public list: competion[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
 
@@ -112,7 +112,8 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
 
     this.service.competion = obj;
     this.selectedCompetenceFrame = value;
-
+    this.flex = true;
+    console.log('flex', this.flex);
     this.router.navigate(['./homepage/news/' + value]);
   }
 
@@ -208,46 +209,39 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     this.currentPage = page == undefined ? this.currentPage : page;
 
     if (this.filterList) {
-      let tempList: ComFrame[] = [];
-      this.service.listCom.forEach((comFrame: ComFrame) => {
+      let tempList: competion[] = [];
+      this.service.listCompetion.forEach((comFrame: competion) => {
         if (
           this.filterList.every((filterKeyword: string) => {
             const lowerFilterKeyword = filterKeyword.toLowerCase();
-            if (comFrame.description === undefined) {
+            if (comFrame.shortContent === undefined) {
               return (
                 // if(this.sevices.checkVietnames())
                 this.service
-                  .toLowerCaseNonAccentVietnamese(comFrame.name)
-                  .includes(lowerFilterKeyword) ||
-                comFrame.competences.some((competence: string) =>
-                  this.service
-                    .toLowerCaseNonAccentVietnamese(competence)
-                    .includes(lowerFilterKeyword)
-                )
+                  .toLowerCaseNonAccentVietnamese(comFrame.title)
+                  .includes(lowerFilterKeyword)
+                //   ||
+                // comFrame.competences.some((competence: string) =>
+                //   this.service
+                //     .toLowerCaseNonAccentVietnamese(competence)
+                //     .includes(lowerFilterKeyword)
+                // )
               );
             } else {
               return (
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.name,
+                    comFrame.title,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.description,
+                    comFrame.shortContent,
                     lowerFilterKeyword
                   )
-                  .includes(lowerFilterKeyword) ||
-                comFrame.competences.some((competence: string) =>
-                  this.service
-                    .toLowerCaseNonAccentVietnamese(
-                      competence,
-                      lowerFilterKeyword
-                    )
-                    .includes(lowerFilterKeyword)
-                )
+                  .includes(lowerFilterKeyword)
               );
             }
           })
@@ -259,14 +253,14 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
 
       if (this.order == 1) {
         tempList = tempList.sort((n1, n2) => {
-          if (n1.name > n2.name) return 1;
-          if (n1.name < n2.name) return -1;
+          if (n1.title > n2.title) return 1;
+          if (n1.title < n2.title) return -1;
           return 0;
         });
       } else if (this.order == -1) {
         tempList = tempList.sort((n1, n2) => {
-          if (n1.name < n2.name) return 1;
-          if (n1.name > n2.name) return -1;
+          if (n1.title < n2.title) return 1;
+          if (n1.title > n2.title) return -1;
           return 0;
         });
       }
@@ -277,7 +271,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
       );
     } else {
       this.listLength = this.service.listCom.length;
-      this.list = this.service.listCom.slice(
+      this.list = this.service.listCompetion.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount
       );

@@ -58,7 +58,7 @@
         <app-section title="Mô tả">
           <div container>
             <div section-container class="competence-tags">
-              <div>{{ (comFrameInfo$ | async)?.description }}</div>
+              <div [innerHTML]="(comFrameInfo$ | async)?.description"></div>
             </div>
             <!-- <textarea
               nz-input
@@ -119,12 +119,12 @@
         </app-section>
         <app-section title="Yêu cầu ứng viên" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div>{{ comFrame?.requirement }}</div>
+            <div [innerHTML]="comFrame?.requirement"></div>
           </div>
         </app-section>
         <app-section title="Quyền lợi" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div>{{ comFrame?.treatment }}</div>
+            <div [innerHTML]="comFrame?.treatment"></div>
           </div>
         </app-section>
       </div>

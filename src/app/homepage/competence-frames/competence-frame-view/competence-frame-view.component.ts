@@ -19,7 +19,7 @@ export class CompetenceFrameViewComponent implements OnInit {
     'https://firebasestorage.googleapis.com/v0/b/newscv-3595e.appspot.com/o/cf76fb34-a0ec-45f2-9dcd-2e333754b0d1png?alt=media';
   public comFrame: Recruit | undefined = new Recruit();
   public id = '';
-  des = '';
+  public des = '';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -53,21 +53,22 @@ export class CompetenceFrameViewComponent implements OnInit {
     //     },
     //   },
     // });
-    // // const appDiv: HTMLElement = document.getElementById('app') as HTMLElement;
-    // // appDiv.innerHTML = result;
-    // this.des = result;
-    // console.log(this.des);
-    const { htmlToText } = require('html-to-text');
+    // const appDiv: HTMLElement = document.getElementById('app') as HTMLElement;
+    // appDiv.innerHTML = result;
+    // this.comFrame.description = result;
+    // console.log('this.comFrame.description',this.comFrame.description);
 
-    this.comFrame.description = htmlToText(this.comFrame.description, {
-      wordwrap: 130,
-    });
-    this.comFrame.requirement = htmlToText(this.comFrame.requirement, {
-      wordwrap: 130,
-    });
-    this.comFrame.treatment = htmlToText(this.comFrame.treatment, {
-      wordwrap: 130,
-    });
+    // const { htmlToText } = require('html-to-text');
+
+    // this.comFrame.description = htmlToText(this.comFrame.description, {
+    //   wordwrap: 130,
+    // });
+    // this.comFrame.requirement = htmlToText(this.comFrame.requirement, {
+    //   wordwrap: 130,
+    // });
+    // this.comFrame.treatment = htmlToText(this.comFrame.treatment, {
+    //   wordwrap: 130,
+    // });
   }
 
   public create() {
