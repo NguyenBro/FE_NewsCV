@@ -43,7 +43,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-  private rawListCom$ = this.service.getListOfCompetences();
+  public rawListCom$ = this.service.getListOfCompetences();
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,

@@ -40,7 +40,9 @@ export class NewsViewComponent implements OnInit {
     private router: Router,
     private news: NewsEntryComponent,
     private modal: NzModalService
-  ) {}
+  ) {
+    this.news.flex = true;
+  }
 
   ngOnInit(): void {
     this.comFrame = this.service.competion;
@@ -98,7 +100,7 @@ export class NewsViewComponent implements OnInit {
   }
   public cancel() {
     this.router.navigate(['./news/']);
-    this.news.flex = false;
+
     console.log('flex-cancel', this.news.flex);
     this.news.cancelDetailShow();
   }

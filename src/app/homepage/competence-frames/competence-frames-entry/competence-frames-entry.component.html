@@ -60,14 +60,14 @@
           "
         >
           <div
-            class="card rounded-lg bg-white h-80 relative h-fit"
+            class="card rounded-lg bg-white h-80 relative"
             [ngClass]="test.code === selectedCompetenceFrame ? 'active' : ''"
             *ngFor="let test of listCom$ | async"
             (click)="selectCompetenceFrame(test.code, test, cardRef)"
             #cardRef
           >
             <div
-              class="h-14 bg-secondary-5 rounded-t-lg p-4 flex flex-col items-start"
+              class="bg-secondary-5 rounded-t-lg p-4 flex flex-col items-start"
             >
               <div class="font-bold">{{ test.title }}</div>
               <div>{{ test.shortContent }}</div>

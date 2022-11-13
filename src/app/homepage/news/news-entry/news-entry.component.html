@@ -79,7 +79,11 @@
               <span>{{ test.codeCategory }}</span>
             </div>
             <!-- <div class="bodycontent" [class.editflex]="flex === true"> -->
-            <div class="bodycontent">
+            <div
+              [ngClass]="
+                flex === false ? 'bodycontent' : 'bodycontent editflex'
+              "
+            >
               <div class="divimage">
                 <img class="image" [src]="test.thumbnail" />
               </div>

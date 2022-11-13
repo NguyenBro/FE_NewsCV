@@ -3,9 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from './homepage.component';
 import { InfomationComponent } from './infomation/infomation.component';
 import { LoginComponent } from './login/login.component';
-import { NewsCompetionComponent } from './news-competion/news-competion.component';
-import { NewsEventComponent } from './news-event/news-event.component';
-import { NewsScholarshipComponent } from './news-scholarship/news-scholarship.component';
+
 import { PageComponent } from './page/page.component';
 import { ResignComponent } from './resign/resign.component';
 @NgModule({
@@ -31,21 +29,14 @@ import { ResignComponent } from './resign/resign.component';
             path: 'infomation',
             component: InfomationComponent,
           },
-          {
-            path: 'news-competion',
-            loadChildren: () =>
-              import('./news-competion/news-competion.module').then(
-                (m) => m.NewsCompetionModule
-              ),
-          },
-          {
-            path: 'news-scholarship',
-            component: NewsScholarshipComponent,
-          },
-          {
-            path: 'news-event',
-            component: NewsEventComponent,
-          },
+          // {
+          //   path: 'news-scholarship',
+          //   component: NewsScholarshipComponent,
+          // },
+          // {
+          //   path: 'news-event',
+          //   component: NewsEventComponent,
+          // },
           {
             path: 'competence-frames',
             loadChildren: () =>

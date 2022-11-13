@@ -67,10 +67,10 @@ export class HomepageComponent implements OnInit {
   onSelectionChangeNews(event: string) {
     if (event === 'Học bổng') {
       console.log(event);
-      this.router.navigate(['./homepage/news-scholarship']);
+      this.router.navigate(['./homepage/news']);
     } else if (event === 'Sự kiện') {
       console.log(event);
-      this.router.navigate(['./homepage/news-event']);
+      this.router.navigate(['./homepage/news']);
     } else if (event === 'Cuộc thi') {
       console.log(event);
       this.router.navigate(['./homepage/news']);

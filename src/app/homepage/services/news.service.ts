@@ -8,7 +8,6 @@ import {
   scholarship,
   user,
 } from '../model/news.model';
-import { NewsScholarshipComponent } from '../news-scholarship/news-scholarship.component';
 
 @Injectable({
   providedIn: 'root',

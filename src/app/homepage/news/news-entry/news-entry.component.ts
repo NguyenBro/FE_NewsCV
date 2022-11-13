@@ -67,6 +67,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     private homepage: HomepageComponent
   ) {
     homepage.showLogo = false;
+    this.flex = false;
     this.getPageList(this.currentPage);
   }
   onPageIndexChange(event: number) {
@@ -112,7 +113,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
 
     this.service.competion = obj;
     this.selectedCompetenceFrame = value;
-    this.flex = true;
+
     console.log('flex', this.flex);
     this.router.navigate(['./homepage/news/' + value]);
   }

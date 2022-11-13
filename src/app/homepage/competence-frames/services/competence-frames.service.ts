@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
 import { Recruit, ResponseObject } from '../../model/news.model';
+import { CompetenceFramesEntryComponent } from '../competence-frames-entry/competence-frames-entry.component';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +17,11 @@ export class CompetenceFramesService {
   public listCom: ComFrame[] = [];
   public recruit = new Recruit();
   public listRecruit: Recruit[] = [];
+  private pending = false;
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) {
-    this.initListPool();
-  }
+  constructor(private http: HttpClient) {}
 
   public getRefresh() {
     return this.refreshBehavior;
@@ -30,14 +30,16 @@ export class CompetenceFramesService {
     this.refreshBehavior.next(this.refreshBehavior.value + 1);
   }
   public getListOfCompetences() {
+    this.initListPool();
     console.log('complet');
     return of(this.listRecruit);
   }
 
-  initListPool() {
-    this.getListRecruit().subscribe((res) => {
+  async initListPool() {
+    this.pending = true;
+    await this.getListRecruit().subscribe((res) => {
       this.listRecruit = res.data;
-      console.log('listRecruit', this.listRecruit);
+      this.pending = false;
     });
   }
 
