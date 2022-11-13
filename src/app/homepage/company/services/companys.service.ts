@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { Company, Recruit, ResponseObject } from '../../model/news.model';
+import { Company, ResponseObject } from '../../model/news.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CompetenceFramesService {
+export class CompanysService {
   public listviet = listOfVietnamese;
   public conditionDup = false;
   public comframe = new ComFrame();

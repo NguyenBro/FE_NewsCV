@@ -7,7 +7,7 @@ import { mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
 import { Company } from '../../model/news.model';
 import { CompanysEntryComponent } from '../companys-entry/companys-entry.component';
-import { CompetenceFramesService } from '../services/companys.service';
+import { CompanysService } from '../services/companys.service';
 
 @Component({
   selector: 'app-company-view',
@@ -31,7 +31,7 @@ export class CompanyViewComponent implements OnInit {
   constructor(
     private message: NzMessageService,
     private route: ActivatedRoute,
-    private service: CompetenceFramesService,
+    private service: CompanysService,
     private router: Router,
     private competenceFrameCom: CompanysEntryComponent,
     private modal: NzModalService

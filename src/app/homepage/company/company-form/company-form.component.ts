@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map, mergeMap, tap } from 'rxjs';
 import { CompanysEntryComponent } from '../companys-entry/companys-entry.component';
-import { CompetenceFramesService } from '../services/companys.service';
 import { ComFrame } from '../../model/competence-frames.model';
+import { CompanysService } from '../services/companys.service';
 
 @Component({
   selector: 'app-company-form',
@@ -47,7 +47,7 @@ export class CompanyFormComponent {
     )
   );
   constructor(
-    private readonly service: CompetenceFramesService,
+    private readonly service: CompanysService,
     private message: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,
