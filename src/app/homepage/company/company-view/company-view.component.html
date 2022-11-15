@@ -53,26 +53,24 @@
     </div>
     <div container-body>
       <div class="content list-section">
-        <div class="image"><img [src]="comFrame?.logo" /></div>
         <div class="image"><img [src]="comFrame?.background" /></div>
+        <div class="flex">
+          <div class="logo"><img [src]="comFrame?.logo" class="imglogo" /></div>
+          <div>
+            <div class="flex flex-row gap-4">
+              <div class="whitespace-nowrap font-bold">Địa chỉ:</div>
+              <div [innerHTML]="(comFrameInfo$ | async)?.address"></div>
+            </div>
+            <div class="flex flex-row gap-4">
+              <div class="whitespace-nowrap font-bold">Email:</div>
+              <div [innerHTML]="(comFrameInfo$ | async)?.email"></div>
+            </div>
+          </div>
+        </div>
         <app-section title="Giới thiệu về công ty">
           <div container>
             <div section-container class="competence-tags">
               <div [innerHTML]="(comFrameInfo$ | async)?.intro"></div>
-            </div>
-          </div>
-        </app-section>
-        <app-section title="Thông tin thêm">
-          <div container>
-            <div section-container class="competence-tags">
-              <div class="flex flex-col gap-4">
-                <div>Địa chỉ:</div>
-                <div [innerHTML]="(comFrameInfo$ | async)?.address"></div>
-              </div>
-              <div class="flex flex-col gap-4">
-                <div>Email:</div>
-                <div [innerHTML]="(comFrameInfo$ | async)?.email"></div>
-              </div>
             </div>
           </div>
         </app-section>
@@ -95,7 +93,7 @@
                   <div class="body p-4">
                     <div class="flex flex-col">
                       <div class="tag mr-2 mb-2">
-                        {{ item.shortContent }}
+                        {{ item.title }}
                       </div>
                       <div class="tag mr-2 mb-2">
                         <span class="icon" nz-icon nzType="svg:location-alt">

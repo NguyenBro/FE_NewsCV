@@ -60,7 +60,8 @@
         </app-section>
         <app-section title="Giới thiệu" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div #app></div>
+            <div [innerHTML]="(comFrameInfo$ | async)?.introduction"></div>
+            <!-- <div #app></div> -->
             <!-- <span
               class="tag"
               *ngFor="let item of (comFrameInfo$ | async)?.['competences']"

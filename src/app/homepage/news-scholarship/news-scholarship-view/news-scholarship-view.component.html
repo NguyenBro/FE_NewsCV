@@ -82,7 +82,7 @@
           <div container>
             <div section-container class="m-0 pb-4 flex flex-col gap-4">
               <div *ngFor="let cmt of listComment" class="m-0 flex gap-4">
-                <div class="avata"></div>
+                <img src="/assets/images/avatar-female.svg" class="avata" />
                 <textarea
                   nz-input
                   placeholder="Nhập mô tả"
@@ -99,7 +99,7 @@
               </div>
             </div>
             <div section-container class="m-0 flex gap-4">
-              <div class="avata"></div>
+              <img src="/assets/images/avatar-female.svg" class="avata" />
               <textarea
                 nz-input
                 (keydown.enter)="comment()"

@@ -69,7 +69,7 @@
         <div collapsible class="title">
           <div collapsibleTitle>Bài đã viết</div>
         </div>
-        <div>Nội dung</div>
+        <div>Chưa có</div>
       </div>
     </div>
   </div>
@@ -78,7 +78,7 @@
     <div class="layout-right-header">
       <div class="section-top">
         <div class="recruit-avatar">
-          <img src="/assets/images/avatar-female.svg" />
+          <img [src]="user.avatar" />
         </div>
 
         <div class="recruit-name">{{ user.name }}</div>
@@ -111,22 +111,23 @@
         <div class="title">Thông tin chung</div>
         <div class="content recruit-information">
           <div class="item">
-            <span nz-icon nzType="svg:gender"></span><span>Nữ</span>
+            <span nz-icon nzType="svg:gender"></span
+            ><span>{{ user.gender }}</span>
           </div>
           <div class="item">
-            <span nz-icon nzType="svg:calendar"></span><span>20/02/2002</span>
+            <span nz-icon nzType="svg:calendar"></span
+            ><span>{{ user.birthDate }}</span>
           </div>
           <div class="item">
-            <span nz-icon nzType="svg:mail"></span
-            ><span>Thaomyqt2005@gmail.com</span>
+            <span nz-icon nzType="svg:mail"></span><span>{{ user.email }}</span>
           </div>
           <div class="item">
             <span nz-icon nzType="svg:phone-call"></span
-            ><span>09090909090</span>
+            ><span>{{ user.phone }}</span>
           </div>
           <div class="item">
             <span nz-icon nzType="svg:home-location-alt"></span
-            ><span>District 2, HCMC</span>
+            ><span>{{ user.address }}</span>
           </div>
         </div>
       </div>

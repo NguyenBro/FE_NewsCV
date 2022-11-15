@@ -1,5 +1,6 @@
 @import "/src/app/shared/styles/variables.less";
 @import "/src/app/shared/styles/ehiring.less";
+@import "/src/app/shared/styles/generate-style.less";
 .layout {
   height: 100%;
   display: flex;
@@ -10,6 +11,7 @@
     padding: 0;
     position: relative;
     display: inline-block;
+    color: white;
   }
   .button-primary .tooltiptext {
     visibility: hidden;
@@ -102,6 +104,20 @@
 .image {
   text-align: -webkit-center;
   margin: 0;
+  margin-bottom: 1rem !important;
+}
+.logo {
+  margin: -10% 0 0 0;
+  max-height: 20%;
+  max-width: 20%;
+  position: relative;
+  width: auto;
+  background-color: #e6f7ff;
+  border-radius: 5rem;
+}
+.imglogo {
+  border: 2px solid @primary-1;
+  border-radius: 5rem;
 }
 .tag {
   font-size: 0.875rem;
