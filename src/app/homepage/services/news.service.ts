@@ -126,12 +126,12 @@ export class newsService {
       user
     );
   }
-  // getInfo(email: string) {
-  //   return this.http.post<ResponseObject>(
-  //     `${this.urlPath + '/api/v1/user-by-email/' + email}`,
-  //     ''
-  //   );
-  // }
+  getInfo(email: string) {
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/user-by-email/' + email}`,
+      ''
+    );
+  }
   getLoggedInUser(email: string, auth_token: string): Observable<any> {
     console.log('aaa');
     const headers = new Headers({

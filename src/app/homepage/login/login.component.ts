@@ -30,11 +30,9 @@ export class LoginComponent implements OnInit {
         this.message.success('Đăng nhập thất bại');
       } else {
         this.message.success('Đăng nhập thành công');
-        this.service
-          .getLoggedInUser(this.user.email, this.service.token)
-          .subscribe((res) => {
-            this.service.userLogin = res.data;
-          });
+        this.service.getInfo(this.user.email).subscribe((res) => {
+          this.service.userLogin = res.data;
+        });
         this.router.navigate(['./homepage/page']);
         this.homepagecom.isShow = true;
       }
