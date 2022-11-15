@@ -54,7 +54,7 @@ export class ResignComponent implements OnInit {
           } else {
             this.message.success('Đăng ký thành công');
             this.service.addUser(this.user).subscribe();
-            // this.router.navigate(['./homepage/page']);
+            this.router.navigate(['./homepage/page']);
           }
         });
       }

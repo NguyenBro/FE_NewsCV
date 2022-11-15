@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { Company, ResponseObject } from '../../model/news.model';
+import { Company, Recruit, ResponseObject } from '../../model/news.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ export class CompanysService {
   public listCom: ComFrame[] = [];
   public company = new Company();
   public listCompany: Company[] = [];
+  public listJob: Recruit[] = [];
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
@@ -32,13 +33,25 @@ export class CompanysService {
     console.log('complet');
     return of(this.listCompany);
   }
+  public setListOfJob() {
+    this.initListPool();
+    console.log('complet');
+    return of(this.listJob);
+  }
 
   async initListPool() {
     await this.getListCompany().subscribe((res) => {
       this.listCompany = res.data;
     });
+    await this.setJobByCompany().subscribe((res) => {
+      this.listJob = res.data;
+    });
   }
-
+  setJobByCompany(code?: string) {
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/company/get-job-by-code/' + code}`
+    );
+  }
   getListCompany() {
     return this.http.get<ResponseObject>(
       `${this.urlPath + '/api/v1/company/get-all'}`

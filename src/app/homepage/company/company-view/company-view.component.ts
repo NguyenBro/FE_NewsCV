@@ -3,9 +3,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { mergeMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  mergeMap,
+  Observable,
+  Subscription,
+  tap,
+} from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
-import { Company } from '../../model/news.model';
+import { Company, Recruit } from '../../model/news.model';
 import { CompanysEntryComponent } from '../companys-entry/companys-entry.component';
 import { CompanysService } from '../services/companys.service';
 
@@ -17,6 +25,16 @@ import { CompanysService } from '../services/companys.service';
 export class CompanyViewComponent implements OnInit {
   public comFrame: Company | undefined = new Company();
   public id = '';
+  public listJobOfCompany$: Observable<Recruit[]> = new Observable<Recruit[]>();
+
+  subscriptions = new Subscription();
+  private listOfSearches$ = new BehaviorSubject<string[]>([]);
+  private pageIndex$ = new BehaviorSubject(1);
+  private pageSize$ = new BehaviorSubject(15);
+  private refreshBehavior$ = this.service.getRefresh();
+  private rawListCom$ = this.service.setListOfJob();
+  // .pipe(map((data) => data.data))
+  public listJob$: Observable<Recruit[]> = new Observable<Recruit[]>();
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -25,7 +43,28 @@ export class CompanyViewComponent implements OnInit {
       this.id = p['comFrameId'];
       return this.service.getRecruitInfo(p['comFrameId']);
     }),
-    tap((it) => (this.comFrame = it))
+    tap(
+      (it) => (
+        (this.comFrame = it),
+        (this.listJobOfCompany$ = this.service
+          .setJobByCompany(this.comFrame?.code)
+          .pipe(map((data) => data.data))),
+        (this.listJob$ = combineLatest({
+          listOfCompetences: this.listJobOfCompany$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences.slice(
+              (pageIndex - 1) * pageSize,
+              pageIndex * pageSize
+            )
+          )
+        ))
+      )
+    )
   );
 
   constructor(
@@ -38,7 +77,25 @@ export class CompanyViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.comFrame = this.service.company;
+    // this.comFrame = this.service.company;
+    // console.log('cỏmame', this.comFrame);
+    // this.listJobOfCompany$ = this.service
+    //   .setJobByCompany(this.comFrame?.code)
+    //   .pipe(map((data) => data.data));
+    // this.listJob$ = combineLatest({
+    //   listOfCompetences: this.listJobOfCompany$,
+    //   pageIndex: this.pageIndex$,
+    //   pageSize: this.pageSize$,
+    //   searches: this.listOfSearches$,
+    //   refresh: this.refreshBehavior$,
+    // }).pipe(
+    //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+    //     listOfCompetences.slice(
+    //       (pageIndex - 1) * pageSize,
+    //       pageIndex * pageSize
+    //     )
+    //   )
+    // );
   }
 
   public create() {

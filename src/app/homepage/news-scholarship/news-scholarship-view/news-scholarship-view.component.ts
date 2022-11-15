@@ -18,6 +18,8 @@ export class NewsScholarshipViewComponent implements OnInit {
   @ViewChild('app') app: HTMLElement | null | undefined;
   public comFrame: scholarship | undefined = new scholarship();
   public temp: HTMLElement | undefined;
+  public listComment = new Array<String>();
+  public commentTemp = new String();
   public id = '';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
@@ -135,5 +137,10 @@ export class NewsScholarshipViewComponent implements OnInit {
         id: this.comFrame?.id,
       },
     });
+  }
+  comment() {
+    this.listComment.push(this.commentTemp);
+    this.commentTemp = new String();
+    console.log('enter', this.listComment);
   }
 }

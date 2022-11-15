@@ -78,6 +78,44 @@
             <div [innerHTML]="(comFrameInfo$ | async)?.contact"></div>
           </div>
         </app-section>
+        <app-section title="Bình luận">
+          <div container>
+            <div section-container class="m-0 pb-4 flex flex-col gap-4">
+              <div *ngFor="let cmt of listComment" class="m-0 flex gap-4">
+                <div class="avata"></div>
+                <textarea
+                  nz-input
+                  placeholder="Nhập mô tả"
+                  [value]="cmt"
+                  style="
+                    border-color: #bfbfbf;
+                    resize: none;
+                    border-radius: 8px;
+                    font-weight: 400;
+                    padding: 1rem;
+                    pointer-events: none;
+                  "
+                ></textarea>
+              </div>
+            </div>
+            <div section-container class="m-0 flex gap-4">
+              <div class="avata"></div>
+              <textarea
+                nz-input
+                (keydown.enter)="comment()"
+                placeholder="Nhập mô tả"
+                [(ngModel)]="commentTemp"
+                style="
+                  border-color: #bfbfbf;
+                  resize: none;
+                  border-radius: 8px;
+                  font-weight: 400;
+                  padding: 1rem;
+                "
+              ></textarea>
+            </div>
+          </div>
+        </app-section>
       </div>
     </div>
   </app-right-side>

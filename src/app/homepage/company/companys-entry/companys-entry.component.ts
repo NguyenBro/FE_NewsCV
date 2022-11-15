@@ -23,7 +23,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
 
-  public list: ComFrame[] = [];
+  public list: Company[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
 
@@ -43,6 +43,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
   private rawListCom$ = this.service.getListOfCompetences();
+  // .pipe(map((data) => data.data))
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
@@ -66,6 +67,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   ) {
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
+    console.log('listcom', this.listCom$);
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);
@@ -203,22 +205,23 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     this.currentPage = page == undefined ? this.currentPage : page;
 
     if (this.filterList) {
-      let tempList: ComFrame[] = [];
-      this.service.listCom.forEach((comFrame: ComFrame) => {
+      let tempList: Company[] = [];
+      this.service.listCompany.forEach((comFrame: Company) => {
         if (
           this.filterList.every((filterKeyword: string) => {
             const lowerFilterKeyword = filterKeyword.toLowerCase();
-            if (comFrame.description === undefined) {
+            if (comFrame.intro === undefined) {
               return (
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(comFrame.name)
                   .includes(lowerFilterKeyword) ||
-                comFrame.competences.some((competence: string) =>
-                  this.service
-                    .toLowerCaseNonAccentVietnamese(competence)
-                    .includes(lowerFilterKeyword)
-                )
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.email)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.address)
+                  .includes(lowerFilterKeyword)
               );
             } else {
               return (
@@ -231,18 +234,22 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.description,
+                    comFrame.intro,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword) ||
-                comFrame.competences.some((competence: string) =>
-                  this.service
-                    .toLowerCaseNonAccentVietnamese(
-                      competence,
-                      lowerFilterKeyword
-                    )
-                    .includes(lowerFilterKeyword)
-                )
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.email,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.address,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword)
               );
             }
           })
@@ -272,7 +279,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
       );
     } else {
       this.listLength = this.service.listCom.length;
-      this.list = this.service.listCom.slice(
+      this.list = this.service.listCompany.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount
       );
