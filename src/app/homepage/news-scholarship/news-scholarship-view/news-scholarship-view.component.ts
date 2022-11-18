@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
-import { ComFrame } from '../../model/competence-frames.model';
 import { competion, scholarship } from '../../model/news.model';
 import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-scholarship-entry.component';
 import { NewsScholarshipService } from '../services/news-scholarship.service';
+import { formatDistance } from 'date-fns';
+import { newsService } from '../../services/news.service';
 
 @Component({
   selector: 'app-news-view',
@@ -21,6 +22,15 @@ export class NewsScholarshipViewComponent implements OnInit {
   public listComment = new Array<String>();
   public commentTemp = new String();
   public id = '';
+
+  data: any[] = [];
+  submitting = false;
+  user = {
+    author: this.servicenew.userLogin.name,
+    avatar: this.servicenew.userLogin.avatar,
+  };
+  inputValue = '';
+
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -41,7 +51,8 @@ export class NewsScholarshipViewComponent implements OnInit {
     private service: NewsScholarshipService,
     private router: Router,
     private news: NewsScholarshipEntryComponent,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private servicenew: newsService
   ) {
     this.news.flex = true;
   }
@@ -84,15 +95,26 @@ export class NewsScholarshipViewComponent implements OnInit {
     // 4. Append the p element to the div element
     this.app?.appendChild(p);
   }
-  // loadHtml() {
-  //   if (
-  //     this.divID &&
-  //     this.divID.nativeElement &&
-  //     this.divID.nativeElement.innerHTML
-  //   ) {
-  //     this.divID.nativeElement.innerHTML = this.comFrame?.introduction;
-  //   }
-  // }
+  handleSubmit(): void {
+    this.submitting = true;
+    const content = this.inputValue;
+    this.inputValue = '';
+    setTimeout(() => {
+      this.submitting = false;
+      this.data = [
+        ...this.data,
+        {
+          ...this.user,
+          content,
+          datetime: new Date(),
+          displayTime: formatDistance(new Date(), new Date()),
+        },
+      ].map((e) => ({
+        ...e,
+        displayTime: formatDistance(new Date(), e.datetime),
+      }));
+    }, 800);
+  }
   public create() {
     this.service.conditionDup = false;
     this.router.navigate(['./news-scholarship/create']);

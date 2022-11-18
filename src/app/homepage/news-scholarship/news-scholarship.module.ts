@@ -28,7 +28,10 @@ import { NewsScholarshipViewComponent } from './news-scholarship-view/news-schol
 import { NewsScholarshipRoutingModule } from './news-scholarship.routing';
 import { NewsScholarshipEntryComponent } from './news-scholarship-entry/news-scholarship-entry.component';
 import { ContainerLayoutWModule } from 'src/app/shared/styles/container-layout-w/container-layout-w.module';
-
+import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 @NgModule({
   declarations: [
     NewsScholarshipEntryComponent,
@@ -62,6 +65,10 @@ import { ContainerLayoutWModule } from 'src/app/shared/styles/container-layout-w
     SectionModule,
     UiCommonModule,
     ButtonDropdownModule,
+    NzCommentModule,
+    NzButtonModule,
+    NzListModule,
+    NzAvatarModule,
   ],
 })
 export class NewsScholarshipModule {}

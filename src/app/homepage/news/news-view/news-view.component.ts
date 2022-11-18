@@ -4,11 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { mergeMap, tap } from 'rxjs';
-import { ComFrame } from '../../model/competence-frames.model';
 import { competion } from '../../model/news.model';
+import { newsService } from '../../services/news.service';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
 import { NewsService } from '../services/news.service';
-
+import { formatDistance } from 'date-fns';
 @Component({
   selector: 'app-news-view',
   templateUrl: './news-view.component.html',
@@ -19,6 +19,15 @@ export class NewsViewComponent implements OnInit {
   public comFrame: competion | undefined = new competion();
   public temp: HTMLElement | undefined;
   public id = '';
+
+  data: any[] = [];
+  submitting = false;
+  user = {
+    author: this.servicenew.userLogin.name,
+    avatar: this.servicenew.userLogin.avatar,
+  };
+  inputValue = '';
+
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -39,7 +48,8 @@ export class NewsViewComponent implements OnInit {
     private service: NewsService,
     private router: Router,
     private news: NewsEntryComponent,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private servicenew: newsService
   ) {
     this.news.flex = true;
   }
@@ -82,15 +92,26 @@ export class NewsViewComponent implements OnInit {
     // 4. Append the p element to the div element
     this.app?.appendChild(p);
   }
-  // loadHtml() {
-  //   if (
-  //     this.divID &&
-  //     this.divID.nativeElement &&
-  //     this.divID.nativeElement.innerHTML
-  //   ) {
-  //     this.divID.nativeElement.innerHTML = this.comFrame?.introduction;
-  //   }
-  // }
+  handleSubmit(): void {
+    this.submitting = true;
+    const content = this.inputValue;
+    this.inputValue = '';
+    setTimeout(() => {
+      this.submitting = false;
+      this.data = [
+        ...this.data,
+        {
+          ...this.user,
+          content,
+          datetime: new Date(),
+          displayTime: formatDistance(new Date(), new Date()),
+        },
+      ].map((e) => ({
+        ...e,
+        displayTime: formatDistance(new Date(), e.datetime),
+      }));
+    }, 800);
+  }
   public create() {
     this.service.conditionDup = false;
     this.router.navigate(['./news-competion/create']);
