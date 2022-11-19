@@ -330,9 +330,9 @@
                 </div> -->
             <nz-modal
               [(nzVisible)]="isVisible"
-              nzTitle="Bạn đang ứng tuyển cho {{
+              nzTitle="Bạn đang ứng tuyển cho vị trí {{
                 (comFrameInfo$ | async)?.title
-              }}"
+              }} của công ty {{ (comFrameInfo$ | async)?.shortContent }}"
               (nzOnCancel)="handleCancel()"
             >
               <div *nzModalContent class="flex flex-col gap-4">
@@ -350,8 +350,21 @@
                   <input placeholder="Số điện thoại" class="input" />
                 </div>
                 <div class="flex items-center">
-                  <p class="namecard">Chọn CV của bạn:</p>
-                  <input placeholder="Upload CV" type="file" />
+                  <div class="clearfix">
+                    <nz-upload
+                      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                      nzListType="picture"
+                      [(nzFileList)]="fileList1"
+                      [nzFileType]=""
+                    >
+                      <button nz-button>
+                        <span nz-icon nzType="upload"></span>
+                        Upload
+                      </button>
+                    </nz-upload>
+                  </div>
+                  <!-- <p class="namecard">Chọn CV của bạn:</p>
+                  <input placeholder="Upload CV" type="file" /> -->
                 </div>
                 <div>
                   <p class="namecard">Thư xin việc</p>

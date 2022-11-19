@@ -7,7 +7,7 @@ import { mergeMap, tap } from 'rxjs';
 import { Recruit } from '../../model/news.model';
 import { CompetenceFramesEntryComponent } from '../competence-frames-entry/competence-frames-entry.component';
 import { CompetenceFramesService } from '../services/competence-frames.service';
-import { htmlToText } from 'html-to-text';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-competence-frame-view',
@@ -36,6 +36,26 @@ export class CompetenceFrameViewComponent implements OnInit {
     undo: false,
     redo: false,
   };
+
+  defaultFileList: NzUploadFile[] = [
+    {
+      uid: '-1',
+      name: 'xxx.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      thumbUrl:
+        'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    {
+      uid: '-2',
+      name: 'yyy.png',
+      status: 'error',
+    },
+  ];
+
+  fileList1 = [...this.defaultFileList];
+  fileList2 = [...this.defaultFileList];
+
   public comFrame: Recruit | undefined = new Recruit();
   public id = '';
   public des = '';
@@ -93,6 +113,7 @@ export class CompetenceFrameViewComponent implements OnInit {
   //   const FILE = (event.target as HTMLInputElement).files[0];
   //   this.imageObj = FILE;
   // }
+
   showModal(): void {
     this.isVisible = true;
   }

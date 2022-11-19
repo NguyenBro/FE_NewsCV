@@ -29,6 +29,8 @@ import { CompetenceFrameRoutingModule } from './competence-frame.routing';
 import { CompetenceFramesEntryComponent } from './competence-frames-entry/competence-frames-entry.component';
 // import { QuillModule } from 'ngx-quill';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 @NgModule({
   declarations: [
     CompetenceFramesEntryComponent,
@@ -62,6 +64,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     UiCommonModule,
     ButtonDropdownModule,
     NzButtonModule,
+    NzSpaceModule,
+    NzUploadModule,
     // QuillModule.forRoot(),
   ],
 })

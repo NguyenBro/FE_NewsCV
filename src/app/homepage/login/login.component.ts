@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
         this.message.success('Đăng nhập thành công');
         this.service.getInfo(this.user.email).subscribe((res) => {
           this.service.userLogin = res.data;
+          this.homepagecom.user = res.data;
         });
         this.router.navigate(['./homepage/page']);
         this.homepagecom.isShow = true;

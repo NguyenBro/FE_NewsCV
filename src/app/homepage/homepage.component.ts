@@ -12,6 +12,7 @@ import { newsService } from './services/news.service';
 })
 export class HomepageComponent implements OnInit {
   public isShow = false;
+  select = '';
   showLogo = true;
   user: user = new user();
   constructor(
@@ -22,31 +23,41 @@ export class HomepageComponent implements OnInit {
     private message: NzMessageService
   ) {
     this.showLogo = true;
-    this.user = sevices.userLogin;
   }
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';
   ngOnInit(): void {}
   page() {
     this.showLogo = true;
+    this.select = 'page';
     this.router.navigate(['./homepage/page']);
   }
   login() {
+    this.select = 'login';
     this.router.navigate(['./homepage/login']);
   }
   recruit() {
+    this.select = 'recruit';
     this.router.navigate(['./homepage/competence-frames']);
   }
   resign() {
+    this.select = 'resign';
     this.router.navigate(['./homepage/resign']);
   }
   info() {
+    this.select = 'info';
     this.router.navigate(['./homepage/infomation']);
   }
   company() {
+    this.select = 'company';
     this.router.navigate(['./homepage/companys']);
   }
+  admin() {
+    this.select = 'admin';
+    this.router.navigate(['./homepage/administration/Statistical']);
+  }
   logout() {
+    this.select = '';
     this.modal.warning({
       nzTitle: `Bạn có muốn đăng xuất không?`,
       nzOkDanger: true,
@@ -65,6 +76,7 @@ export class HomepageComponent implements OnInit {
     });
   }
   onSelectionChangeNews(event: string) {
+    this.select = '';
     if (event === 'Học bổng') {
       console.log(event);
       this.router.navigate(['./homepage/news-scholarship']);

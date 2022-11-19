@@ -1,0 +1,29 @@
+@import "/src/app/shared/styles/ehiring.less";
+@import "/src/app/shared/styles/generate-style.less";
+.body {
+  width: 85vw;
+  .bodytop {
+    display: flex;
+    gap: 2rem;
+    text-align: center;
+    &-item {
+      flex: 0 1 calc(100% / 3);
+      padding: 10%;
+      .news {
+        border-radius: 8px;
+        padding: 10%;
+        background-color: @secondary-3;
+      }
+      .recruit {
+        border-radius: 8px;
+        padding: 10%;
+        background-color: @secondary-4;
+      }
+      .company {
+        border-radius: 8px;
+        padding: 10%;
+        background-color: @secondary-7;
+      }
+    }
+  }
+}
