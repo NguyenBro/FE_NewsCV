@@ -7,7 +7,7 @@ import { mergeMap, tap } from 'rxjs';
 import { competion } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
-import { NewsService } from '../services/news.service';
+import { NewsCompetionService } from '../services/news-competion.service';
 import { formatDistance } from 'date-fns';
 @Component({
   selector: 'app-news-view',
@@ -45,7 +45,7 @@ export class NewsViewComponent implements OnInit {
   constructor(
     private message: NzMessageService,
     private route: ActivatedRoute,
-    private service: NewsService,
+    private service: NewsCompetionService,
     private router: Router,
     private news: NewsEntryComponent,
     private modal: NzModalService,

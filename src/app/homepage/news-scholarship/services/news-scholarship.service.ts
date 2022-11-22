@@ -36,13 +36,13 @@ export class NewsScholarshipService {
   }
 
   initListPool() {
-    this.getListCompetion().subscribe((res) => {
+    this.getListScholarship().subscribe((res) => {
       this.listScholarship = res.data;
       console.log('listRecruit', this.listScholarship);
     });
   }
 
-  getListCompetion() {
+  getListScholarship() {
     return this.http.get<ResponseObject>(
       `${this.urlPath + '/api/v1/scholarship-news/get-all'}`
     );

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { stringify } from 'querystring';
 import { catchError, Observable, of, tap } from 'rxjs';
@@ -107,6 +107,9 @@ export class newsService {
       user
     );
   }
+  logOut() {
+    return this.http.get<ResponseObject>(`${this.urlPath + '/api/v1/logout'}`);
+  }
   createOtpMail(user: user) {
     console.log('mail-2');
     return this.http.post<ResponseObject>(
@@ -132,17 +135,17 @@ export class newsService {
       ''
     );
   }
-  getLoggedInUser(email: string, auth_token: string): Observable<any> {
-    console.log('aaa');
-    const headers = new Headers({
+  getLoggedInUser(email: string): Observable<any> {
+    console.log('token', this.urlPath + '/api/v1/user-by-email/');
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `${auth_token}`,
+      Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${
-        (this.urlPath + '/api/v1/user-by-email/' + email, { headers: headers })
-      }`,
-      ''
+      `${this.urlPath + '/api/v1/user-by-email/' + email}`,
+      '',
+      { headers: headers }
     );
   }
   // login(newUser: user): Observable<user> {

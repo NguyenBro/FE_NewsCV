@@ -18,6 +18,7 @@ import { AdminComponent } from './admin/admin.component';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { newsService } from './services/news.service';
 @NgModule({
   declarations: [
     PageComponent,

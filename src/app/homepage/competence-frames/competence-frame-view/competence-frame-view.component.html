@@ -338,40 +338,43 @@
               <div *nzModalContent class="flex flex-col gap-4">
                 <div class="flex items-center">
                   <p class="namecard">Họ tên:</p>
-                  <input placeholder="Nhập tên của bạn" class="input" />
+                  <input
+                    placeholder="Nhập tên của bạn"
+                    class="input"
+                    [(ngModel)]="apply.fullName"
+                  />
                 </div>
 
                 <div class="flex items-center">
                   <p class="namecard">Email:</p>
-                  <input placeholder="Email" class="input" />
+                  <input
+                    placeholder="Email"
+                    class="input"
+                    [(ngModel)]="apply.email"
+                  />
                 </div>
                 <div class="flex items-center">
                   <p class="namecard">Số điện thoại:</p>
-                  <input placeholder="Số điện thoại" class="input" />
+                  <input
+                    placeholder="Số điện thoại"
+                    class="input"
+                    [(ngModel)]="apply.phone"
+                  />
                 </div>
                 <div class="flex items-center">
-                  <div class="clearfix">
-                    <nz-upload
-                      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                      nzListType="picture"
-                      [(nzFileList)]="fileList1"
-                      [nzFileType]=""
-                    >
-                      <button nz-button>
-                        <span nz-icon nzType="upload"></span>
-                        Upload
-                      </button>
-                    </nz-upload>
-                  </div>
-                  <!-- <p class="namecard">Chọn CV của bạn:</p>
-                  <input placeholder="Upload CV" type="file" /> -->
+                  <p class="namecard">Chọn CV của bạn:</p>
+                  <input
+                    (change)="chooseCv($event)"
+                    placeholder="Upload CV"
+                    type="file"
+                  />
                 </div>
                 <div>
                   <p class="namecard">Thư xin việc</p>
                   <textarea
                     nz-input
                     placeholder="Nhập văn bản"
-                    [value]="leter"
+                    [(ngModel)]="apply.intro"
                     style="
                       border-color: #bfbfbf;
                       resize: none;

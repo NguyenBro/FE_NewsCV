@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map, mergeMap, tap } from 'rxjs';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
-import { NewsService } from '../services/news.service';
+import { NewsCompetionService } from '../services/news-competion.service';
 import { ComFrame } from '../../model/competence-frames.model';
 
 @Component({
@@ -47,7 +47,7 @@ export class NewsFormComponent {
     )
   );
   constructor(
-    private readonly service: NewsService,
+    private readonly service: NewsCompetionService,
     private message: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,

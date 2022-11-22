@@ -22,7 +22,16 @@ export class HomepageComponent implements OnInit {
     private modal: NzModalService,
     private message: NzMessageService
   ) {
+    sevices
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+          console.log('user1131', this.user);
+        }
+      });
     this.showLogo = true;
+    this.isShow = this.user.email === '' ? true : false;
   }
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';
@@ -64,11 +73,14 @@ export class HomepageComponent implements OnInit {
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
         this.isShow = false;
-        this.router.navigate(['./homepage/page']);
+        this.sevices.logOut();
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        this.router.navigate(['./homepage/login']);
         this.message.success('Đăng xuất thành công');
         return;
       },
-      nzOkText: 'Xóa',
+      nzOkText: 'Có',
       nzCancelText: 'Hủy',
       nzOnCancel: () => {
         return;
