@@ -28,10 +28,10 @@ export class HomepageComponent implements OnInit {
         if (user.errorCode === null) {
           this.user = user.data;
           console.log('user1131', this.user);
+          this.isShow = this.user.email === '' ? false : true;
         }
       });
     this.showLogo = true;
-    this.isShow = this.user.email === '' ? true : false;
   }
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';

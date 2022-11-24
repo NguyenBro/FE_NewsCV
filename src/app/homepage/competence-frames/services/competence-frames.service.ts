@@ -17,7 +17,6 @@ export class CompetenceFramesService {
   public listCom: ComFrame[] = [];
   public recruit = new Recruit();
   public listRecruit: Recruit[] = [];
-  private pending = false;
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
@@ -49,10 +48,8 @@ export class CompetenceFramesService {
     );
   }
   async initListPool() {
-    this.pending = true;
     await this.getListRecruit().subscribe((res) => {
       this.listRecruit = res.data;
-      this.pending = false;
     });
   }
 

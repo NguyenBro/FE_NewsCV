@@ -34,18 +34,20 @@ export class StatisticalComponent implements OnInit {
     //news
     serviceEvent.getListEvent().subscribe((lista) => {
       this.lengthEvent = lista.data.length;
+      this.lengthNews = lista.data.length + this.lengthNews;
     });
     serviceCompetion.getListCompetion().subscribe((listb) => {
       this.lengthCompetion = listb.data.length;
+      this.lengthNews = listb.data.length + this.lengthNews;
     });
     serviceScholarship.getListScholarship().subscribe((listC) => {
       this.lengthScholarship = listC.data.length;
+      this.lengthNews = listC.data.length + this.lengthNews;
     });
-    this.lengthNews =
-      this.lengthCompetion + this.lengthEvent + this.lengthScholarship;
     //job
-    serviceCompetence.getListRecruit().subscribe((listC) => {
-      this.lengthJob = listC.data.length;
+    serviceCompetence.getListRecruit().subscribe((list) => {
+      this.lengthJob = list.data.length;
+      console.log('job', this.lengthJob);
     });
   }
 

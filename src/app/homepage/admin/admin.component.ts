@@ -21,4 +21,7 @@ export class AdminComponent implements OnInit {
   statistical() {
     this.router.navigate(['./homepage/administration/Statistical']);
   }
+  RecruitStatis() {
+    this.router.navigate(['./homepage/administration/RecruitStatis']);
+  }
 }

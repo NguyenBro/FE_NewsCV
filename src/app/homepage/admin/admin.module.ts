@@ -7,7 +7,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RecruitStatisComponent } from './recruit-statis/recruit-statis.component';
 import { StatisticalComponent } from './statistical/statistical.component';
-
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 @NgModule({
   declarations: [AdminComponent, RecruitStatisComponent, StatisticalComponent],
   imports: [
@@ -16,6 +16,7 @@ import { StatisticalComponent } from './statistical/statistical.component';
     NzMenuModule,
     NzToolTipModule,
     NzIconModule,
+    NzDropDownModule,
   ],
 })
 export class AdminModule {}
