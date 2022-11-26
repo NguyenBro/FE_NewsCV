@@ -49,6 +49,7 @@
         Công ty
       </button>
       <button
+        *ngIf="showQt"
         class="bar-item"
         (click)="admin()"
         [ngClass]="select === 'admin' ? 'select' : ''"

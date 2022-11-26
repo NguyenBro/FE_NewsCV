@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { RecruitStatisComponent } from './recruit-statis/recruit-statis.component';
 import { StatisticalComponent } from './statistical/statistical.component';
+import { NewsStatisComponent } from './news-statis/news-statis.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,18 @@ import { StatisticalComponent } from './statistical/statistical.component';
           {
             path: 'RecruitStatis',
             component: RecruitStatisComponent,
+          },
+          {
+            path: 'NewsScholarshipStatis',
+            component: NewsStatisComponent,
+          },
+          {
+            path: 'NewsCompitionStatis',
+            component: NewsStatisComponent,
+          },
+          {
+            path: 'NewsEventStatis',
+            component: NewsStatisComponent,
           },
         ],
       },

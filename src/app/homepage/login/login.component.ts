@@ -39,6 +39,11 @@ export class LoginComponent implements OnInit {
           console.log('token111', this.service.token);
           console.log('user111', this.service.userLogin);
         });
+        this.service.getRoleByEmail(this.user.email).subscribe((role) => {
+          localStorage.setItem('role', role.data);
+          this.service.role = role.data;
+          console.log('role', this.service.role);
+        });
         this.router.navigate(['./homepage/page']);
         this.homepagecom.isShow = true;
       }

@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { AdminService } from './admin/services/admin.service';
+import { CompanysService } from './company/services/companys.service';
+import { CompetenceFramesService } from './competence-frames/services/competence-frames.service';
 import { user } from './model/news.model';
+import { NewsEventService } from './news-event/services/news-event.service';
+import { NewsScholarshipService } from './news-scholarship/services/news-scholarship.service';
+import { NewsCompetionService } from './news/services/news-competion.service';
 import { newsService } from './services/news.service';
 
 @Component({
@@ -11,6 +17,7 @@ import { newsService } from './services/news.service';
   styleUrls: ['./homepage.component.less'],
 })
 export class HomepageComponent implements OnInit {
+  showQt = false;
   public isShow = false;
   select = '';
   showLogo = true;
@@ -20,9 +27,28 @@ export class HomepageComponent implements OnInit {
     private sevices: newsService,
     private route: ActivatedRoute,
     private modal: NzModalService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    //gọi service
+    private serviceCompany: CompanysService,
+    private serviceEvent: NewsEventService,
+    private serviceCompetion: NewsCompetionService,
+    private serviceScholarship: NewsScholarshipService,
+    private serviceCompetence: CompetenceFramesService,
+    private serviceAdmin: AdminService
   ) {
-    sevices
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
+  }
+  listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
+  news = 'Tin tức';
+  ngOnInit(): void {
+    this.sevices
       .getLoggedInUser(localStorage.getItem('email') || '')
       .subscribe((user) => {
         if (user.errorCode === null) {
@@ -31,11 +57,10 @@ export class HomepageComponent implements OnInit {
           this.isShow = this.user.email === '' ? false : true;
         }
       });
+    console.log('role', this.sevices.role);
+
     this.showLogo = true;
   }
-  listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
-  news = 'Tin tức';
-  ngOnInit(): void {}
   page() {
     this.showLogo = true;
     this.select = 'page';
@@ -76,6 +101,9 @@ export class HomepageComponent implements OnInit {
         this.sevices.logOut();
         localStorage.removeItem('token');
         localStorage.removeItem('email');
+        localStorage.removeItem('cv');
+        localStorage.removeItem('searchKeyword');
+        localStorage.removeItem('role');
         this.router.navigate(['./homepage/login']);
         this.message.success('Đăng xuất thành công');
         return;

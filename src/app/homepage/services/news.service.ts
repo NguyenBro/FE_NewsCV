@@ -17,6 +17,7 @@ import {
 export class newsService {
   subjects: any;
   userLogin: user = new user();
+  role = '';
   token = '';
   isShowScholarship: boolean = false;
   isShowEvent: boolean = false;
@@ -144,6 +145,19 @@ export class newsService {
     });
     return this.http.post<ResponseObject>(
       `${this.urlPath + '/api/v1/user-by-email/' + email}`,
+      '',
+      { headers: headers }
+    );
+  }
+  getRoleByEmail(email: string): Observable<any> {
+    console.log('token', this.urlPath + '/api/v1/user-by-email/');
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/get-role/' + email}`,
       '',
       { headers: headers }
     );

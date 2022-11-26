@@ -8,8 +8,16 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { RecruitStatisComponent } from './recruit-statis/recruit-statis.component';
 import { StatisticalComponent } from './statistical/statistical.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NewsStatisComponent } from './news-statis/news-statis.component';
+import { CompanyStatisComponent } from './company-statis/company-statis.component';
 @NgModule({
-  declarations: [AdminComponent, RecruitStatisComponent, StatisticalComponent],
+  declarations: [
+    AdminComponent,
+    RecruitStatisComponent,
+    StatisticalComponent,
+    NewsStatisComponent,
+    CompanyStatisComponent,
+  ],
   imports: [
     CommonModule,
     AdminRoutingModule,

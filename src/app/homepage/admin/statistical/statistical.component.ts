@@ -4,6 +4,7 @@ import { CompetenceFramesService } from '../../competence-frames/services/compet
 import { NewsEventService } from '../../news-event/services/news-event.service';
 import { NewsScholarshipService } from '../../news-scholarship/services/news-scholarship.service';
 import { NewsCompetionService } from '../../news/services/news-competion.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-statistical',
@@ -25,7 +26,8 @@ export class StatisticalComponent implements OnInit {
     private serviceEvent: NewsEventService,
     private serviceCompetion: NewsCompetionService,
     private serviceScholarship: NewsScholarshipService,
-    private serviceCompetence: CompetenceFramesService
+    private serviceCompetence: CompetenceFramesService,
+    private serviceAdmin: AdminService
   ) {
     //company
     serviceCompany.getListCompany().subscribe((listCom) => {
@@ -44,6 +46,10 @@ export class StatisticalComponent implements OnInit {
       this.lengthScholarship = listC.data.length;
       this.lengthNews = listC.data.length + this.lengthNews;
     });
+    // serviceAdmin.getInteractiveNews().subscribe((list) => {
+    //   this.lengthNews = list.data.length;
+    //   console.log('job', this.lengthJob);
+    // });
     //job
     serviceCompetence.getListRecruit().subscribe((list) => {
       this.lengthJob = list.data.length;

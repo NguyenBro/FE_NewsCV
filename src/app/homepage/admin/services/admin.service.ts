@@ -7,6 +7,7 @@ import { Candidate, ResponseObject } from '../../model/news.model';
   providedIn: 'root',
 })
 export class AdminService {
+  public typeNews = '';
   public listCandidate: Candidate[] = [];
   private refreshBehavior = new BehaviorSubject<number>(0);
   urlPath = 'https://server-api.newscv.tech';
@@ -26,6 +27,52 @@ export class AdminService {
         this.urlPath + '/api/v1/application/get-candidate-by-company/' + company
       }`,
       '',
+      { headers: headers }
+    );
+  }
+  getInteractiveNews(type?: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/get-interactive-news?type=' + type}`,
+      { headers: headers }
+    );
+  }
+  getScholarshipByStatus(status: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${
+        this.urlPath + '/api/v1/scholarship-news/get-by-status?status=' + status
+      }`,
+      { headers: headers }
+    );
+  }
+  getCompitionByStatus(status: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/contest-news/get-by-status?status=' + status}`,
+      { headers: headers }
+    );
+  }
+  getEventByStatus(status: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/event-news/get-by-status?status=' + status}`,
       { headers: headers }
     );
   }
