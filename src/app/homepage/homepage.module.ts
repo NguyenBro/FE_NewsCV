@@ -14,7 +14,11 @@ import { UiCommonModule } from '../shared/lib/ui-common.module';
 import { LoginComponent } from './login/login.component';
 import { ResignComponent } from './resign/resign.component';
 import { HomepageComponent } from './homepage.component';
-
+import { AdminComponent } from './admin/admin.component';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { newsService } from './services/news.service';
 @NgModule({
   declarations: [
     PageComponent,
@@ -34,6 +38,9 @@ import { HomepageComponent } from './homepage.component';
     CompetenceFrameModule,
     NzRateModule,
     UiCommonModule,
+    NzMenuModule,
+    NzToolTipModule,
+    NzIconModule,
   ],
 })
 export class HomepageModule {}

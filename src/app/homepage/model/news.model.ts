@@ -231,6 +231,7 @@ export class user {
   address: string;
   phone: string;
   gender: string;
+  id: Number;
   facebook: string;
   linkedin: string;
   intro: string;
@@ -247,6 +248,7 @@ export class user {
       this.address = clone.address;
       this.phone = clone.phone;
       this.gender = clone.gender;
+      this.id = clone.id;
       this.facebook = clone.facebook;
       this.linkedin = clone.linkedin;
       this.intro = clone.intro;
@@ -262,6 +264,7 @@ export class user {
       this.address = '';
       this.phone = '';
       this.gender = '';
+      this.id = 0;
       this.facebook = '';
       this.linkedin = '';
       this.intro = '';
@@ -413,6 +416,71 @@ export class Otp {
     } else {
       this.email = '';
       this.otp = '';
+    }
+  }
+}
+export class Application {
+  id: Number;
+  applyTime: string;
+  status: string;
+  intro: string;
+  cv: string;
+  idJob: Number;
+  fullName: string;
+  phone: string;
+  email: string;
+  idUser: Number;
+  constructor(clone?: Application) {
+    if (clone) {
+      this.id = clone.id;
+      this.applyTime = clone.applyTime;
+      this.status = clone.status;
+      this.intro = clone.intro;
+      this.cv = clone.cv;
+      this.idJob = clone.idJob;
+      this.fullName = clone.fullName;
+      this.phone = clone.phone;
+      this.email = clone.email;
+      this.idUser = clone.idUser;
+    } else {
+      this.id = 0;
+      this.applyTime = '';
+      this.status = '';
+      this.intro = '';
+      this.cv = '';
+      this.idJob = 0;
+      this.fullName = '';
+      this.phone = '';
+      this.email = '';
+      this.idUser = 0;
+    }
+  }
+}
+export class Candidate {
+  id: Number;
+  position: string;
+  image: String;
+  startTime: string;
+  endTime: string;
+  numberCandidate: Number;
+  status: String;
+  constructor(clone?: Candidate) {
+    if (clone) {
+      this.id = clone.id;
+      this.position = clone.position;
+      this.image = clone.image;
+      this.startTime = clone.startTime;
+      this.endTime = clone.endTime;
+      this.numberCandidate = clone.numberCandidate;
+      this.status = clone.status;
+    } else {
+      this.id = 0;
+      this.position = '';
+      this.image = '';
+      this.startTime = '';
+      this.endTime = '';
+      this.numberCandidate = 0;
+      this.status = '';
     }
   }
 }

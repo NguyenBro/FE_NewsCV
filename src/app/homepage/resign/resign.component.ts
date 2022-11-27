@@ -20,8 +20,10 @@ export class ResignComponent implements OnInit {
   constructor(
     private service: newsService,
     private message: NzMessageService,
-    private router: Router
+    private router: Router,
+    private homepage: HomepageComponent
   ) {
+    this.homepage.showLogo = true;
     this.isShow = false;
   }
 

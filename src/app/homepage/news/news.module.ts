@@ -28,7 +28,10 @@ import { NewsViewComponent } from './news-view/news-view.component';
 import { NewsRoutingModule } from './news.routing';
 import { NewsEntryComponent } from './news-entry/news-entry.component';
 import { ContainerLayoutWModule } from 'src/app/shared/styles/container-layout-w/container-layout-w.module';
-
+import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 @NgModule({
   declarations: [NewsEntryComponent, NewsViewComponent, NewsFormComponent],
   imports: [
@@ -58,6 +61,10 @@ import { ContainerLayoutWModule } from 'src/app/shared/styles/container-layout-w
     SectionModule,
     UiCommonModule,
     ButtonDropdownModule,
+    NzCommentModule,
+    NzButtonModule,
+    NzListModule,
+    NzAvatarModule,
   ],
 })
 export class NewsModule {}

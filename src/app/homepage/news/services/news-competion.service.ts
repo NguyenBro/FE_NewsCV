@@ -9,7 +9,7 @@ import { competion, ResponseObject } from '../../model/news.model';
 @Injectable({
   providedIn: 'root',
 })
-export class NewsService {
+export class NewsCompetionService {
   public temp = new competion();
   public listviet = listOfVietnamese;
   public conditionDup = false;

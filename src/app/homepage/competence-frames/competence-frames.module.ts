@@ -27,7 +27,12 @@ import { CompetenceFrameFormComponent } from './competence-frame-form/competence
 import { CompetenceFrameViewComponent } from './competence-frame-view/competence-frame-view.component';
 import { CompetenceFrameRoutingModule } from './competence-frame.routing';
 import { CompetenceFramesEntryComponent } from './competence-frames-entry/competence-frames-entry.component';
-
+// import { QuillModule } from 'ngx-quill';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 @NgModule({
   declarations: [
     CompetenceFramesEntryComponent,
@@ -60,6 +65,12 @@ import { CompetenceFramesEntryComponent } from './competence-frames-entry/compet
     SectionModule,
     UiCommonModule,
     ButtonDropdownModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzUploadModule,
+    NzDropDownModule,
+    NzDatePickerModule,
+    // QuillModule.forRoot(),
   ],
 })
 export class CompetenceFrameModule {}

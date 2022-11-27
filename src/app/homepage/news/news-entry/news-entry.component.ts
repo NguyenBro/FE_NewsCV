@@ -7,14 +7,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { NewsService } from '../services/news.service';
-
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
-import { ComFrame } from '../../model/competence-frames.model';
 import { HomepageComponent } from '../../homepage.component';
 import { competion } from '../../model/news.model';
+import { NewsCompetionService } from '../services/news-competion.service';
 
 @Component({
   selector: 'app-news-entry',
@@ -62,7 +60,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private message: NzMessageService,
-    private service: NewsService,
+    private service: NewsCompetionService,
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {

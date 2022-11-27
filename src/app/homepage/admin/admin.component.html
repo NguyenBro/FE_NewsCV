@@ -1,0 +1,59 @@
+<div class="page-header">
+  <div class="wrapper">
+    <button nz-button nzType="primary" (click)="toggleCollapsed()">
+      <span
+        nz-icon
+        class="icon"
+        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+      ></span>
+    </button>
+    <ul
+      nz-menu
+      nzMode="inline"
+      nzTheme="dark"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li
+        *ngIf="!showCompany"
+        class="index"
+        nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Thống kê chung' : ''"
+        nzSelected
+        (click)="statistical()"
+      >
+        <!-- <span nz-icon nzType="step-forward" nzTheme="fill"></span> -->
+        <span *ngIf="!isCollapsed">Thống kê chung</span>
+      </li>
+      <li
+        *ngIf="showCompany"
+        class="index"
+        nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Quản lý tin tuyển dụng' : ''"
+        nzSelected
+        (click)="JobStatis()"
+      >
+        <!-- <span nz-icon nzType="step-forward" nzTheme="fill"></span> -->
+        <span *ngIf="!isCollapsed">Quản lý tin tuyển dụng</span>
+      </li>
+      <li *ngIf="!showCompany" nz-submenu nzTitle="Thống kê" nzIcon="setting">
+        <ul>
+          <li nz-menu-item (click)="RecruitStatis()">Thống kê tuyển dụng</li>
+          <li nz-menu-item>Thống kê công ty</li>
+          <li nz-submenu nzTitle="Thống kê tin tức">
+            <ul>
+              <li nz-menu-item (click)="NewsScholarshipStatis()">Học bổng</li>
+              <li nz-menu-item (click)="NewsCompitionStatis()">Cuộc thi</li>
+              <li nz-menu-item (click)="NewsEventStatis()">Sự kiện</li>
+              <li nz-menu-item (click)="NewsRecruitStatis()">Tuyển dụng</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <router-outlet class="body"></router-outlet>
+</div>

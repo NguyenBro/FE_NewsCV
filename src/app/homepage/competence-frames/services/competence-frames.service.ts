@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { Recruit, ResponseObject } from '../../model/news.model';
+import { Application, Recruit, ResponseObject } from '../../model/news.model';
 import { CompetenceFramesEntryComponent } from '../competence-frames-entry/competence-frames-entry.component';
 
 @Injectable({
@@ -17,7 +17,6 @@ export class CompetenceFramesService {
   public listCom: ComFrame[] = [];
   public recruit = new Recruit();
   public listRecruit: Recruit[] = [];
-  private pending = false;
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
@@ -35,12 +34,22 @@ export class CompetenceFramesService {
     console.log('complet');
     return of(this.listRecruit);
   }
+  applyCv(apply: Application): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
 
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/application'}`,
+      apply,
+      { headers: headers }
+    );
+  }
   async initListPool() {
-    this.pending = true;
     await this.getListRecruit().subscribe((res) => {
       this.listRecruit = res.data;
-      this.pending = false;
     });
   }
 
@@ -55,9 +64,18 @@ export class CompetenceFramesService {
       ''
     );
   }
-  create(newCom: ComFrame) {
-    this.listCom.unshift(newCom);
-    this.refresh();
+  createJobNews(recruit: Recruit) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news'}`,
+      recruit,
+      { headers: headers }
+    );
   }
   update(newCom: ComFrame) {
     this.listCom.forEach((comFrame: ComFrame, idx: number) => {

@@ -2,14 +2,12 @@
   <app-right-side
     [isPrimary]="false"
     [status]="
-      currentComFrame.name !== '' && currentComFrame.name !== undefined
-        ? 'Chỉnh sửa năng lực '
-        : 'Tạo mới năng lực'
+      Recruit.title !== '' && Recruit.title !== undefined
+        ? 'Chỉnh sửa tin tuyển dụng '
+        : 'Tạo mới tin tuyển dụng'
     "
     [sectionName]="
-      currentComFrame.name !== '' && currentComFrame.name !== undefined
-        ? currentComFrame.name
-        : ''
+      Recruit.title !== '' && Recruit.title !== undefined ? Recruit.title : ''
     "
     (cancel)="cancel()"
     (save)="save()"
@@ -20,19 +18,153 @@
       class="body list-section"
       style="height: 100%; padding: 1.5rem"
     >
-      <app-section title="Tên khung năng lực" [collapsible]="false">
+      <app-section title="Tiêu đề tuyển dụng" [collapsible]="false">
         <input
           section-container
-          [(ngModel)]="currentComFrame.name"
-          placeholder="Tên khung năng lực"
+          [(ngModel)]="Recruit.title"
+          placeholder="Tiêu đề"
           class="h-10 p-4 w-full border-mid rounded-lg input-custom"
           style="outline: none"
         />
       </app-section>
+      <app-section title="Thể loại" [collapsible]="false">
+        <div section-container>
+          <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+            {{ selectedCategory === "" ? "Chọn thể loại " : selectedCategory }}
+            <span nz-icon nzType="down"></span>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
+                *ngFor="let item of listCategory"
+                (click)="selectCategory(item)"
+              >
+                {{ item }}
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </app-section>
+      <app-section title="Ảnh sự kiện" [collapsible]="false">
+        <div section-container>
+          <p class="namecard">Chọn ảnh của bạn:</p>
+          <input
+            (change)="chooseCv($event)"
+            placeholder="Upload CV"
+            type="file"
+          />
+        </div>
+      </app-section>
+      <app-section title="Nội dung ngắn gọn" [collapsible]="false">
+        <input
+          section-container
+          [(ngModel)]="Recruit.shortContent"
+          placeholder="Nội dung"
+          class="p-4 w-full border-mid rounded-lg input-custom"
+          style="outline: none"
+        />
+      </app-section>
+      <app-section
+        title="Thông tin sự kiện tuyển dụng của công ty"
+        [collapsible]="false"
+      >
+        <div section-container>
+          <input
+            [(ngModel)]="Recruit.link"
+            placeholder="Link sự kiện"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.location"
+            placeholder="Địa chỉ"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.experience"
+            placeholder="Kinh nghiệm"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.salary"
+            placeholder="Mức lương"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.major"
+            placeholder="Chuyên ngành"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.position"
+            placeholder="Vị trí"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.language"
+            placeholder="Ngôn ngữ"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="Recruit.level"
+            placeholder="Cấp bậc"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <div>
+            Ngày bắt đầu<input
+              type="date"
+              [(ngModel)]="Recruit.startTime"
+              PlaceHolder="Start"
+            />
+          </div>
+          <div>
+            Ngày kết thúc<input
+              type="date"
+              [(ngModel)]="Recruit.endTime"
+              PlaceHolder="Start"
+            />
+          </div>
+          <!-- <nz-date-picker [(ngModel)]="Recruit.endTime"></nz-date-picker>
+          <nz-date-picker
+            [nzDisabledDate]="disabledStartDate"
+            nzFormat="yyyy-MM-dd"
+            [(ngModel)]="Recruit.startTime"
+            nzPlaceHolder="Start"
+            (nzOnOpenChange)="handleStartOpenChange($event)"
+          ></nz-date-picker>
+          <nz-date-picker
+            #endDatePicker
+            [nzDisabledDate]="disabledEndDate"
+            nzFormat="yyyy-MM-dd"
+            [(ngModel)]="Recruit.endTime"
+            nzPlaceHolder="End"
+            (nzOnOpenChange)="handleEndOpenChange($event)"
+          ></nz-date-picker> -->
+        </div>
+      </app-section>
+      <app-section title="Giới thiệu" [collapsible]="false">
+        <textarea
+          section-container
+          [(ngModel)]="Recruit.introduction"
+          class="descriptioninput p-4"
+          nz-input
+          placeholder="Nhập giới thiệu"
+          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        ></textarea>
+        <div class="">Trường không bắt buộc</div>
+      </app-section>
       <app-section title="Mô tả" [collapsible]="false">
         <textarea
           section-container
-          [(ngModel)]="currentComFrame.description"
+          [(ngModel)]="Recruit.description"
           class="descriptioninput p-4"
           nz-input
           placeholder="Nhập mô tả"
@@ -42,76 +174,38 @@
           Trường không bắt buộc
         </div>
       </app-section>
-      <app-section
-        class="flex-auto flex-col"
-        title="Danh sách năng lực mẫu"
-        [collapsible]="false"
-        style="display: flex"
-      >
-        <div
+      <app-section title="Yêu cầu" [collapsible]="false">
+        <textarea
           section-container
-          class="section-content flex-auto"
-          style="height: 100%; display: flex; flex-direction: column"
-        >
-          <div class="competence-search">
-            <div class="input-postfix">
-              <input
-                type="text"
-                placeholder="Tìm kiếm năng lực"
-                (keyup)="search($event)"
-              />
-
-              <span class="icon" nz-icon nzType="svg:search"></span>
-            </div>
-          </div>
-
-          <div cdkDropListGroup class="competence-frame">
-            <div class="competence-frame-item">
-              <div
-                class="competence-list"
-                cdkDropList
-                [cdkDropListData]="todo"
-                (cdkDropListDropped)="drop($event)"
-              >
-                <span
-                  class="tag"
-                  *ngFor="let item of todo"
-                  (click)="add(item)"
-                  cdkDrag
-                >
-                  {{ item }}
-                </span>
-              </div>
-            </div>
-            <div class="competence-frame-item">
-              <div
-                class="absolute flex items-center justify-center inset-0 pointer-events-none text-edit"
-                *ngIf="currentComFrame.competences.length === 0"
-              >
-                Kéo thả các năng lực bên trái vào đây<br />để thêm năng lực và
-                ngược lại
-              </div>
-              <div
-                class="competence-list chosen"
-                cdkDropList
-                [cdkDropListData]="currentComFrame.competences"
-                (cdkDropListDropped)="drop($event)"
-              >
-                <span
-                  class="tag"
-                  *ngFor="
-                    let item1 of currentComFrame.competences;
-                    index as idx
-                  "
-                  (click)="remove(item1)"
-                  cdkDrag
-                >
-                  {{ item1 }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+          [(ngModel)]="Recruit.requirement"
+          class="descriptioninput p-4"
+          nz-input
+          placeholder="Nhập yêu cầu"
+          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        ></textarea>
+        <div class="">Trường không bắt buộc</div>
+      </app-section>
+      <app-section title="Đãi ngộ" [collapsible]="false">
+        <textarea
+          section-container
+          [(ngModel)]="Recruit.treatment"
+          class="descriptioninput p-4"
+          nz-input
+          placeholder="Nhập đãi ngộ"
+          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        ></textarea>
+        <div class="">Trường không bắt buộc</div>
+      </app-section>
+      <app-section title="Liên hệ" [collapsible]="false">
+        <textarea
+          section-container
+          [(ngModel)]="Recruit.contact"
+          class="descriptioninput p-4"
+          nz-input
+          placeholder="Nhập liên hệ"
+          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        ></textarea>
+        <div class="">Trường không bắt buộc</div>
       </app-section>
     </div>
   </app-right-side>

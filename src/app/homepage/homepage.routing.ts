@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from './admin/admin.component';
 import { HomepageComponent } from './homepage.component';
 import { InfomationComponent } from './infomation/infomation.component';
 import { LoginComponent } from './login/login.component';
@@ -28,6 +29,11 @@ import { ResignComponent } from './resign/resign.component';
           {
             path: 'infomation',
             component: InfomationComponent,
+          },
+          {
+            path: 'administration',
+            loadChildren: () =>
+              import('./admin/admin.module').then((m) => m.AdminModule),
           },
           {
             path: 'competence-frames',

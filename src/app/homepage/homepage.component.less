@@ -7,6 +7,7 @@
   flex-direction: column;
   // height: auto;
   &-header {
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     background-color: @green;
@@ -15,10 +16,10 @@
     left: 0;
     right: 0;
     .barright {
-      gap: 5px;
+      gap: 10px;
       display: flex;
       flex-direction: row;
-      padding: 10px;
+      height: 54px;
       &-item {
         color: @white;
         .text-style-bold(7);
@@ -32,10 +33,10 @@
       }
     }
     .bar {
-      gap: 5px;
+      gap: 10px;
       display: flex;
       flex-direction: row;
-      padding: 10px;
+      height: 54px;
       &-item {
         color: @white;
         .text-style-bold(7);
@@ -134,4 +135,9 @@
       flex: 0 1 calc(600% / 10);
     }
   }
+}
+.select {
+  // background-color: white !important;
+  // color: @primary-1 !important;
+  border-bottom: 5px solid white !important;
 }

@@ -1,0 +1,59 @@
+<div class="all">
+  <div class="left">
+    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="drop">
+      {{ selectedCompany === "" ? "Chọn công ty " : selectedCompany }}
+
+      <span nz-icon nzType="down"></span>
+    </a>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li
+          nz-menu-item
+          *ngFor="let item of listNameCompany"
+          (click)="select(item)"
+        >
+          {{ item }}
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <div class="title">
+      danh sách tuyển dụng của công ty {{ selectedCompany }}
+    </div>
+    <div *ngFor="let candidate of listCom$ | async" class="list">
+      <div
+        class="item"
+        (click)="onSelected(candidate)"
+        [class.selected]="candidate === selectedJob"
+      >
+        <div class="divimage">
+          <img class="image" [src]="candidate.image" />
+        </div>
+        <div class="content">
+          <div>vị trí: {{ candidate.position }}</div>
+          <div>Số hồ sơ ứng tuyển: {{ candidate.numberCandidate }}</div>
+          <div>
+            Thời hạn: {{ candidate.startTime }} đến {{ candidate.endTime }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right" *ngIf="showRight">
+    <div>Danh sách ứng viên</div>
+    <div *ngFor="let apply of listApply" class="list">
+      <div class="item">
+        <div class="divimage">
+          <a [href]="apply.cv" height="100px" width="100px">link CV</a>
+        </div>
+        <div class="content">
+          <div>Tên: {{ apply.fullName }}</div>
+          <div>Số điện thoại: {{ apply.phone }}</div>
+          <div>Email: {{ apply.email }}</div>
+          <div>Giới thiệu: {{ apply.intro }}</div>
+          <div>Trạng thái CV: {{ apply.status }}</div>
+          <div>Thời gian ứng tuyển: {{ apply.applyTime }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

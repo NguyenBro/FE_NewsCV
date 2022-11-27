@@ -12,6 +12,7 @@ import { SharedModule } from './shared/styles/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HomepageModule } from './homepage/homepage.module';
+import { newsService } from './homepage/services/news.service';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,7 +25,7 @@ import { HomepageModule } from './homepage/homepage.module';
     HttpClientModule,
     HomepageModule,
   ],
-  providers: [],
+  providers: [newsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

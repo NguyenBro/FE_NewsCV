@@ -13,12 +13,15 @@
 
   <div class="page-header">
     <div class="bar">
-      <div (click)="page()">
-        <span nz-icon nzType="svg:home" eIconSize="1.25rem"></span>
-      </div>
-      <div>
-        <button class="bar-item" (click)="page()">Trang chủ</button>
-      </div>
+      <button
+        class="bar-item ml-6 flex items-center"
+        (click)="page()"
+        [ngClass]="select === 'page' ? 'select' : ''"
+      >
+        <div nz-icon nzType="svg:home" eIconSize="1.25rem"></div>
+        <div class="bar-item">Trang chủ</div>
+      </button>
+
       <div class="bar-setting">
         <ng-template #title>
           <span class="bar-item"> {{ news }}</span></ng-template
@@ -30,25 +33,58 @@
         ></ehiring-dropdown>
       </div>
 
-      <button class="bar-item" (click)="recruit()">Tuyển dụng</button>
+      <button
+        class="bar-item"
+        (click)="recruit()"
+        [ngClass]="select === 'recruit' ? 'select' : ''"
+      >
+        Tuyển dụng
+      </button>
 
-      <button class="bar-item" (click)="company()">Công ty</button>
+      <button
+        class="bar-item"
+        (click)="company()"
+        [ngClass]="select === 'company' ? 'select' : ''"
+      >
+        Công ty
+      </button>
+      <button
+        *ngIf="showQt"
+        class="bar-item"
+        (click)="admin()"
+        [ngClass]="select === 'admin' ? 'select' : ''"
+      >
+        Quản trị
+      </button>
     </div>
     <div class="barright">
-      <button class="barright-item" (click)="login()" *ngIf="!isShow">
+      <button
+        class="barright-item"
+        (click)="login()"
+        *ngIf="!isShow"
+        [ngClass]="select === 'login' ? 'select' : ''"
+      >
         Đăng nhập
       </button>
 
-      <button class="barright-item" (click)="resign()" *ngIf="!isShow">
+      <button
+        class="barright-item mr-6"
+        (click)="resign()"
+        *ngIf="!isShow"
+        [ngClass]="select === 'resign' ? 'select' : ''"
+      >
         Đăng ký
       </button>
-      <div (click)="info()" *ngIf="isShow">
-        <span nz-icon nzType="svg:user-white"></span>
-      </div>
-      <button class="barright-item" (click)="info()" *ngIf="isShow">
-        {{ user.name }}
+      <button
+        class="barright-item flex items-center"
+        (click)="info()"
+        *ngIf="isShow"
+        [ngClass]="select === 'info' ? 'select' : ''"
+      >
+        <div nz-icon nzType="svg:user-white"></div>
+        <div class="barright-item">{{ user.name }}</div>
       </button>
-      <button class="barright-item" (click)="logout()" *ngIf="isShow">
+      <button class="barright-item mr-6" (click)="logout()" *ngIf="isShow">
         Đăng xuất
       </button>
     </div>

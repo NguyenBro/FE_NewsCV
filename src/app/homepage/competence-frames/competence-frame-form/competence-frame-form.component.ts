@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import {
   CdkDragDrop,
@@ -13,72 +13,67 @@ import { map, mergeMap, tap } from 'rxjs';
 import { CompetenceFramesEntryComponent } from '../competence-frames-entry/competence-frames-entry.component';
 import { CompetenceFramesService } from '../services/competence-frames.service';
 import { ComFrame } from '../../model/competence-frames.model';
-
+import { Recruit, ResponseObject, user } from '../../model/news.model';
+import { newsService } from '../../services/news.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 @Component({
   selector: 'app-competence-frame-form',
   templateUrl: './competence-frame-form.component.html',
   styleUrls: ['./competence-frame-form.component.less'],
 })
 export class CompetenceFrameFormComponent {
+  user: user = new user();
+  selectedCategory = '';
+  listCategory = [
+    'Blockchain',
+    'Website',
+    'Phần Mềm',
+    'Tester',
+    'Mobile',
+    'Điện Toán Đám Mây',
+  ];
+
+  startValue: Date | null = null;
+  endValue: Date | null = null;
+  @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
+
   public isEmptyName = false;
   public isVisibleModal = false;
-  public currentComFrame: ComFrame = new ComFrame();
+  public Recruit: Recruit = new Recruit();
   filterList: string[] = [];
   public id = '';
-  todo = [
-    'Chưa có gia đình',
-    'Năng động',
-    'Sáng tạo',
-    'Khả năng làm việc nhóm',
-    'Bằng cấp',
-    'Kinh nghiệm',
-    'Tỉ mỉ',
-    'Tính toán',
-    'Nhiệt huyết',
-  ];
-  todo1 = this.todo;
-  nodone: string[] = [];
+
   public comFrame$ = this.route.params.pipe(
     map((p) => p['comFrameId']),
-    mergeMap((p) => this.service.getComFrameInfo(p)),
-    tap(
-      (comFrame) =>
-        (this.currentComFrame = new ComFrame(comFrame) || new ComFrame())
-    )
+    mergeMap((p) => this.service.getRecruitInfo(p)),
+    tap((comFrame) => (this.Recruit = new Recruit(comFrame) || new Recruit()))
   );
+
+  urlPath = 'https://server-api.newscv.tech';
   constructor(
     private readonly service: CompetenceFramesService,
     private message: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private competenceFrameCom: CompetenceFramesEntryComponent
+    private serviceNews: newsService,
+    private competenceFrameCom: CompetenceFramesEntryComponent,
+    private http: HttpClient
   ) {
     this.comFrame$.subscribe();
+    serviceNews
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+          console.log('user1131', this.user);
+        }
+      });
   }
-
-  enteredToDo(event: CdkDragEnter) {
-    moveItemInArray(this.todo, event.item.data, event.container.data);
+  selectCategory(item: string) {
+    this.selectedCategory = item;
+    this.Recruit.codeCategory = this.selectedCategory;
   }
-
-  enteredDone(event: CdkDragEnter) {
-    moveItemInArray(
-      this.currentComFrame.competences,
-      event.item.data,
-      event.container.data
-    );
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    if (!(event.previousContainer === event.container)) {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-  }
-
   showModal(): void {
     this.isVisibleModal = true;
   }
@@ -88,58 +83,83 @@ export class CompetenceFrameFormComponent {
     this.competenceFrameCom.isDetailShown = false;
   }
   public save() {
-    if (
-      this.currentComFrame.name != '' &&
-      this.currentComFrame.competences != this.nodone
-    ) {
+    if (this.Recruit.title != '') {
       if (this.id !== '' && this.id !== undefined) {
-        this.service.update(this.currentComFrame);
+        // this.service.update(this.currentComFrame);
         this.message.success('Chỉnh sửa thành công');
       } else {
-        this.currentComFrame.id = this.service.getRandomId();
-        this.service.create(this.currentComFrame);
+        console.log('recruit', this.Recruit);
+        this.Recruit.type = 'tuyen-dung';
+
+        this.Recruit.userId = Number(this.user.id);
+        this.Recruit.companyCode = 'fujinet';
+        // this.Recruit.startTime = '2019-01-16';
+        // this.Recruit.endTime = '2019-01-16';
+        console.log('recruit', this.Recruit);
+
+        this.service.createJobNews(this.Recruit).subscribe();
         this.message.success('Thêm thành công');
       }
 
-      this.competenceFrameCom.getPageList(0, true);
-      this.service.comframe = this.currentComFrame;
-      this.router.navigate([
-        '.homepage/competence-frames/' + this.currentComFrame.id,
-      ]);
+      // this.competenceFrameCom.getPageList(0, true);//loi dong nay
+      // this.service.recruit = this.Recruit;
+      // this.router.navigate([
+      //   '.homepage/competence-frames/' + this.Recruit.code,
+      // ]);
       // this.cancel();
-    } else if (this.currentComFrame.name === '') {
+    } else if (this.Recruit.title === '') {
       this.message.error('Vui lòng nhập tên bộ khung năng lực!', {
         nzDuration: 3000,
       });
-    } else if (this.currentComFrame.competences === this.nodone) {
-      this.message.error(
-        'Vui lòng thêm ít nhất 1 năng lực cho bộ khung năng lực!',
-        {
-          nzDuration: 3000,
-        }
-      );
     }
   }
-  public add(item: string) {
-    this.currentComFrame.competences.push(item);
-    this.todo.splice(this.todo.indexOf(item), 1);
-  }
-  public remove(item: string) {
-    this.todo.push(item);
-    this.currentComFrame.competences.splice(
-      this.currentComFrame.competences.indexOf(item),
-      1
-    );
-  }
-  search(event: Event) {
-    if (event.target) {
-      const element = event.target as HTMLInputElement;
-      const searchText = element.value;
-      this.filter(searchText);
-      console.log(searchText);
+  chooseCv(event: any) {
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData = new FormData();
+      formData.append('file', file);
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      });
 
-      // this.addFilter(searchText);
+      this.http
+        .post<ResponseObject>(
+          `${this.urlPath + '/api/v1/imageFirebase'}`,
+          formData,
+          {
+            headers: headers,
+          }
+        )
+        .subscribe((res) => {
+          console.log('fileasdasd', res.data);
+          this.Recruit.thumbnail = res.data;
+        });
     }
+  }
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.endValue) {
+      return false;
+    }
+    return startValue.getTime() > this.endValue.getTime();
+  };
+
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.startValue) {
+      return false;
+    }
+    return endValue.getTime() <= this.startValue.getTime();
+  };
+
+  handleStartOpenChange(open: boolean): void {
+    if (!open) {
+      this.endDatePicker.open();
+    }
+    console.log('handleStartOpenChange', open);
+  }
+
+  handleEndOpenChange(open: boolean): void {
+    console.log('handleEndOpenChange', open);
   }
   require(event: Event) {
     if (event.target) {
@@ -152,46 +172,4 @@ export class CompetenceFrameFormComponent {
       }
     }
   }
-  filter(searchText: string) {
-    console.log(this.todo1);
-    if (searchText.length === 0) this.todo = this.todo1;
-    if (this.service.checkVietnames(searchText)) {
-      this.todo = this.todo1.filter(
-        (item) =>
-          //if vietnam accent
-          //checkVietnam (searchText) true
-
-          item.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
-        //else
-        //convertVietnames(item.title).include()
-      );
-    } else {
-      this.todo = this.todo1.filter(
-        (item) =>
-          //if vietnam accent
-          //checkVietnam (searchText) true
-
-          this.service
-            .toLowerCaseNonAccentVietnamese(item)
-            .includes(searchText.toLocaleLowerCase())
-        //else
-        //convertVietnames(item.title).include()
-      );
-    }
-
-    console.log(this.todo);
-  }
-  // addFilter(filterText: string) {
-  //   if (
-  //     !this.filterList.some(
-  //       (x) => x.toLowerCase() == filterText.toLowerCase()
-  //     ) &&
-  //     filterText.length > 0
-  //   ) {
-  //     this.filterList.push(filterText);
-  //     console.log(this.filterList);
-  //     this.saveSearchKeyword(filterText);
-  //     this.getPageList(0, true);
-  //   }
-  // }
 }

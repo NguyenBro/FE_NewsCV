@@ -1,0 +1,50 @@
+<div class="all">
+  <div class="left">
+    <div class="mb-8">
+      <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="drop">
+        {{ selectedStatus === "" ? "Chọn trạng thái " : selectedStatus }}
+
+        <span nz-icon nzType="down"></span>
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-menu-item
+            *ngFor="let item of listNameStatus"
+            (click)="select(item)"
+          >
+            {{ item }}
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+    <div *ngFor="let candidate of listCom$ | async" class="list">
+      <div class="item">
+        <div class="divimage">
+          <img class="image" [src]="candidate.thumbnail" />
+        </div>
+        <div class="content">
+          <div>
+            <div>Tiêu đề: {{ candidate.title }}</div>
+            <div>Trạng thái: {{ candidate.status }}</div>
+            <div>Lượt thích: {{ candidate.numLike }}</div>
+          </div>
+          <div>
+            <div>
+              link:
+              <a [href]="candidate.link" height="100px" width="100px">{{
+                candidate.link
+              }}</a>
+            </div>
+            <div>Lượt xem: {{ candidate.numView }}</div>
+            <div>Lượt không thích: {{ candidate.numDisLike }}</div>
+          </div>
+          <div>
+            <div>Lượt chia sẽ: {{ candidate.numShare }}</div>
+            <div>Lượt lưu: {{ candidate.numSave }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
