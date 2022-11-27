@@ -1,5 +1,14 @@
 <div class="body">
-  <div class="bodytop">
+  <div *ngIf="load">
+    <nz-spin nzTip="Loading...">
+      <nz-alert
+        nzType="info"
+        nzMessage="Đang load dữ liệu"
+        nzDescription="Phát lồn"
+      ></nz-alert>
+    </nz-spin>
+  </div>
+  <div class="bodytop" *ngIf="!load">
     <div class="bodytop-item">
       <div class="news">
         <span class="font-semibold text-4xl">Tin tức</span>

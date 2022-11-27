@@ -17,7 +17,7 @@ import { newsService } from './services/news.service';
   styleUrls: ['./homepage.component.less'],
 })
 export class HomepageComponent implements OnInit {
-  showQt = false;
+  showQt: boolean;
   public isShow = false;
   select = '';
   showLogo = true;
@@ -88,7 +88,11 @@ export class HomepageComponent implements OnInit {
   }
   admin() {
     this.select = 'admin';
-    this.router.navigate(['./homepage/administration/Statistical']);
+    if (localStorage.getItem('role') === 'ADMIN') {
+      this.router.navigate(['./homepage/administration/Statistical']);
+    } else {
+      this.router.navigate(['./homepage/administration/JobStatis']);
+    }
   }
   logout() {
     this.select = '';
@@ -103,7 +107,7 @@ export class HomepageComponent implements OnInit {
         localStorage.removeItem('email');
         localStorage.removeItem('cv');
         localStorage.removeItem('searchKeyword');
-        localStorage.removeItem('role');
+        localStorage.removeItem('role'); //cần chỉnh
         this.router.navigate(['./homepage/login']);
         this.message.success('Đăng xuất thành công');
         return;

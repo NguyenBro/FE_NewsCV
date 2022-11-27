@@ -12,6 +12,7 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./statistical.component.less'],
 })
 export class StatisticalComponent implements OnInit {
+  load = true;
   //Company
   lengthCompany: Number = new Number();
   //news
@@ -29,20 +30,23 @@ export class StatisticalComponent implements OnInit {
     private serviceCompetence: CompetenceFramesService,
     private serviceAdmin: AdminService
   ) {
+    this.loadData();
+  }
+  async loadData() {
     //company
-    serviceCompany.getListCompany().subscribe((listCom) => {
+    this.serviceCompany.getListCompany().subscribe((listCom) => {
       this.lengthCompany = listCom.data.length;
     });
     //news
-    serviceEvent.getListEvent().subscribe((lista) => {
+    this.serviceEvent.getListEvent().subscribe((lista) => {
       this.lengthEvent = lista.data.length;
       this.lengthNews = lista.data.length + this.lengthNews;
     });
-    serviceCompetion.getListCompetion().subscribe((listb) => {
+    this.serviceCompetion.getListCompetion().subscribe((listb) => {
       this.lengthCompetion = listb.data.length;
       this.lengthNews = listb.data.length + this.lengthNews;
     });
-    serviceScholarship.getListScholarship().subscribe((listC) => {
+    this.serviceScholarship.getListScholarship().subscribe((listC) => {
       this.lengthScholarship = listC.data.length;
       this.lengthNews = listC.data.length + this.lengthNews;
     });
@@ -51,11 +55,10 @@ export class StatisticalComponent implements OnInit {
     //   console.log('job', this.lengthJob);
     // });
     //job
-    serviceCompetence.getListRecruit().subscribe((list) => {
+    await this.serviceCompetence.getListRecruit().subscribe((list) => {
       this.lengthJob = list.data.length;
-      console.log('job', this.lengthJob);
+      this.load = false;
     });
   }
-
   ngOnInit(): void {}
 }

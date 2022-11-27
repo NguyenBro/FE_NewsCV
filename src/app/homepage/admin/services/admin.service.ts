@@ -88,6 +88,17 @@ export class AdminService {
       { headers: headers }
     );
   }
+  getJobByStatus(status: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news/get-by-status?status=' + status}`,
+      { headers: headers }
+    );
+  }
   public getListOfCandidate(company: string) {
     this.getCandidateByCompany(company).subscribe((res) => {
       this.listCandidate = res.data;

@@ -31,6 +31,8 @@ import { CompetenceFramesEntryComponent } from './competence-frames-entry/compet
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 @NgModule({
   declarations: [
     CompetenceFramesEntryComponent,
@@ -66,6 +68,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzButtonModule,
     NzSpaceModule,
     NzUploadModule,
+    NzDropDownModule,
+    NzDatePickerModule,
     // QuillModule.forRoot(),
   ],
 })

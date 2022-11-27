@@ -5,6 +5,7 @@ import { AdminComponent } from './admin.component';
 import { RecruitStatisComponent } from './recruit-statis/recruit-statis.component';
 import { StatisticalComponent } from './statistical/statistical.component';
 import { NewsStatisComponent } from './news-statis/news-statis.component';
+import { JobStatisComponent } from './job-statis/job-statis.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,14 @@ import { NewsStatisComponent } from './news-statis/news-statis.component';
           {
             path: 'NewsEventStatis',
             component: NewsStatisComponent,
+          },
+          {
+            path: 'NewsJobStatis',
+            component: NewsStatisComponent,
+          },
+          {
+            path: 'JobStatis',
+            component: JobStatisComponent,
           },
         ],
       },

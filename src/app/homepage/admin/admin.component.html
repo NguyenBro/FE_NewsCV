@@ -14,6 +14,7 @@
       [nzInlineCollapsed]="isCollapsed"
     >
       <li
+        *ngIf="!showCompany"
         class="index"
         nz-menu-item
         nz-tooltip
@@ -25,7 +26,20 @@
         <!-- <span nz-icon nzType="step-forward" nzTheme="fill"></span> -->
         <span *ngIf="!isCollapsed">Thống kê chung</span>
       </li>
-      <li nz-submenu nzTitle="Thống kê" nzIcon="setting">
+      <li
+        *ngIf="showCompany"
+        class="index"
+        nz-menu-item
+        nz-tooltip
+        nzTooltipPlacement="right"
+        [nzTooltipTitle]="isCollapsed ? 'Quản lý tin tuyển dụng' : ''"
+        nzSelected
+        (click)="JobStatis()"
+      >
+        <!-- <span nz-icon nzType="step-forward" nzTheme="fill"></span> -->
+        <span *ngIf="!isCollapsed">Quản lý tin tuyển dụng</span>
+      </li>
+      <li *ngIf="!showCompany" nz-submenu nzTitle="Thống kê" nzIcon="setting">
         <ul>
           <li nz-menu-item (click)="RecruitStatis()">Thống kê tuyển dụng</li>
           <li nz-menu-item>Thống kê công ty</li>
@@ -34,15 +48,9 @@
               <li nz-menu-item (click)="NewsScholarshipStatis()">Học bổng</li>
               <li nz-menu-item (click)="NewsCompitionStatis()">Cuộc thi</li>
               <li nz-menu-item (click)="NewsEventStatis()">Sự kiện</li>
+              <li nz-menu-item (click)="NewsRecruitStatis()">Tuyển dụng</li>
             </ul>
           </li>
-        </ul>
-      </li>
-      <li nz-submenu nzTitle="Navigation Three" nzIcon="setting">
-        <ul>
-          <li nz-menu-item>Option 9</li>
-          <li nz-menu-item>Option 10</li>
-          <li nz-menu-item>Option 11</li>
         </ul>
       </li>
     </ul>

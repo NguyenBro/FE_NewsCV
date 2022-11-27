@@ -64,9 +64,18 @@ export class CompetenceFramesService {
       ''
     );
   }
-  create(newCom: ComFrame) {
-    this.listCom.unshift(newCom);
-    this.refresh();
+  createJobNews(recruit: Recruit) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news'}`,
+      recruit,
+      { headers: headers }
+    );
   }
   update(newCom: ComFrame) {
     this.listCom.forEach((comFrame: ComFrame, idx: number) => {

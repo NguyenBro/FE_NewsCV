@@ -10,12 +10,17 @@ import { AdminService } from './services/admin.service';
 })
 export class AdminComponent implements OnInit {
   isCollapsed = false;
-
+  showCompany: boolean;
   constructor(
     private router: Router,
     private homepage: HomepageComponent,
     private service: AdminService
   ) {
+    if (localStorage.getItem('role') === 'COMPANY') {
+      this.showCompany = true;
+    } else {
+      this.showCompany = false;
+    }
     this.homepage.showLogo = true;
   }
 
@@ -25,6 +30,9 @@ export class AdminComponent implements OnInit {
   }
   statistical() {
     this.router.navigate(['./homepage/administration/Statistical']);
+  }
+  JobStatis() {
+    this.router.navigate(['./homepage/administration/JobStatis']);
   }
   RecruitStatis() {
     this.router.navigate(['./homepage/administration/RecruitStatis']);
@@ -40,5 +48,9 @@ export class AdminComponent implements OnInit {
   NewsEventStatis() {
     this.service.typeNews = 'su-kien';
     this.router.navigate(['./homepage/administration/NewsEventStatis']);
+  }
+  NewsRecruitStatis() {
+    this.service.typeNews = 'tuyen-dung';
+    this.router.navigate(['./homepage/administration/NewsJobStatis']);
   }
 }

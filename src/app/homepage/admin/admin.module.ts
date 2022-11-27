@@ -10,6 +10,9 @@ import { StatisticalComponent } from './statistical/statistical.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NewsStatisComponent } from './news-statis/news-statis.component';
 import { CompanyStatisComponent } from './company-statis/company-statis.component';
+import { JobStatisComponent } from './job-statis/job-statis.component';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -17,6 +20,7 @@ import { CompanyStatisComponent } from './company-statis/company-statis.componen
     StatisticalComponent,
     NewsStatisComponent,
     CompanyStatisComponent,
+    JobStatisComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +29,8 @@ import { CompanyStatisComponent } from './company-statis/company-statis.componen
     NzToolTipModule,
     NzIconModule,
     NzDropDownModule,
+    NzSpinModule,
+    NzAlertModule,
   ],
 })
 export class AdminModule {}

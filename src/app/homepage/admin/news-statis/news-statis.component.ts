@@ -77,9 +77,26 @@ export class NewsStatisComponent implements OnInit {
               .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
           )
         );
-      } else {
+      } else if (this.services.typeNews === 'su-kien') {
         this.listNews$ = this.services
           .getEventByStatus('Done')
+          .pipe(map((data) => data.data));
+        this.listCom$ = combineLatest({
+          listOfCompetences: this.listNews$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences
+              // .filter((competence) => this.isSearchCompetence(competence, searches))
+              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          )
+        );
+      } else {
+        this.listNews$ = this.services
+          .getJobByStatus('Done')
           .pipe(map((data) => data.data));
         this.listCom$ = combineLatest({
           listOfCompetences: this.listNews$,
@@ -131,9 +148,26 @@ export class NewsStatisComponent implements OnInit {
               .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
           )
         );
-      } else {
+      } else if (this.services.typeNews === 'su-kien') {
         this.listNews$ = this.services
           .getEventByStatus('Cancel')
+          .pipe(map((data) => data.data));
+        this.listCom$ = combineLatest({
+          listOfCompetences: this.listNews$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences
+              // .filter((competence) => this.isSearchCompetence(competence, searches))
+              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          )
+        );
+      } else {
+        this.listNews$ = this.services
+          .getJobByStatus('Cancel')
           .pipe(map((data) => data.data));
         this.listCom$ = combineLatest({
           listOfCompetences: this.listNews$,
@@ -185,9 +219,26 @@ export class NewsStatisComponent implements OnInit {
               .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
           )
         );
-      } else {
+      } else if (this.services.typeNews === 'su-kien') {
         this.listNews$ = this.services
           .getEventByStatus('Waiting')
+          .pipe(map((data) => data.data));
+        this.listCom$ = combineLatest({
+          listOfCompetences: this.listNews$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences
+              // .filter((competence) => this.isSearchCompetence(competence, searches))
+              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          )
+        );
+      } else {
+        this.listNews$ = this.services
+          .getJobByStatus('Waiting')
           .pipe(map((data) => data.data));
         this.listCom$ = combineLatest({
           listOfCompetences: this.listNews$,
