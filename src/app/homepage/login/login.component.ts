@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
   ) {
     homepagecom.isShow = false;
     this.homepagecom.showLogo = true;
+    this.homepagecom.load = true;
+    this.homepagecom.loadData();
   }
 
   ngOnInit(): void {}
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
         this.message.success('Đăng nhập thất bại');
       } else {
         this.message.success('Đăng nhập thành công');
+
         localStorage.setItem('token', this.service.token);
         localStorage.setItem('email', this.user.email);
         this.service.getLoggedInUser(this.user.email).subscribe((user) => {

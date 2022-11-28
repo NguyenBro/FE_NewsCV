@@ -24,6 +24,7 @@ import { HomepageComponent } from '../../homepage.component';
 export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
+  showQt: boolean;
   public list: Recruit[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -67,6 +68,15 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   ) {
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
+    this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

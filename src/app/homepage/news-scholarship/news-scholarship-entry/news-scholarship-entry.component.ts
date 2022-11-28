@@ -11,7 +11,14 @@ import { NewsScholarshipService } from '../services/news-scholarship.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { HomepageComponent } from '../../homepage.component';
 import { competion, scholarship } from '../../model/news.model';
 
@@ -21,6 +28,8 @@ import { competion, scholarship } from '../../model/news.model';
   styleUrls: ['./news-scholarship-entry.component.less'],
 })
 export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
+  showQt: boolean;
+  load = false;
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   flex = false;
@@ -43,6 +52,7 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
+
   private rawListCom$ = this.service.getListOfCompetences();
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
@@ -67,7 +77,36 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   ) {
     homepage.showLogo = false;
     this.flex = false;
+    console.log('load1', this.load);
+    // this.loadData();
+
     this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
+  }
+  loadData() {
+    this.rawListCom$ = this.service.getListOfCompetences();
+    this.listCom$ = combineLatest({
+      listOfCompetences: this.rawListCom$,
+      pageIndex: this.pageIndex$,
+      pageSize: this.pageSize$,
+      searches: this.listOfSearches$,
+      refresh: this.refreshBehavior$,
+    }).pipe(
+      map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        listOfCompetences
+          .filter((competence) => {
+            this.isSearchCompetence(competence, searches);
+          })
+          .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      )
+    );
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

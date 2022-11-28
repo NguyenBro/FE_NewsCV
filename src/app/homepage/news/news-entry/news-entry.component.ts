@@ -22,6 +22,7 @@ import { NewsCompetionService } from '../services/news-competion.service';
 export class NewsEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
+  showQt: boolean;
   flex = false;
   public list: competion[] = [];
   isDetailShown = false;
@@ -67,6 +68,15 @@ export class NewsEntryComponent implements OnInit, OnDestroy {
     homepage.showLogo = false;
     this.flex = false;
     this.getPageList(this.currentPage);
+    this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

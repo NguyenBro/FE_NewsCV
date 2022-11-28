@@ -24,6 +24,7 @@ import { event } from '../../model/news.model';
 export class NewsEventEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
+  showQt: boolean;
   flex = false;
   public list: event[] = [];
   isDetailShown = false;
@@ -69,6 +70,15 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     homepage.showLogo = false;
     this.flex = false;
     this.getPageList(this.currentPage);
+    this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

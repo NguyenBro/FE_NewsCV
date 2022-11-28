@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -13,7 +13,6 @@ export class NewsScholarshipService {
   public temp = new competion();
   public listviet = listOfVietnamese;
   public conditionDup = false;
-  public comframe = new ComFrame();
   public listCom: ComFrame[] = [];
   public scholarship = new scholarship();
   public listScholarship: scholarship[] = [];
@@ -51,6 +50,17 @@ export class NewsScholarshipService {
     return this.http.post<ResponseObject>(
       `${this.urlPath + '/api/v1/company/get-by-code/' + code}`,
       ''
+    );
+  }
+  addScholarshipNews(scho: scholarship) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/scholarship-news'}`,
+      scho,
+      { headers: headers }
     );
   }
   create(newCom: ComFrame) {
@@ -91,7 +101,7 @@ export class NewsScholarshipService {
     }
     return of(this.listCom.find((item) => item.id === id));
   }
-  public getCompetionInfo(id?: string): Observable<scholarship | undefined> {
+  public getScholarshipInfo(id?: string): Observable<scholarship | undefined> {
     if (!id) {
       return of(new scholarship());
     }

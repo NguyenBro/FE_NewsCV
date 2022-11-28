@@ -1,6 +1,15 @@
 <!-- <div class="layout" [ngClass]="{ 'layout-minimized': isDetailShown }">
   <div class="layout-header"> -->
-<div class="all">
+<div *ngIf="load">
+  <nz-spin nzTip="Loading...">
+    <nz-alert
+      nzType="info"
+      nzMessage="Đang load dữ liệu"
+      nzDescription=""
+    ></nz-alert>
+  </nz-spin>
+</div>
+<div class="all" *ngIf="!load">
   <ng-template #leftHeader>
     <div class="list-tag headersearch">
       <div class="headersearch-title2">Học bổng</div>
@@ -45,7 +54,11 @@
         </div>
       </app-button-dropdown>
 
-      <button class="button-secondary" (click)="createCompetenceFrame()">
+      <button
+        *ngIf="showQt"
+        class="button-secondary"
+        (click)="createCompetenceFrame()"
+      >
         <span nz-icon nzType="svg:plus-small"> </span>
       </button>
     </div>
@@ -100,6 +113,13 @@
                     </span>
                     {{ test.location }}
                   </div>
+                  <div class="tag mr-2 mb-2 tag1">
+                    <span class="icon mr-4" nz-icon nzType="svg:like"> </span>
+                    <span class="icon mr-16" nz-icon nzType="svg:dislike">
+                    </span>
+                    <span class="icon mr-16" nz-icon nzType="svg:share"> </span>
+                    <span class="icon" nz-icon nzType="svg:save"> </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -130,9 +150,6 @@
       ></app-footer>
     </div>
   </ng-template>
-  <!-- </div> -->
-
-  <!-- <div class="layout-body-left-footer"> -->
   <ng-template #leftFooter>
     <div *ngIf="!isDetailShown">Tổng số khung năng lực : {{ listLength }}</div>
   </ng-template>
@@ -143,8 +160,6 @@
       (deactivate)="onDeactivate()"
     ></router-outlet>
   </ng-template>
-  <!-- </div>
-</div> -->
 
   <app-container-layout-w
     [rightHeader]="rightHeader"

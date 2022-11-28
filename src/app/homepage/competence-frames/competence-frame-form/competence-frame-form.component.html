@@ -69,7 +69,7 @@
         title="Thông tin sự kiện tuyển dụng của công ty"
         [collapsible]="false"
       >
-        <div section-container>
+        <div section-container class="flex flex-col gap-4">
           <input
             [(ngModel)]="Recruit.link"
             placeholder="Link sự kiện"
@@ -118,19 +118,13 @@
             class="p-4 w-full border-mid rounded-lg input-custom"
             style="outline: none"
           />
-          <div>
-            Ngày bắt đầu<input
-              type="date"
-              [(ngModel)]="Recruit.startTime"
-              PlaceHolder="Start"
-            />
+          <div class="flex">
+            <p>Ngày bắt đầu :</p>
+            <input type="date" [(ngModel)]="Recruit.startTime" />
           </div>
-          <div>
-            Ngày kết thúc<input
-              type="date"
-              [(ngModel)]="Recruit.endTime"
-              PlaceHolder="Start"
-            />
+          <div class="flex">
+            <p>Ngày kết thúc :</p>
+            <input type="date" [(ngModel)]="Recruit.endTime" />
           </div>
           <!-- <nz-date-picker [(ngModel)]="Recruit.endTime"></nz-date-picker>
           <nz-date-picker
@@ -151,6 +145,7 @@
         </div>
       </app-section>
       <app-section title="Giới thiệu" [collapsible]="false">
+        <!-- <div [innerHTML]="comFrame?.treatment"></div> -->
         <textarea
           section-container
           [(ngModel)]="Recruit.introduction"

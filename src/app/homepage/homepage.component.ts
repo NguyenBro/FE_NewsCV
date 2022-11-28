@@ -17,6 +17,7 @@ import { newsService } from './services/news.service';
   styleUrls: ['./homepage.component.less'],
 })
 export class HomepageComponent implements OnInit {
+  load = true;
   showQt: boolean;
   public isShow = false;
   select = '';
@@ -48,7 +49,11 @@ export class HomepageComponent implements OnInit {
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';
   ngOnInit(): void {
-    this.sevices
+    this.showLogo = true;
+    this.loadData();
+  }
+  async loadData() {
+    await this.sevices
       .getLoggedInUser(localStorage.getItem('email') || '')
       .subscribe((user) => {
         if (user.errorCode === null) {
@@ -56,10 +61,8 @@ export class HomepageComponent implements OnInit {
           console.log('user1131', this.user);
           this.isShow = this.user.email === '' ? false : true;
         }
+        this.load = false;
       });
-    console.log('role', this.sevices.role);
-
-    this.showLogo = true;
   }
   page() {
     this.showLogo = true;

@@ -45,7 +45,11 @@
         </div>
       </app-button-dropdown>
 
-      <button class="button-secondary" (click)="createCompetenceFrame()">
+      <button
+        *ngIf="showQt"
+        class="button-secondary"
+        (click)="createCompetenceFrame()"
+      >
         <span nz-icon nzType="svg:plus-small"> </span>
       </button>
     </div>
@@ -99,6 +103,13 @@
                     <span class="icon" nz-icon nzType="svg:location-alt">
                     </span>
                     {{ test.location }}
+                  </div>
+                  <div class="tag mr-2 mb-2 tag1">
+                    <span class="icon mr-4" nz-icon nzType="svg:like"> </span>
+                    <span class="icon mr-16" nz-icon nzType="svg:dislike">
+                    </span>
+                    <span class="icon mr-16" nz-icon nzType="svg:share"> </span>
+                    <span class="icon" nz-icon nzType="svg:save"> </span>
                   </div>
                 </div>
               </div>

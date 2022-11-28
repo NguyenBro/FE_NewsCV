@@ -19,6 +19,8 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { newsService } from './services/news.service';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @NgModule({
   declarations: [
     PageComponent,
@@ -41,6 +43,8 @@ import { newsService } from './services/news.service';
     NzMenuModule,
     NzToolTipModule,
     NzIconModule,
+    NzSpinModule,
+    NzAlertModule,
   ],
 })
 export class HomepageModule {}

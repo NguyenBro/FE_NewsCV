@@ -37,7 +37,7 @@ export class NewsScholarshipViewComponent implements OnInit {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      return this.service.getCompetionInfo(p['comFrameId']);
+      return this.service.getScholarshipInfo(p['comFrameId']);
     }),
     tap((it) => (this.comFrame = it))
   );
