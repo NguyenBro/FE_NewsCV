@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
@@ -63,6 +63,19 @@ export class CompanysService {
       ''
     );
   }
+  addCompany(company: Company) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news'}`,
+      company,
+      { headers: headers }
+    );
+  }
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();
@@ -101,7 +114,7 @@ export class CompanysService {
     }
     return of(this.listCom.find((item) => item.id === id));
   }
-  public getRecruitInfo(id?: string): Observable<Company | undefined> {
+  public getCompanyInfo(id?: string): Observable<Company | undefined> {
     if (!id) {
       return of(new Company());
     }

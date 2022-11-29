@@ -69,6 +69,7 @@ export class RecruitStatisComponent implements OnInit {
           .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
       )
     );
+    this.load = false;
   }
   onSelected(can: Candidate) {
     this.showRight = true;

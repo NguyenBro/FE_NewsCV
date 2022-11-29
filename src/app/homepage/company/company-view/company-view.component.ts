@@ -41,7 +41,7 @@ export class CompanyViewComponent implements OnInit {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      return this.service.getRecruitInfo(p['comFrameId']);
+      return this.service.getCompanyInfo(p['comFrameId']);
     }),
     tap(
       (it) => (
