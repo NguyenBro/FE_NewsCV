@@ -14,6 +14,7 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./news-statis.component.less'],
 })
 export class NewsStatisComponent implements OnInit {
+  load = true;
   selectedStatus = '';
   listNameStatus = ['Đã duyệt', 'Đã huỷ', 'Đang xử lý', 'Tất cả'];
   subscriptions = new Subscription();
@@ -39,8 +40,11 @@ export class NewsStatisComponent implements OnInit {
   );
   constructor(private services: AdminService) {
     console.log('listCandidate2', this.listCom$);
+    this.select('Tất cả');
   }
-  select(item: String) {
+  async loadData() {}
+  async select(item: String) {
+    this.load = true;
     if (item === 'Đã duyệt') {
       this.selectedStatus = 'Đã duyệt';
       if (this.services.typeNews === 'hoc-bong') {
@@ -57,7 +61,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else if (this.services.typeNews === 'cuoc-thi') {
@@ -74,7 +82,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else if (this.services.typeNews === 'su-kien') {
@@ -91,7 +103,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else {
@@ -108,7 +124,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       }
@@ -128,7 +148,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else if (this.services.typeNews === 'cuoc-thi') {
@@ -145,7 +169,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else if (this.services.typeNews === 'su-kien') {
@@ -162,7 +190,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else {
@@ -179,7 +211,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       }
@@ -199,7 +235,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else if (this.services.typeNews === 'cuoc-thi') {
@@ -216,7 +256,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else if (this.services.typeNews === 'su-kien') {
@@ -233,7 +277,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       } else {
@@ -250,7 +298,11 @@ export class NewsStatisComponent implements OnInit {
           map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
             listOfCompetences
               // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              .slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize,
+                (this.load = false)
+              )
           )
         );
       }
@@ -259,7 +311,7 @@ export class NewsStatisComponent implements OnInit {
       this.listNews$ = this.services
         .getInteractiveNews(this.services.typeNews)
         .pipe(map((data) => data.data));
-      this.listCom$ = combineLatest({
+      this.listCom$ = await combineLatest({
         listOfCompetences: this.listNews$,
         pageIndex: this.pageIndex$,
         pageSize: this.pageSize$,
@@ -269,7 +321,11 @@ export class NewsStatisComponent implements OnInit {
         map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
           listOfCompetences
             // .filter((competence) => this.isSearchCompetence(competence, searches))
-            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            .slice(
+              (pageIndex - 1) * pageSize,
+              pageIndex * pageSize,
+              (this.load = false)
+            )
         )
       );
     }

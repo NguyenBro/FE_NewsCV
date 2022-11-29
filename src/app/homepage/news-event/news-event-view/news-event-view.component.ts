@@ -20,7 +20,7 @@ export class NewsEventViewComponent implements OnInit {
   public comFrame: event | undefined = new event();
   public temp: HTMLElement | undefined;
   public id = '';
-
+  showQt: boolean;
   data: any[] = [];
   submitting = false;
   user = {
@@ -53,6 +53,14 @@ export class NewsEventViewComponent implements OnInit {
     private servicenew: newsService
   ) {
     this.news.flex = true;
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
 
   ngOnInit(): void {

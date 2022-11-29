@@ -19,7 +19,7 @@ export class NewsViewComponent implements OnInit {
   public comFrame: competion | undefined = new competion();
   public temp: HTMLElement | undefined;
   public id = '';
-
+  showQt: boolean;
   data: any[] = [];
   submitting = false;
   user = {
@@ -52,6 +52,14 @@ export class NewsViewComponent implements OnInit {
     private servicenew: newsService
   ) {
     this.news.flex = true;
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
 
   ngOnInit(): void {

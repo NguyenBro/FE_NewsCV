@@ -26,7 +26,7 @@ export class CompanyViewComponent implements OnInit {
   public comFrame: Company | undefined = new Company();
   public id = '';
   public listJobOfCompany$: Observable<Recruit[]> = new Observable<Recruit[]>();
-
+  showQt: boolean;
   subscriptions = new Subscription();
   private listOfSearches$ = new BehaviorSubject<string[]>([]);
   private pageIndex$ = new BehaviorSubject(1);
@@ -74,7 +74,16 @@ export class CompanyViewComponent implements OnInit {
     private router: Router,
     private competenceFrameCom: CompanysEntryComponent,
     private modal: NzModalService
-  ) {}
+  ) {
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
+  }
 
   ngOnInit(): void {
     // this.comFrame = this.service.company;

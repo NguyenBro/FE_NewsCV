@@ -77,9 +77,9 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   ) {
     homepage.showLogo = false;
     this.flex = false;
-    console.log('load1', this.load);
+    // console.log('load1', this.load);
     // this.loadData();
-
+    // console.log('load2', this.load);
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -90,9 +90,9 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
       this.showQt = false;
     }
   }
-  loadData() {
+  async loadData() {
     this.rawListCom$ = this.service.getListOfCompetences();
-    this.listCom$ = combineLatest({
+    this.listCom$ = await combineLatest({
       listOfCompetences: this.rawListCom$,
       pageIndex: this.pageIndex$,
       pageSize: this.pageSize$,
@@ -103,6 +103,7 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
         listOfCompetences
           .filter((competence) => {
             this.isSearchCompetence(competence, searches);
+            this.load = false;
           })
           .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
       )

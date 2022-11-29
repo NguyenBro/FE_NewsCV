@@ -19,8 +19,19 @@
     <div class="title">
       danh sách tuyển dụng của công ty {{ selectedCompany }}
     </div>
+    <div *ngIf="load" class="pt-24">
+      <nz-spin nzTip="Loading...">
+        <nz-alert
+          class="pl-24"
+          nzType="info"
+          nzMessage="Đang load dữ liệu"
+          nzDescription="Xin vui lòng đợi"
+        ></nz-alert>
+      </nz-spin>
+    </div>
     <div *ngFor="let candidate of listCom$ | async" class="list">
       <div
+        *ngIf="!load"
         class="item"
         (click)="onSelected(candidate)"
         [class.selected]="candidate === selectedJob"

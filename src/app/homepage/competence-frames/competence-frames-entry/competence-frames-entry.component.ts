@@ -96,6 +96,30 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
           .includes(search.toLocaleLowerCase()) ||
         competence.description
           ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.shortContent
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.companyCode
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.major
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.position
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.language
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.level
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.experience
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.location
+          ?.toLocaleLowerCase()
           .includes(search.toLocaleLowerCase())
       //   ||
       // competence.competences.some((com) =>
