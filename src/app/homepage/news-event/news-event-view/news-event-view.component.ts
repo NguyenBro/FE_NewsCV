@@ -136,7 +136,7 @@ export class NewsEventViewComponent implements OnInit {
   }
   public delete() {
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa năng lực ${this.comFrame?.title} không?`,
+      nzTitle: `Bạn có muốn xóa tin: ${this.comFrame?.title} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -151,14 +151,14 @@ export class NewsEventViewComponent implements OnInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công khung năng lực');
+      this.message.success('Xoá thành công tin tức');
       this.service.delete(this.comFrame);
       this.news.getPageList();
       this.cancel();
     }
   }
   public duplicateClick() {
-    this.message.success('Sao chép thành công khung năng lực');
+    this.message.success('Sao chép thành công tin tức');
     this.service.conditionDup = true;
     this.router.navigate(['./news-event/create'], {
       state: {

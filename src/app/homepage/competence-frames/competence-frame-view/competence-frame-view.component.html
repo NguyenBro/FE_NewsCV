@@ -133,7 +133,65 @@
         <app-section title="" [collapsible]="false">
           <div section-container class="">
             <div class="buttonlg" (click)="showModal()">Ứng Tuyển</div>
-            <!-- <div class="email-body">
+
+            <nz-modal
+              [(nzVisible)]="isVisible"
+              nzTitle="Bạn đang ứng tuyển cho vị trí {{
+                (comFrameInfo$ | async)?.title
+              }} của công ty {{ (comFrameInfo$ | async)?.shortContent }}"
+              (nzOnCancel)="handleCancel()"
+            >
+              <div *nzModalContent class="flex flex-col gap-4">
+                <div class="flex items-center">
+                  <p class="namecard">Họ tên:</p>
+                  <input
+                    placeholder="Nhập tên của bạn"
+                    class="input"
+                    [(ngModel)]="apply.fullName"
+                  />
+                </div>
+
+                <div class="flex items-center">
+                  <p class="namecard">Email:</p>
+                  <input
+                    placeholder="Email"
+                    class="input"
+                    [(ngModel)]="apply.email"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="namecard">Số điện thoại:</p>
+                  <input
+                    placeholder="Số điện thoại"
+                    class="input"
+                    [(ngModel)]="apply.phone"
+                  />
+                </div>
+                <div class="flex items-center">
+                  <p class="namecard">Chọn CV của bạn:</p>
+                  <input
+                    (change)="chooseCv($event)"
+                    placeholder="Upload CV"
+                    type="file"
+                  />
+                </div>
+                <div>
+                  <p class="namecard">Thư xin việc</p>
+                  <textarea
+                    nz-input
+                    placeholder="Nhập văn bản"
+                    [(ngModel)]="apply.intro"
+                    style="
+                      border-color: #bfbfbf;
+                      resize: none;
+                      border-radius: 8px;
+                      font-weight: 400;
+                      padding: 1rem;
+                    "
+                  ></textarea>
+                </div>
+                <!-- design email -->
+                <div class="email-body">
                   <quill-editor
                     class="editor"
                     (onEditorCreated)="quillEditor = $event"
@@ -330,63 +388,8 @@
                       </div>
                     </div>
                   </quill-editor>
-                </div> -->
-            <nz-modal
-              [(nzVisible)]="isVisible"
-              nzTitle="Bạn đang ứng tuyển cho vị trí {{
-                (comFrameInfo$ | async)?.title
-              }} của công ty {{ (comFrameInfo$ | async)?.shortContent }}"
-              (nzOnCancel)="handleCancel()"
-            >
-              <div *nzModalContent class="flex flex-col gap-4">
-                <div class="flex items-center">
-                  <p class="namecard">Họ tên:</p>
-                  <input
-                    placeholder="Nhập tên của bạn"
-                    class="input"
-                    [(ngModel)]="apply.fullName"
-                  />
                 </div>
-
-                <div class="flex items-center">
-                  <p class="namecard">Email:</p>
-                  <input
-                    placeholder="Email"
-                    class="input"
-                    [(ngModel)]="apply.email"
-                  />
-                </div>
-                <div class="flex items-center">
-                  <p class="namecard">Số điện thoại:</p>
-                  <input
-                    placeholder="Số điện thoại"
-                    class="input"
-                    [(ngModel)]="apply.phone"
-                  />
-                </div>
-                <div class="flex items-center">
-                  <p class="namecard">Chọn CV của bạn:</p>
-                  <input
-                    (change)="chooseCv($event)"
-                    placeholder="Upload CV"
-                    type="file"
-                  />
-                </div>
-                <div>
-                  <p class="namecard">Thư xin việc</p>
-                  <textarea
-                    nz-input
-                    placeholder="Nhập văn bản"
-                    [(ngModel)]="apply.intro"
-                    style="
-                      border-color: #bfbfbf;
-                      resize: none;
-                      border-radius: 8px;
-                      font-weight: 400;
-                      padding: 1rem;
-                    "
-                  ></textarea>
-                </div>
+                <!-- design email -->
               </div>
               <div *nzModalFooter>
                 <button nz-button nzType="default" (click)="handleCancel()">

@@ -66,6 +66,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'recruit';
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
     this.getPageList(this.currentPage);

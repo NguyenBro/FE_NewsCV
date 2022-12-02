@@ -37,6 +37,7 @@ export class HomepageComponent implements OnInit {
     private serviceCompetence: CompetenceFramesService,
     private serviceAdmin: AdminService
   ) {
+    this.select = 'page';
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -70,27 +71,21 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(['./homepage/page']);
   }
   login() {
-    this.select = 'login';
     this.router.navigate(['./homepage/login']);
   }
   recruit() {
-    this.select = 'recruit';
     this.router.navigate(['./homepage/competence-frames']);
   }
   resign() {
-    this.select = 'resign';
     this.router.navigate(['./homepage/resign']);
   }
   info() {
-    this.select = 'info';
     this.router.navigate(['./homepage/infomation']);
   }
   company() {
-    this.select = 'company';
     this.router.navigate(['./homepage/companys']);
   }
   admin() {
-    this.select = 'admin';
     if (localStorage.getItem('role') === 'ADMIN') {
       this.router.navigate(['./homepage/administration/Statistical']);
     } else {
@@ -123,7 +118,7 @@ export class HomepageComponent implements OnInit {
     });
   }
   onSelectionChangeNews(event: string) {
-    this.select = '';
+    this.select = 'news';
     if (event === 'Học bổng') {
       console.log(event);
       this.router.navigate(['./homepage/news-scholarship']);

@@ -67,6 +67,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'news';
     homepage.showLogo = false;
     this.flex = false;
     this.getPageList(this.currentPage);
@@ -178,7 +179,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
   deleteCompetenceFrame(id: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa khung năng lực ${id} không?`,
+      nzTitle: `Bạn có muốn xóa tin: ${id} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -193,7 +194,7 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
   }
   deleteById(id: string) {
     this.service.deleteById(id);
-    this.message.success('Xoá thành công khung năng lực');
+    this.message.success('Xoá thành công tin tức');
     this.router.navigate(['./homepage/news-event']);
     this.isDetailShown = false;
     this.getPageList(this.currentPage);

@@ -8,7 +8,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { SharedModule } from '../shared/styles/shared.module';
 import { NzOverlayModule } from 'ng-zorro-antd/core/overlay';
 import { CompetenceFrameModule } from './competence-frames/competence-frames.module';
-import { NzRateModule } from 'ng-zorro-antd/rate';
+
 import { InfomationComponent } from './infomation/infomation.component';
 import { UiCommonModule } from '../shared/lib/ui-common.module';
 import { LoginComponent } from './login/login.component';
@@ -21,10 +21,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { newsService } from './services/news.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { InfomationModule } from './infomation/infomation.module';
 @NgModule({
   declarations: [
     PageComponent,
-    InfomationComponent,
     LoginComponent,
     ResignComponent,
     HomepageComponent,
@@ -38,13 +38,13 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     SharedModule,
     NzOverlayModule,
     CompetenceFrameModule,
-    NzRateModule,
     UiCommonModule,
     NzMenuModule,
     NzToolTipModule,
     NzIconModule,
     NzSpinModule,
     NzAlertModule,
+    InfomationModule,
   ],
 })
 export class HomepageModule {}

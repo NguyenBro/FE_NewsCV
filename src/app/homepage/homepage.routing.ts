@@ -28,7 +28,10 @@ import { ResignComponent } from './resign/resign.component';
           },
           {
             path: 'infomation',
-            component: InfomationComponent,
+            loadChildren: () =>
+              import('./infomation/infomation.module').then(
+                (m) => m.InfomationModule
+              ),
           },
           {
             path: 'administration',

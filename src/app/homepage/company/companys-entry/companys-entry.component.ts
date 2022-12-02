@@ -65,6 +65,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'company';
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
     console.log('listcom', this.listCom$);

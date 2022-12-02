@@ -117,6 +117,7 @@
             </div>
 
             <button
+              *ngIf="showQt"
               class="text-lg px-2 mr-3 absolute right-0 top-3"
               (click)="deleteCompetenceFrame(test.title, $event)"
             >

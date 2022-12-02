@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private homepagecom: HomepageComponent
   ) {
+    homepagecom.select = 'login';
     homepagecom.isShow = false;
     this.homepagecom.showLogo = true;
     this.homepagecom.load = true;

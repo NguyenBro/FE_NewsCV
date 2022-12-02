@@ -16,6 +16,7 @@ export class AdminComponent implements OnInit {
     private homepage: HomepageComponent,
     private service: AdminService
   ) {
+    homepage.select = 'admin';
     if (localStorage.getItem('role') === 'COMPANY') {
       this.showCompany = true;
     } else {
