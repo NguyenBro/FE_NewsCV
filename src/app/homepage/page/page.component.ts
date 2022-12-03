@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
+import { HomepageComponent } from '../homepage.component';
 import { scholarship } from '../model/news.model';
 import { newsService } from '../services/news.service';
 
@@ -23,7 +24,14 @@ export class PageComponent implements OnInit {
   //     return list.slice((index - 1) * size, index * size);
   //   })
   // );
-  constructor(private router: Router, private sevices: newsService) {}
+  constructor(
+    private router: Router,
+    private sevices: newsService,
+    private homepagecom: HomepageComponent
+  ) {
+    this.homepagecom.load = true;
+    this.homepagecom.loadData();
+  }
 
   ngOnInit(): void {}
   onPageIndexChange(index: number) {

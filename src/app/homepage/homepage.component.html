@@ -10,7 +10,15 @@
       </div>
     </div>
   </div>
-
+  <!-- <div *ngIf="load">
+    <nz-spin nzTip="Loading...">
+      <nz-alert
+        nzType="info"
+        nzMessage="Đang load dữ liệu"
+        nzDescription=""
+      ></nz-alert>
+    </nz-spin>
+  </div> -->
   <div class="page-header">
     <div class="bar">
       <button
@@ -22,7 +30,7 @@
         <div class="bar-item">Trang chủ</div>
       </button>
 
-      <div class="bar-setting">
+      <div class="bar-setting" [ngClass]="select === 'news' ? 'select' : ''">
         <ng-template #title>
           <span class="bar-item"> {{ news }}</span></ng-template
         >
@@ -81,7 +89,9 @@
         *ngIf="isShow"
         [ngClass]="select === 'info' ? 'select' : ''"
       >
-        <div nz-icon nzType="svg:user-white"></div>
+        <div class="avatar">
+          <img [src]="user.avatar" />
+        </div>
         <div class="barright-item">{{ user.name }}</div>
       </button>
       <button class="barright-item mr-6" (click)="logout()" *ngIf="isShow">

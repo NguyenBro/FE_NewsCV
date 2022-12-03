@@ -16,6 +16,7 @@ export class InfomationComponent implements OnInit {
     private router: Router,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'info';
     this.homepage.showLogo = true;
     service
       .getLoggedInUser(localStorage.getItem('email') || '')

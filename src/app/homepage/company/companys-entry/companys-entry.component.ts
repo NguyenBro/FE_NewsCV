@@ -22,7 +22,7 @@ import { CompanysService } from '../services/companys.service';
 export class CompanysEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
-
+  showQt: boolean;
   public list: Company[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -65,9 +65,19 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'company';
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
     console.log('listcom', this.listCom$);
+    this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

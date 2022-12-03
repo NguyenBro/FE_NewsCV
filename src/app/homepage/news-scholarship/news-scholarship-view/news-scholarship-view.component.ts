@@ -22,7 +22,7 @@ export class NewsScholarshipViewComponent implements OnInit {
   public listComment = new Array<String>();
   public commentTemp = new String();
   public id = '';
-
+  showQt: boolean;
   data: any[] = [];
   submitting = false;
   user = {
@@ -37,7 +37,7 @@ export class NewsScholarshipViewComponent implements OnInit {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      return this.service.getCompetionInfo(p['comFrameId']);
+      return this.service.getScholarshipInfo(p['comFrameId']);
     }),
     tap((it) => (this.comFrame = it))
   );
@@ -55,6 +55,14 @@ export class NewsScholarshipViewComponent implements OnInit {
     private servicenew: newsService
   ) {
     this.news.flex = true;
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
 
   ngOnInit(): void {
@@ -69,31 +77,6 @@ export class NewsScholarshipViewComponent implements OnInit {
       }
       return true;
     })();
-    var stringToHTML = function (str: any) {
-      // If DOMParser is supported, use it
-      if (support) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(str, 'text/html');
-        return doc.body;
-      }
-
-      // Otherwise, fallback to old-school method
-      var dom = document.createElement('div');
-      dom.innerHTML = str;
-      return dom;
-    };
-    this.temp = stringToHTML(this.comFrame.introduction);
-    this.x = this.temp.getElementsByTagName('div')[0];
-    // this.app = document.getElementById('app');
-    // this.app?.appendChild(this.temp);
-    // 1. Select the div element using the id property
-    this.app = document.getElementById('app');
-    // 2. Create a new <p></p> element programmatically
-    const p = document.createElement('p');
-    // 3. Add the text content
-    p.textContent = 'Hello, World!';
-    // 4. Append the p element to the div element
-    this.app?.appendChild(p);
   }
   handleSubmit(): void {
     this.submitting = true;
@@ -130,7 +113,7 @@ export class NewsScholarshipViewComponent implements OnInit {
   }
   public delete() {
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa năng lực ${this.comFrame?.title} không?`,
+      nzTitle: `Bạn có muốn xóa tin: ${this.comFrame?.title} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -145,14 +128,14 @@ export class NewsScholarshipViewComponent implements OnInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công khung năng lực');
+      this.message.success('Xoá thành công tin tức');
       this.service.delete(this.comFrame);
       this.news.getPageList();
       this.cancel();
     }
   }
   public duplicateClick() {
-    this.message.success('Sao chép thành công khung năng lực');
+    this.message.success('Sao chép thành công tin tức');
     this.service.conditionDup = true;
     this.router.navigate(['./news-scholarship/create'], {
       state: {

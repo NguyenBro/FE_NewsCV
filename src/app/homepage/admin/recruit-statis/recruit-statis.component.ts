@@ -18,6 +18,7 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./recruit-statis.component.less'],
 })
 export class RecruitStatisComponent implements OnInit {
+  load = false;
   listApply: Application[] = [];
   listNameCompany: string[] = [];
   public showRight = false;
@@ -48,10 +49,11 @@ export class RecruitStatisComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-  select(name: string) {
+  async select(name: string) {
+    this.load = true;
     this.showRight = false;
     this.selectedCompany = name;
-    this.listCandidate$ = this.services
+    this.listCandidate$ = await this.services
       .getCandidateByCompany(this.selectedCompany)
       .pipe(map((data) => data.data));
     this.listCom$ = combineLatest({
@@ -67,6 +69,7 @@ export class RecruitStatisComponent implements OnInit {
           .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
       )
     );
+    this.load = false;
   }
   onSelected(can: Candidate) {
     this.showRight = true;

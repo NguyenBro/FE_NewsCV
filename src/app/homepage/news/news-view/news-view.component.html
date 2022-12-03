@@ -14,6 +14,7 @@
 
     <button
       button
+      *ngIf="showQt"
       class="button-primary"
       (click)="update()"
       nz-popover
@@ -25,6 +26,7 @@
     </button>
     <button
       button
+      *ngIf="showQt"
       class="button-primary"
       (click)="duplicateClick()"
       nz-popover
@@ -36,6 +38,7 @@
     </button>
     <button
       button
+      *ngIf="showQt"
       class="button-primary"
       (click)="delete()"
       nz-popover

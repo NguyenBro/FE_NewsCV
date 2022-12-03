@@ -32,6 +32,8 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @NgModule({
   declarations: [
     NewsScholarshipEntryComponent,
@@ -69,6 +71,8 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     NzButtonModule,
     NzListModule,
     NzAvatarModule,
+    NzSpinModule,
+    NzAlertModule,
   ],
 })
 export class NewsScholarshipModule {}

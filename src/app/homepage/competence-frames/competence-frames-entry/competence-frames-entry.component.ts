@@ -24,6 +24,7 @@ import { HomepageComponent } from '../../homepage.component';
 export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
+  showQt: boolean;
   public list: Recruit[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -65,8 +66,18 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'recruit';
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
+    this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);
@@ -85,6 +96,30 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) ||
         competence.description
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.shortContent
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.companyCode
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.major
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.position
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.language
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.level
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.experience
+          ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.location
           ?.toLocaleLowerCase()
           .includes(search.toLocaleLowerCase())
       //   ||

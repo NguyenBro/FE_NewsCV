@@ -11,7 +11,14 @@ import { NewsScholarshipService } from '../services/news-scholarship.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { HomepageComponent } from '../../homepage.component';
 import { competion, scholarship } from '../../model/news.model';
 
@@ -21,6 +28,8 @@ import { competion, scholarship } from '../../model/news.model';
   styleUrls: ['./news-scholarship-entry.component.less'],
 })
 export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
+  showQt: boolean;
+  load = false;
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   flex = false;
@@ -43,6 +52,7 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
+
   private rawListCom$ = this.service.getListOfCompetences();
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
@@ -65,9 +75,40 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'news';
     homepage.showLogo = false;
     this.flex = false;
+    // console.log('load1', this.load);
+    // this.loadData();
+    // console.log('load2', this.load);
     this.getPageList(this.currentPage);
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY'
+    ) {
+      this.showQt = true;
+    } else {
+      this.showQt = false;
+    }
+  }
+  async loadData() {
+    this.rawListCom$ = this.service.getListOfCompetences();
+    this.listCom$ = await combineLatest({
+      listOfCompetences: this.rawListCom$,
+      pageIndex: this.pageIndex$,
+      pageSize: this.pageSize$,
+      searches: this.listOfSearches$,
+      refresh: this.refreshBehavior$,
+    }).pipe(
+      map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        listOfCompetences
+          .filter((competence) => {
+            this.isSearchCompetence(competence, searches);
+            this.load = false;
+          })
+          .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      )
+    );
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);
@@ -167,7 +208,7 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   deleteCompetenceFrame(id: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa khung năng lực ${id} không?`,
+      nzTitle: `Bạn có muốn xóa tin: ${id} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -182,7 +223,7 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   }
   deleteById(id: string) {
     this.service.deleteById(id);
-    this.message.success('Xoá thành công khung năng lực');
+    this.message.success('Xoá thành công tin tức');
     this.router.navigate(['./homepage/news-scholarship']);
     this.isDetailShown = false;
     this.getPageList(this.currentPage);

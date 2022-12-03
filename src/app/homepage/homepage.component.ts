@@ -17,6 +17,7 @@ import { newsService } from './services/news.service';
   styleUrls: ['./homepage.component.less'],
 })
 export class HomepageComponent implements OnInit {
+  load = true;
   showQt: boolean;
   public isShow = false;
   select = '';
@@ -36,6 +37,7 @@ export class HomepageComponent implements OnInit {
     private serviceCompetence: CompetenceFramesService,
     private serviceAdmin: AdminService
   ) {
+    this.select = 'page';
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -48,7 +50,11 @@ export class HomepageComponent implements OnInit {
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';
   ngOnInit(): void {
-    this.sevices
+    this.showLogo = true;
+    this.loadData();
+  }
+  async loadData() {
+    await this.sevices
       .getLoggedInUser(localStorage.getItem('email') || '')
       .subscribe((user) => {
         if (user.errorCode === null) {
@@ -56,10 +62,8 @@ export class HomepageComponent implements OnInit {
           console.log('user1131', this.user);
           this.isShow = this.user.email === '' ? false : true;
         }
+        this.load = false;
       });
-    console.log('role', this.sevices.role);
-
-    this.showLogo = true;
   }
   page() {
     this.showLogo = true;
@@ -67,27 +71,21 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(['./homepage/page']);
   }
   login() {
-    this.select = 'login';
     this.router.navigate(['./homepage/login']);
   }
   recruit() {
-    this.select = 'recruit';
     this.router.navigate(['./homepage/competence-frames']);
   }
   resign() {
-    this.select = 'resign';
     this.router.navigate(['./homepage/resign']);
   }
   info() {
-    this.select = 'info';
     this.router.navigate(['./homepage/infomation']);
   }
   company() {
-    this.select = 'company';
     this.router.navigate(['./homepage/companys']);
   }
   admin() {
-    this.select = 'admin';
     if (localStorage.getItem('role') === 'ADMIN') {
       this.router.navigate(['./homepage/administration/Statistical']);
     } else {
@@ -120,7 +118,7 @@ export class HomepageComponent implements OnInit {
     });
   }
   onSelectionChangeNews(event: string) {
-    this.select = '';
+    this.select = 'news';
     if (event === 'Học bổng') {
       console.log(event);
       this.router.navigate(['./homepage/news-scholarship']);

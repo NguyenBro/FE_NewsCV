@@ -23,6 +23,7 @@ export class ResignComponent implements OnInit {
     private router: Router,
     private homepage: HomepageComponent
   ) {
+    homepage.select = 'resign';
     this.homepage.showLogo = true;
     this.isShow = false;
   }
