@@ -80,7 +80,7 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(['./homepage/resign']);
   }
   info() {
-    this.router.navigate(['./homepage/infomation']);
+    this.router.navigate(['./homepage/infomation/list-info']);
   }
   company() {
     this.router.navigate(['./homepage/companys']);

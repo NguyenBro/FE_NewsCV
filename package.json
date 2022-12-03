@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@alicloud/iconfont-helper": "^1.4.0",
     "@angular/animations": "^14.2.2",
     "@angular/common": "^14.2.2",
     "@angular/compiler": "^14.2.2",

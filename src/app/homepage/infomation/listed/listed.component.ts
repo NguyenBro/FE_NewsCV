@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, combineLatest, map, Subscription } from 'rxjs';
+import { user } from '../../model/news.model';
+import { newsService } from '../../services/news.service';
+import { InfomationComponent } from '../infomation.component';
+import { InfomationService } from '../infomation.service';
 
 @Component({
   selector: 'app-listed',
@@ -27,7 +32,266 @@ export class ListedComponent implements OnInit {
     redo: false,
   };
   public isCenter = false;
-  constructor(private router: Router) {}
+  user: user = new user();
+  subscriptions = new Subscription();
+  private listOfSearches$ = new BehaviorSubject<string[]>([]);
+  private pageIndex$ = new BehaviorSubject(1);
+  private pageSize$ = new BehaviorSubject(15);
+  private refreshBehavior$ = this.service.getRefresh();
+  //job-waiting
+  private listJobW$ = this.service
+    .getApplicationByUser(this.user.id.toString(), 'Waiting')
+    .pipe(map((data) => data.data));
+  public listJobWapplice$ = combineLatest({
+    listOfCompetences: this.listJobW$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+  //job-Done
+  private listJobD$ = this.service
+    .getApplicationByUser(this.user.id.toString(), 'Done')
+    .pipe(map((data) => data.data));
+  public listJobDapplice$ = combineLatest({
+    listOfCompetences: this.listJobD$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+  //cv-Waiting
+  private listCVW$ = this.service
+    .getCVUserByStatus(this.user.id.toString(), 'Waiting')
+    .pipe(map((data) => data.data));
+  public listCVWapplice$ = combineLatest({
+    listOfCompetences: this.listCVW$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+  //cv-Done
+  private listCVD$ = this.service
+    .getCVUserByStatus(this.user.id.toString(), 'Done')
+    .pipe(map((data) => data.data));
+  public listCVDapplice$ = combineLatest({
+    listOfCompetences: this.listCVD$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+  //newsHB
+  private listNewsHB$ = this.service
+    .getInteractiveNewsById(this.user.id.toString(), 'hoc-bong')
+    .pipe(map((data) => data.data));
+  public listNewsHBapplice$ = combineLatest({
+    listOfCompetences: this.listNewsHB$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+  //newsSK
+  private listNewsSK$ = this.service
+    .getInteractiveNewsById(this.user.id.toString(), 'su-kien')
+    .pipe(map((data) => data.data));
+  public listNewsSKapplice$ = combineLatest({
+    listOfCompetences: this.listNewsSK$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+  //newsCT
+  private listNewsCT$ = this.service
+    .getInteractiveNewsById(this.user.id.toString(), 'cuoc-thi')
+    .pipe(map((data) => data.data));
+  public listNewsCTapplice$ = combineLatest({
+    listOfCompetences: this.listNewsCT$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        // .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+
+  constructor(
+    private router: Router,
+    private newsService: newsService,
+    private service: InfomationService
+  ) {
+    newsService
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+          console.log('user1131', this.user);
+          console.log('this.info.user.id.toString()', this.user.id);
+          //job-Waiting
+          this.listJobW$ = this.service
+            .getApplicationByUser(this.user.id.toString(), 'Waiting')
+            .pipe(map((data) => data.data));
+          this.listJobWapplice$ = combineLatest({
+            listOfCompetences: this.listJobW$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+          //job-Done
+          this.listJobD$ = this.service
+            .getApplicationByUser(this.user.id.toString(), 'Done')
+            .pipe(map((data) => data.data));
+          this.listJobDapplice$ = combineLatest({
+            listOfCompetences: this.listJobW$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+          //cv-Waiting
+          this.listCVW$ = this.service
+            .getCVUserByStatus(this.user.id.toString(), 'Waiting')
+            .pipe(map((data) => data.data));
+          this.listCVWapplice$ = combineLatest({
+            listOfCompetences: this.listCVW$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+          //cv-Done
+          this.listCVD$ = this.service
+            .getCVUserByStatus(this.user.id.toString(), 'Done')
+            .pipe(map((data) => data.data));
+          this.listCVDapplice$ = combineLatest({
+            listOfCompetences: this.listCVD$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+          //newsHB
+          this.listNewsHB$ = this.service
+            .getInteractiveNewsById(this.user.id.toString(), 'hoc-bong')
+            .pipe(map((data) => data.data));
+          this.listNewsHBapplice$ = combineLatest({
+            listOfCompetences: this.listNewsHB$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+          //newsSK
+          this.listNewsSK$ = this.service
+            .getInteractiveNewsById(this.user.id.toString(), 'su-kien')
+            .pipe(map((data) => data.data));
+          this.listNewsSKapplice$ = combineLatest({
+            listOfCompetences: this.listNewsSK$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+          //newsCT
+          this.listNewsCT$ = this.service
+            .getInteractiveNewsById(this.user.id.toString(), 'cuoc-thi')
+            .pipe(map((data) => data.data));
+          this.listNewsCTapplice$ = combineLatest({
+            listOfCompetences: this.listNewsCT$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences
+                // .filter((competence) => this.isSearchCompetence(competence, searches))
+                .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+            )
+          );
+        }
+      });
+  }
   ngOnInit(): void {}
 
   public toggleTab(selectedTab: string): void {

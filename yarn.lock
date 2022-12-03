@@ -7,6 +7,11 @@
   resolved "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.0.1.tgz"
   integrity sha512-+u76oB43nOHrF4DDWRLWDCtci7f3QJoEBigemIdIeTi1ODqjx6Tad9NCVnPRwewWlKkVab5PlK8DCtPTyX7S8g==
 
+"@alicloud/iconfont-helper@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@alicloud/iconfont-helper/-/iconfont-helper-1.4.0.tgz#49a5cb796141beccc272f71dd46ef95e7f28762d"
+  integrity sha512-LOQUW4DCYn2kFpB+zYJ7TC7OcXm/jQq6a2RDwRhbRRAnSO+RMYX8rAI/jgUQgw1BKvpB6e2/7AnckpJam7cF8Q==
+
 "@ampproject/remapping@2.2.0", "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
