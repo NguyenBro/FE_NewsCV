@@ -13,6 +13,7 @@ import { CompanyStatisComponent } from './company-statis/company-statis.componen
 import { JobStatisComponent } from './job-statis/job-statis.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -31,6 +32,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzDropDownModule,
     NzSpinModule,
     NzAlertModule,
+    NzButtonModule,
   ],
 })
 export class AdminModule {}

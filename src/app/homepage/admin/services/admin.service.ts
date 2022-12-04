@@ -76,6 +76,7 @@ export class AdminService {
       { headers: headers }
     );
   }
+  
   getDetailCandidateByJob(idJob: Number) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -105,4 +106,17 @@ export class AdminService {
     });
     return of(this.listCandidate);
   }
+  updateStatus(id: String, status: String) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/update-status-news/' + id + '/' + status}`,
+      '',
+      { headers: headers }
+    );
+  }
+
 }

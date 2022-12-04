@@ -54,7 +54,7 @@
                 <a [href]="hb.cv" class="info interviewer">{{ hb.link }}</a>
                 <!-- <span class="info interviewer">{{ job.cv }}</span> -->
                 <div class="info">
-                  <div class="status fail">
+                  <div class="status pass">
                     <i eIcon eIconType="building"></i>
                     <span
                       class=""
@@ -102,10 +102,9 @@
                 <a [href]="hb.cv" class="info interviewer">{{ hb.link }}</a>
                 <!-- <span class="info interviewer">{{ job.cv }}</span> -->
                 <div class="info">
-                  <div class="location offline">
+                  <div class="status fail">
                     <i eIcon eIconType="building"></i>
                     <span
-                      class="text-white"
                       nz-popover
                       [nzPopoverContent]="hb.status"
                       nzPopoverPlacement="topLeft"
@@ -150,10 +149,9 @@
                 <a [href]="hb.cv" class="info interviewer">{{ hb.link }}</a>
                 <!-- <span class="info interviewer">{{ job.cv }}</span> -->
                 <div class="info">
-                  <div class="location offline">
+                  <div class="status waiting">
                     <i eIcon eIconType="building"></i>
                     <span
-                      class="text-white"
                       nz-popover
                       [nzPopoverContent]="hb.status"
                       nzPopoverPlacement="topLeft"
@@ -288,14 +286,14 @@
         <span class="section-title">Danh sách CV đã dùng</span>
         <div collapsible class="time-interval">
           <div collapsibleTitle class="interval-name">
-            <span>In progress</span>
+            <span>Đang xét duyệt</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="test-rounds">
             <div class="list-headers">
-              <span class="header">Tên bài test</span>
-              <span class="header">Thời gian bài test</span>
-              <span class="header">Điểm</span>
+              <span class="header">Ngày nộp</span>
+              <span class="header">Link CV</span>
+              <span class="header">Tên người nộp</span>
               <span class="header">Tình trạng</span>
               <div class="three-dots"></div>
             </div>
@@ -306,7 +304,7 @@
               >
                 <span class="info round">{{ cv.applyTime }}</span>
                 <a [href]="cv.cv" class="info date">{{ cv.cv }}</a>
-                <span class="info">{{ cv.status }}</span>
+                <span class="info">{{ cv.fullName }}</span>
                 <div class="info">
                   <div class="status fail">
                     <span>{{ cv.status }}</span>
@@ -330,14 +328,14 @@
         </div>
         <div collapsible class="time-interval">
           <div collapsibleTitle class="interval-name">
-            <span>Past</span>
+            <span>Đã duyệt</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="test-rounds">
             <div class="list-headers">
-              <span class="header">Tên bài test</span>
-              <span class="header">Thời gian bài test</span>
-              <span class="header">Điểm</span>
+              <span class="header">Ngày nộp</span>
+              <span class="header">Link CV</span>
+              <span class="header">Tên người nộp</span>
               <span class="header">Tình trạng</span>
               <div class="three-dots"></div>
             </div>
@@ -348,7 +346,7 @@
               >
                 <span class="info round">{{ cv.applyTime }}</span>
                 <a [href]="cv.cv" class="info date">{{ cv.cv }}</a>
-                <span class="info">{{ cv.status }}</span>
+                <span class="info">{{ cv.fullName }}</span>
                 <div class="info">
                   <div class="status pass">
                     <span>{{ cv.status }}</span>
