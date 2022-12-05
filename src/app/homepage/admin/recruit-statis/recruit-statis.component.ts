@@ -85,4 +85,8 @@ export class RecruitStatisComponent implements OnInit {
         console.log('listNameCompany', this.listApply);
       });
   }
+  snapStatus(id: Number, status: String) {
+    this.services.updateStatusAppli(id.toString(), status).subscribe();
+    this.select(this.selectedCompany);
+  }
 }
