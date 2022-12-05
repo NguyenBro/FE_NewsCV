@@ -42,7 +42,6 @@ export class NewsStatisComponent implements OnInit {
     console.log('listCandidate2', this.listCom$);
     this.select('Tất cả');
   }
-  async loadData() {}
   async select(item: String) {
     this.load = true;
     if (item === 'Đã duyệt') {

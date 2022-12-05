@@ -132,7 +132,9 @@
         </app-section>
         <app-section title="" [collapsible]="false">
           <div section-container class="">
-            <div class="buttonlg" (click)="showModal()">Ứng Tuyển</div>
+            <div class="buttonlg" (click)="showModal()" *ngIf="showUs">
+              Ứng Tuyển
+            </div>
 
             <nz-modal
               [(nzVisible)]="isVisible"

@@ -67,16 +67,6 @@ export class NewsScholarshipViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.comFrame = this.service.scholarship;
-    var support = (function () {
-      if (!window.DOMParser) return false;
-      var parser = new DOMParser();
-      try {
-        parser.parseFromString('x', 'text/html');
-      } catch (err) {
-        return false;
-      }
-      return true;
-    })();
   }
   handleSubmit(): void {
     this.submitting = true;

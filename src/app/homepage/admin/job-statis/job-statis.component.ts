@@ -33,14 +33,26 @@ export class JobStatisComponent implements OnInit {
     private services: AdminService,
     private serviceNews: newsService
   ) {
-    serviceNews
+    this.loadUser();
+  }
+  async loadUser() {
+    this.serviceNews
       .getLoggedInUser(localStorage.getItem('email') || '')
       .subscribe((user) => {
         if (user.errorCode === null) {
           this.user = user.data;
-          console.log('userQUANLY', this.user);
+          this.loadData();
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('email');
+          localStorage.removeItem('cv');
+          localStorage.removeItem('searchKeyword');
+          localStorage.removeItem('role');
         }
       });
+  }
+  loadData() {
+    console.log('userName', this.user.name);
     this.listCandidate$ = this.services
       .getCandidateByCompany(this.user.name)
       .pipe(map((data) => data.data));
@@ -59,7 +71,6 @@ export class JobStatisComponent implements OnInit {
       )
     );
   }
-
   ngOnInit(): void {}
   onSelected(can: Candidate) {
     this.showRight = true;

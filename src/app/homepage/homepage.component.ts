@@ -38,6 +38,7 @@ export class HomepageComponent implements OnInit {
     private serviceAdmin: AdminService
   ) {
     this.select = 'page';
+    this.loadData();
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -51,7 +52,6 @@ export class HomepageComponent implements OnInit {
   news = 'Tin tức';
   ngOnInit(): void {
     this.showLogo = true;
-    this.loadData();
   }
   async loadData() {
     await this.sevices
@@ -61,6 +61,12 @@ export class HomepageComponent implements OnInit {
           this.user = user.data;
           console.log('user1131', this.user);
           this.isShow = this.user.email === '' ? false : true;
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('email');
+          localStorage.removeItem('cv');
+          localStorage.removeItem('searchKeyword');
+          localStorage.removeItem('role');
         }
         this.load = false;
       });

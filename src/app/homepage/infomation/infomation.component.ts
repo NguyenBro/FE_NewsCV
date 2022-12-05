@@ -24,6 +24,12 @@ export class InfomationComponent implements OnInit {
         if (user.errorCode === null) {
           this.user = user.data;
           console.log('user1131', this.user);
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('email');
+          localStorage.removeItem('cv');
+          localStorage.removeItem('searchKeyword');
+          localStorage.removeItem('role');
         }
       });
     // router.events.subscribe((val) => {
