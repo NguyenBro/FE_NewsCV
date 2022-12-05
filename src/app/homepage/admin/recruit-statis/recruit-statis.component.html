@@ -64,6 +64,32 @@
           <div>Trạng thái CV: {{ apply.status }}</div>
           <div>Thời gian ứng tuyển: {{ apply.applyTime }}</div>
         </div>
+        <button
+          nz-button
+          nzType="primary"
+          class="but"
+          (click)="snapStatus(apply.id, 'Cancel')"
+          *ngIf="apply.status === 'Done'"
+        >
+          Huỷ
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          class="but"
+          (click)="snapStatus(apply.id, 'Done')"
+          *ngIf="apply.status === 'Waiting'"
+        >
+          Duyệt
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          class="but"
+          *ngIf="apply.status === 'Cancel'"
+        >
+          Đã hủy
+        </button>
       </div>
     </div>
   </div>

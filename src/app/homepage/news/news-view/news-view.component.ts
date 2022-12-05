@@ -64,41 +64,6 @@ export class NewsViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.comFrame = this.service.competion;
-    var support = (function () {
-      if (!window.DOMParser) return false;
-      var parser = new DOMParser();
-      try {
-        parser.parseFromString('x', 'text/html');
-      } catch (err) {
-        return false;
-      }
-      return true;
-    })();
-    var stringToHTML = function (str: any) {
-      // If DOMParser is supported, use it
-      if (support) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(str, 'text/html');
-        return doc.body;
-      }
-
-      // Otherwise, fallback to old-school method
-      var dom = document.createElement('div');
-      dom.innerHTML = str;
-      return dom;
-    };
-    this.temp = stringToHTML(this.comFrame.introduction);
-    this.x = this.temp.getElementsByTagName('div')[0];
-    // this.app = document.getElementById('app');
-    // this.app?.appendChild(this.temp);
-    // 1. Select the div element using the id property
-    this.app = document.getElementById('app');
-    // 2. Create a new <p></p> element programmatically
-    const p = document.createElement('p');
-    // 3. Add the text content
-    p.textContent = 'Hello, World!';
-    // 4. Append the p element to the div element
-    this.app?.appendChild(p);
   }
   handleSubmit(): void {
     this.submitting = true;

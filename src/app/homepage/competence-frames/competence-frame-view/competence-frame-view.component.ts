@@ -24,6 +24,7 @@ import { newsService } from '../../services/news.service';
 export class CompetenceFrameViewComponent implements OnInit {
   public user: user = new user();
   showQt: boolean;
+  showUs: boolean;
   public apply: Application = new Application();
   public quillEditor: any;
   public htmlContent =
@@ -70,6 +71,19 @@ export class CompetenceFrameViewComponent implements OnInit {
     private modal: NzModalService,
     private http: HttpClient
   ) {
+    newsService
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('email');
+          localStorage.removeItem('cv');
+          localStorage.removeItem('searchKeyword');
+          localStorage.removeItem('role');
+        }
+      });
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -78,13 +92,14 @@ export class CompetenceFrameViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
-    newsService
-      .getLoggedInUser(localStorage.getItem('email') || '')
-      .subscribe((user) => {
-        if (user.errorCode === null) {
-          this.user = user.data;
-        }
-      });
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'USER'
+    ) {
+      this.showUs = true;
+    } else {
+      this.showUs = false;
+    }
   }
 
   ngOnInit(): void {

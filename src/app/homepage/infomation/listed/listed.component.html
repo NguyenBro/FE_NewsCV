@@ -21,317 +21,150 @@
   </div>
 
   <div class="layout-content">
-    <div class="email-tab" [hidden]="!(selectedTab === 'news')">
-      <div class="upper-section">
-        <div collapsible class="section">
-          <div collapsibleTitle class="collapsible-title">
-            <span>Soạn mail</span>
+    <div class="interview-tab" [hidden]="!(selectedTab === 'news')">
+      <!-- <div class="add-section" (click)="createInterview()">
+        <i eIcon eIconType="add" eIconSize="1.5rem"></i>
+        <span>Tạo phỏng vấn</span>
+      </div> -->
+      <div class="lower-section">
+        <span class="section-title">Lịch sử đăng bài</span>
+        <!-- new hoc bong -->
+        <div collapsible class="time-interval">
+          <div collapsibleTitle class="interval-name">
+            <span>Tin học bổng</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
-          <div collapsibleContent class="email-editor">
-            <div class="email-header">
-              <div class="email-title">
-                <input
-                  type="text"
-                  value="Tiêu đề email"
-                  placeholder="Tiêu đề email"
-                />
-              </div>
-              <div class="vr"></div>
-              <div class="email-recipient">
-                <div class="recipient-type">
-                  <span>BCC: </span>
-                  <span>CC: </span>
-                </div>
-                <div class="recipient-input">
-                  <input type="text" />
-                  <input type="text" />
-                </div>
-              </div>
+          <div collapsibleContent class="interview-rounds">
+            <div class="list-headers">
+              <span class="header">Tên cuộc thi</span>
+              <span class="header">Thời gian đăng bài</span>
+              <span class="header">Link sự kiện</span>
+              <span class="header">Trạng thái</span>
+              <div class="three-dots"></div>
             </div>
-            <div class="email-body">
-              <quill-editor
-                class="editor"
-                (onEditorCreated)="quillEditor = $event"
-                [(ngModel)]="htmlContent"
-                (onSelectionChanged)="updateQuillConfig($event)"
+            <div class="list-content">
+              <div
+                class="interview-round"
+                *ngFor="let hb of listNewsHBapplice$ | async"
               >
-                <div quill-editor-toolbar collapsible class="collapsed">
-                  <div class="upper-bar">
-                    <div class="left-side">
-                      <span class="ql-formats">
-                        <button
-                          class="btn"
-                          eIcon
-                          eIconType="bold"
-                          eIconSize="1.5rem"
-                          [title]="'Bold'"
-                          (click)="fql('bold')"
-                        ></button>
-                        <button
-                          class="btn"
-                          eIcon
-                          eIconType="italic"
-                          eIconSize="1.5rem"
-                          [title]="'Italic'"
-                          (click)="fql('italic')"
-                        ></button>
-                        <button
-                          class="btn"
-                          eIcon
-                          eIconType="underline"
-                          eIconSize="1.5rem"
-                          [title]="'Underline'"
-                          (click)="fql('underline')"
-                        ></button>
-                        <button
-                          class="text-more"
-                          collapsibleTitle
-                          eIcon
-                          eIconType="text-more"
-                          eIconSize="1.5rem"
-                          [title]="'More Formatting'"
-                        ></button>
-                      </span>
-                      <span class="ql-formats">
-                        <button
-                          eIcon
-                          eIconType="align-left"
-                          eIconSize="1.5rem"
-                          [title]="'Left'"
-                          (click)="fql('align', '')"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="align-center"
-                          eIconSize="1.5rem"
-                          [title]="'Center'"
-                          (click)="fql('align', 'center')"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="ordered-list"
-                          eIconSize="1.5rem"
-                          [title]="'Ordered List'"
-                          (click)="fql('list', 'ordered')"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="unordered-list"
-                          eIconSize="1.5rem"
-                          [title]="'Bullet List'"
-                          (click)="fql('list', 'bullet')"
-                        ></button>
-                      </span>
-                      <span class="ql-formats">
-                        <button
-                          eIcon
-                          eIconType="insert-link"
-                          eIconSize="1.5rem"
-                          [title]="'Add Link'"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="insert-image"
-                          eIconSize="1.5rem"
-                          [title]="'Add Image'"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="smile"
-                          eIconSize="1.5rem"
-                          [title]="'Add Emoji'"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="insert-more"
-                          eIconSize="1.5rem"
-                          [title]="'Insert More'"
-                        ></button>
-                      </span>
-                    </div>
-                    <div class="right-side">
-                      <span class="ql-formats">
-                        <button
-                          eIcon
-                          eIconType="undo"
-                          eIconSize="1.5rem"
-                          [title]="'Undo'"
-                          (click)="fql('undo')"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="redo"
-                          eIconSize="1.5rem"
-                          [title]="'Redo'"
-                          (click)="fql('redo')"
-                        ></button>
-                        <button
-                          eIcon
-                          eIconType="more"
-                          eIconSize="1.5rem"
-                          [title]="'More'"
-                        ></button>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="lower-bar" collapsibleContent>
-                    <span class="ql-formats">
-                      <button
-                        eIcon
-                        eIconType="strike-through"
-                        eIconSize="1.5rem"
-                        [title]="'Strike'"
-                        (click)="fql('strike')"
-                      ></button>
-                      <button
-                        eIcon
-                        eIconType="subscript"
-                        eIconSize="1.5rem"
-                        [title]="'Subscript'"
-                        (click)="fql('script', 'sub')"
-                      ></button>
-                      <button
-                        eIcon
-                        eIconType="superscript"
-                        eIconSize="1.5rem"
-                        [title]="'Superscript'"
-                        (click)="fql('script', 'super')"
-                      ></button>
-                      <button
-                        class="dropdown-button"
-                        eIcon
-                        eIconType="font-family"
-                        eIconWidth="2rem"
-                        eIconHeight="1.5rem"
-                        [title]="'Font Family'"
-                      ></button>
-                      <button
-                        class="dropdown-button"
-                        eIcon
-                        eIconType="font-size"
-                        eIconWidth="2rem"
-                        eIconHeight="1.5rem"
-                        [title]="'Font Size'"
-                      ></button>
-                      <button
-                        eIcon
-                        eIconType="edit-alt"
-                        eIconSize="1.5rem"
-                        [title]="'Edit'"
-                      ></button>
-                      <button
-                        class="dropdown-button"
-                        eIcon
-                        eIconType="inline-class"
-                        eIconWidth="2rem"
-                        eIconHeight="1.5rem"
-                        [title]="'Inline Class'"
-                      ></button>
-                      <button
-                        class="dropdown-button"
-                        eIcon
-                        eIconType="inline-style"
-                        eIconWidth="2rem"
-                        eIconHeight="1.5rem"
-                        [title]="'Inline Style'"
-                      ></button>
-                      <button
-                        eIcon
-                        eIconType="clear-formatting"
-                        eIconSize="1.5rem"
-                        [title]="'Clear Formatting'"
-                      ></button>
-                    </span>
+                <div class="info round">
+                  {{ hb.codeCategory }}
+                </div>
+                <span class="info date">{{ hb.datePost }}</span>
+                <a [href]="hb.cv" class="info interviewer">{{ hb.link }}</a>
+                <!-- <span class="info interviewer">{{ job.cv }}</span> -->
+                <div class="info">
+                  <div class="status pass">
+                    <i eIcon eIconType="building"></i>
+                    <span
+                      class=""
+                      nz-popover
+                      [nzPopoverContent]="hb.status"
+                      nzPopoverPlacement="topLeft"
+                      >{{ hb.status }}</span
+                    >
                   </div>
                 </div>
-              </quill-editor>
-            </div>
-            <div class="email-footer">
-              <button class="button button-secondary">Cancel</button>
-              <button class="button button-primary">Save</button>
+                <div class="three-dots">
+                  <i
+                    eIcon
+                    eIconType="menu-dots-vertical"
+                    eIconSize="1.25rem"
+                  ></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="lower-section">
-        <div collapsible class="section">
-          <div collapsibleTitle class="collapsible-title">
-            <span>Danh sách email đã gửi</span>
+        <!-- new Sự kiện -->
+        <div collapsible class="time-interval">
+          <div collapsibleTitle class="interval-name">
+            <span>Tin sự kiện</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
-          <div collapsibleContent class="email-list">
-            <div class="email">
-              <div class="picture">
-                <img src="assets/images/mail.svg" />
-              </div>
-              <div class="content">
-                <div class="content-header">
-                  <span>Thư mời phỏng vấn vòng 1</span>
-                  <div class="interactives">
-                    <i
-                      eIcon
-                      eIconType="redo-alt"
-                      eIconWidth="1.25rem"
-                      eIconHeight="1.3125rem"
-                    ></i>
-                    <i
-                      eIcon
-                      eIconType="caret-down"
-                      class="collapsible-icon"
-                    ></i>
+          <div collapsibleContent class="interview-rounds">
+            <div class="list-headers">
+              <span class="header">Tên cuộc thi</span>
+              <span class="header">Thời gian đăng bài</span>
+              <span class="header">Link sự kiện</span>
+              <span class="header">Trạng thái</span>
+              <div class="three-dots"></div>
+            </div>
+            <div class="list-content">
+              <div
+                class="interview-round"
+                *ngFor="let hb of listNewsSKapplice$ | async"
+              >
+                <div class="info round">
+                  {{ hb.codeCategory }}
+                </div>
+                <span class="info date">{{ hb.datePost }}</span>
+                <a [href]="hb.cv" class="info interviewer">{{ hb.link }}</a>
+                <!-- <span class="info interviewer">{{ job.cv }}</span> -->
+                <div class="info">
+                  <div class="status fail">
+                    <i eIcon eIconType="building"></i>
+                    <span
+                      nz-popover
+                      [nzPopoverContent]="hb.status"
+                      nzPopoverPlacement="topLeft"
+                      >{{ hb.status }}</span
+                    >
                   </div>
                 </div>
-                <div class="content-info">
-                  <div class="info">
-                    <i eIcon eIconType="user" eIconSize="1.25rem"></i>
-                    <span>Thaolam</span>
-                  </div>
-                  <div class="info">
-                    <i eIcon eIconType="clock" eIconSize="1.25rem"></i>
-                    <span>27/08/2022 13:45</span>
-                  </div>
-                  <div class="info">
-                    <i eIcon eIconType="comment" eIconSize="1.25rem"></i>
-                    <span>0 reply</span>
-                  </div>
+                <div class="three-dots">
+                  <i
+                    eIcon
+                    eIconType="menu-dots-vertical"
+                    eIconSize="1.25rem"
+                  ></i>
                 </div>
               </div>
             </div>
-            <div class="email">
-              <div class="picture">
-                <img src="assets/images/mail.svg" />
-              </div>
-              <div class="content">
-                <div class="content-header">
-                  <span>Thư mời phỏng vấn vòng 2</span>
-                  <div class="interactives">
-                    <i
-                      eIcon
-                      eIconType="redo-alt"
-                      eIconWidth="1.25rem"
-                      eIconHeight="1.3125rem"
-                    ></i>
-                    <i
-                      eIcon
-                      eIconType="caret-down"
-                      class="collapsible-icon"
-                    ></i>
+          </div>
+        </div>
+        <!-- new cuộc thi -->
+        <div collapsible class="time-interval">
+          <div collapsibleTitle class="interval-name">
+            <span>Tin cuộc thi</span>
+            <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
+          </div>
+          <div collapsibleContent class="interview-rounds">
+            <div class="list-headers">
+              <span class="header">Tên cuộc thi</span>
+              <span class="header">Thời gian đăng bài</span>
+              <span class="header">Link sự kiện</span>
+              <span class="header">Trạng thái</span>
+              <div class="three-dots"></div>
+            </div>
+            <div class="list-content">
+              <div
+                class="interview-round"
+                *ngFor="let hb of listNewsCTapplice$ | async"
+              >
+                <div class="info round">
+                  {{ hb.codeCategory }}
+                </div>
+                <span class="info date">{{ hb.datePost }}</span>
+                <a [href]="hb.cv" class="info interviewer">{{ hb.link }}</a>
+                <!-- <span class="info interviewer">{{ job.cv }}</span> -->
+                <div class="info">
+                  <div class="status waiting">
+                    <i eIcon eIconType="building"></i>
+                    <span
+                      nz-popover
+                      [nzPopoverContent]="hb.status"
+                      nzPopoverPlacement="topLeft"
+                      >{{ hb.status }}</span
+                    >
                   </div>
                 </div>
-                <div class="content-info">
-                  <div class="info">
-                    <i eIcon eIconType="user" eIconSize="1.25rem"></i>
-                    <span>Linh_Nguyen</span>
-                  </div>
-                  <div class="info">
-                    <i eIcon eIconType="clock" eIconSize="1.25rem"></i>
-                    <span>11/09/2022 20:13</span>
-                  </div>
-                  <div class="info">
-                    <i eIcon eIconType="comment" eIconSize="1.25rem"></i>
-                    <span>5 reply</span>
-                  </div>
+                <div class="three-dots">
+                  <i
+                    eIcon
+                    eIconType="menu-dots-vertical"
+                    eIconSize="1.25rem"
+                  ></i>
                 </div>
               </div>
             </div>
@@ -341,94 +174,101 @@
     </div>
 
     <div class="interview-tab" [hidden]="!(selectedTab === 'job')">
-      <div class="add-section" (click)="createInterview()">
+      <!-- <div class="add-section" (click)="createInterview()">
         <i eIcon eIconType="add" eIconSize="1.5rem"></i>
         <span>Tạo phỏng vấn</span>
-      </div>
+      </div> -->
       <div class="lower-section">
-        <span class="section-title">Interview History</span>
+        <span class="section-title">Lịch sử ứng tuyển</span>
         <div collapsible class="time-interval">
           <div collapsibleTitle class="interval-name">
-            <span>Upcoming</span>
+            <span>Đang đợi xét duyệt</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="interview-rounds">
             <div class="list-headers">
-              <span class="header">Tên vòng phỏng vấn</span>
-              <span class="header">Thời gian phỏng vấn</span>
-              <span class="header">Người phỏng vấn</span>
-              <span class="header">Địa điểm</span>
+              <span class="header">Tên công ty</span>
+              <span class="header">Thời gian ứng tuyển</span>
+              <span class="header">Link CV</span>
+              <span class="header">Vị trí</span>
               <div class="three-dots"></div>
             </div>
             <div class="list-content">
-              <!-- <div
-                  class="interview-round"
-                  *ngFor="let intervew of listInterview"
-                >
-                  <span class="info round">{{ intervew.title }}</span>
-                  <span class="info date"
-                    >{{ intervew.date }} - {{ intervew.fromtime }}</span
-                  >
-                  <span class="info interviewer"
-                    >@{{ intervew.interviewer }}</span
-                  >
-                  <div class="info">
-                    <div class="location offline">
-                      <i eIcon eIconType="building"></i>
-                      <span>{{ intervew.location }}</span>
-                    </div>
+              <div
+                class="interview-round"
+                *ngFor="let job of listJobWapplice$ | async"
+              >
+                <div class="info round">
+                  {{ job.nameCompany }}
+                </div>
+                <span class="info date">{{ job.timeApply }}</span>
+                <a [href]="job.cv" class="info interviewer">{{ job.cv }}</a>
+                <!-- <span class="info interviewer">{{ job.cv }}</span> -->
+                <div class="info">
+                  <div class="location offline">
+                    <i eIcon eIconType="building"></i>
+                    <span
+                      class="text-white"
+                      nz-popover
+                      [nzPopoverContent]="job.position"
+                      nzPopoverPlacement="topLeft"
+                      >{{ job.position }}</span
+                    >
                   </div>
-                  <div class="three-dots">
-                    <i
-                      eIcon
-                      eIconType="menu-dots-vertical"
-                      eIconSize="1.25rem"
-                    ></i>
-                  </div>
-                </div> -->
+                </div>
+                <div class="three-dots">
+                  <i
+                    eIcon
+                    eIconType="menu-dots-vertical"
+                    eIconSize="1.25rem"
+                  ></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div collapsible class="time-interval">
           <div collapsibleTitle class="interval-name">
-            <span>Past</span>
+            <span>Đã được xét duyệt</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="interview-rounds">
             <div class="list-headers">
-              <span class="header">Tên vòng phỏng vấn</span>
-              <span class="header">Thời gian phỏng vấn</span>
-              <span class="header">Người phỏng vấn</span>
-              <span class="header">Địa điểm</span>
+              <span class="header">Tên công ty</span>
+              <span class="header">Thời gian ứng tuyển</span>
+              <span class="header">Link CV</span>
+              <span class="header">Vị trí</span>
               <div class="three-dots"></div>
             </div>
             <div class="list-content">
-              <div class="interview-round">
-                <span class="info round">Vòng 1</span>
-                <span class="info date">02.09.2022 - 13:30</span>
-                <span class="info interviewer">@Nguyễn Đức Minh Quân</span>
+              <div
+                class="interview-round"
+                *ngFor="let job of listJobDapplice$ | async"
+              >
+                <div class="info round">
+                  {{ job.nameCompany }}
+                </div>
+                <span class="info date">{{ job.timeApply }}</span>
+                <a [href]="job.cv" class="info interviewer">{{ job.cv }}</a>
+                <!-- <span class="info interviewer">{{ job.cv }}</span> -->
                 <div class="info">
                   <div class="location offline">
                     <i eIcon eIconType="building"></i>
-                    <span>Phòng Bến Nghé</span>
+                    <span
+                      class="text-white"
+                      nz-popover
+                      [nzPopoverContent]="job.position"
+                      nzPopoverPlacement="topLeft"
+                      >{{ job.position }}</span
+                    >
                   </div>
                 </div>
-                <div class="round-status">
-                  <i eIcon eIconType="circle-check-full"></i>
-                </div>
-              </div>
-              <div class="interview-round">
-                <span class="info round">Vòng 2</span>
-                <span class="info date">07.09.2022 - 13:30</span>
-                <span class="info interviewer">@Nguyễn Đức Minh Quân</span>
-                <div class="info">
-                  <div class="location online">
-                    <i eIcon eIconType="cloud"></i>
-                    <span>Online</span>
-                  </div>
-                </div>
-                <div class="round-status">
-                  <i eIcon eIconType="cross-circle-full"></i>
+                <div class="three-dots">
+                  <i
+                    eIcon
+                    eIconType="menu-dots-vertical"
+                    eIconSize="1.25rem"
+                  ></i>
                 </div>
               </div>
             </div>
@@ -438,55 +278,36 @@
     </div>
 
     <div class="test-tab" [hidden]="!(selectedTab === 'cv')">
-      <div class="add-section">
+      <!-- <div class="add-section">
         <i eIcon eIconType="add" eIconSize="1.5rem"></i>
         <span>Tạo bài test</span>
-      </div>
+      </div> -->
       <div class="lower-section">
-        <span class="section-title">Test History</span>
+        <span class="section-title">Danh sách CV đã dùng</span>
         <div collapsible class="time-interval">
           <div collapsibleTitle class="interval-name">
-            <span>In progress</span>
+            <span>Đang xét duyệt</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="test-rounds">
             <div class="list-headers">
-              <span class="header">Tên bài test</span>
-              <span class="header">Thời gian bài test</span>
-              <span class="header">Điểm</span>
+              <span class="header">Ngày nộp</span>
+              <span class="header">Link CV</span>
+              <span class="header">Tên người nộp</span>
               <span class="header">Tình trạng</span>
               <div class="three-dots"></div>
             </div>
             <div class="list-content">
-              <div class="test-round">
-                <span class="info round">Test Vòng 1</span>
-                <span class="info date">02.09.2022 - 13:30</span>
-                <span class="info">0/100</span>
+              <div
+                *ngFor="let cv of listCVWapplice$ | async"
+                class="test-round"
+              >
+                <span class="info round">{{ cv.applyTime }}</span>
+                <a [href]="cv.cv" class="info date">{{ cv.cv }}</a>
+                <span class="info">{{ cv.fullName }}</span>
                 <div class="info">
-                  <div class="status">
-                    <span>Trạng thái</span>
-                    <i
-                      eIcon
-                      eIconType="caret-down"
-                      class="collapsible-icon"
-                    ></i>
-                  </div>
-                </div>
-                <div class="three-dots">
-                  <i
-                    eIcon
-                    eIconType="menu-dots-vertical"
-                    eIconSize="1.25rem"
-                  ></i>
-                </div>
-              </div>
-              <div class="test-round">
-                <span class="info round">Test Vòng 2</span>
-                <span class="info date">07.09.2022 - 13:30</span>
-                <span class="info">100/100</span>
-                <div class="info">
-                  <div class="status">
-                    <span>Trạng thái</span>
+                  <div class="status fail">
+                    <span>{{ cv.status }}</span>
                     <i
                       eIcon
                       eIconType="caret-down"
@@ -507,47 +328,28 @@
         </div>
         <div collapsible class="time-interval">
           <div collapsibleTitle class="interval-name">
-            <span>Past</span>
+            <span>Đã duyệt</span>
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="test-rounds">
             <div class="list-headers">
-              <span class="header">Tên bài test</span>
-              <span class="header">Thời gian bài test</span>
-              <span class="header">Điểm</span>
+              <span class="header">Ngày nộp</span>
+              <span class="header">Link CV</span>
+              <span class="header">Tên người nộp</span>
               <span class="header">Tình trạng</span>
               <div class="three-dots"></div>
             </div>
             <div class="list-content">
-              <div class="test-round">
-                <span class="info round">Test Vòng 1</span>
-                <span class="info date">02.09.2022 - 13:30</span>
-                <span class="info">0/100</span>
-                <div class="info">
-                  <div class="status fail">
-                    <span>Fail</span>
-                    <i
-                      eIcon
-                      eIconType="caret-down"
-                      class="collapsible-icon"
-                    ></i>
-                  </div>
-                </div>
-                <div class="three-dots">
-                  <i
-                    eIcon
-                    eIconType="menu-dots-vertical"
-                    eIconSize="1.25rem"
-                  ></i>
-                </div>
-              </div>
-              <div class="test-round">
-                <span class="info round">Test Vòng 2</span>
-                <span class="info date">07.09.2022 - 13:30</span>
-                <span class="info">100/100</span>
+              <div
+                *ngFor="let cv of listCVDapplice$ | async"
+                class="test-round"
+              >
+                <span class="info round">{{ cv.applyTime }}</span>
+                <a [href]="cv.cv" class="info date">{{ cv.cv }}</a>
+                <span class="info">{{ cv.fullName }}</span>
                 <div class="info">
                   <div class="status pass">
-                    <span>Pass</span>
+                    <span>{{ cv.status }}</span>
                     <i
                       eIcon
                       eIconType="caret-down"

@@ -80,7 +80,7 @@
           "
         >
           <div
-            class="card rounded-lg bg-white h-48 relative h-fit"
+            class="card rounded-lg bg-white relative h-fit"
             [ngClass]="test.code === selectedCompetenceFrame ? 'active' : ''"
             *ngFor="let test of listCom$ | async"
             (click)="selectCompetenceFrame(test.code, test, cardRef)"

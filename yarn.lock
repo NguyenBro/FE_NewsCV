@@ -7,10 +7,15 @@
   "resolved" "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.0.1.tgz"
   "version" "4.0.1"
 
-"@ampproject/remapping@^2.1.0", "@ampproject/remapping@2.2.0":
-  "integrity" "sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w=="
-  "resolved" "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
-  "version" "2.2.0"
+"@alicloud/iconfont-helper@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@alicloud/iconfont-helper/-/iconfont-helper-1.4.0.tgz#49a5cb796141beccc272f71dd46ef95e7f28762d"
+  integrity sha512-LOQUW4DCYn2kFpB+zYJ7TC7OcXm/jQq6a2RDwRhbRRAnSO+RMYX8rAI/jgUQgw1BKvpB6e2/7AnckpJam7cF8Q==
+
+"@ampproject/remapping@2.2.0", "@ampproject/remapping@^2.1.0":
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
+  integrity sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==
   dependencies:
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
@@ -4690,10 +4695,10 @@ lru-cache@^6.0.0:
     "date-fns" "^2.16.1"
     "tslib" "^2.3.0"
 
-"ng2-pdf-viewer@^9.1.2":
-  "integrity" "sha512-dVfrEOW0rusHjLGpGnkt2mDKdd3LKK9uXAbNxOCv94I2jS2QjciPHMELLKWCliBXiLNbDOTsQdCDQPvYT3vKgQ=="
-  "resolved" "https://registry.npmjs.org/ng2-pdf-viewer/-/ng2-pdf-viewer-9.1.2.tgz"
-  "version" "9.1.2"
+ng2-pdf-viewer@^9.1.3:
+  version "9.1.3"
+  resolved "https://registry.yarnpkg.com/ng2-pdf-viewer/-/ng2-pdf-viewer-9.1.3.tgz#54648e485abc6ed50b25ddc6068538b3f0ea86bb"
+  integrity sha512-t2Gez92xPWPfY3qzzs+iLey5NUCYwJXIzv+dU4prY96aYdacsxuOpFjORW1+a330ryMkxYEJvEQ+mgbBJr77xw==
   dependencies:
     "pdfjs-dist" "~2.14.305"
     "tslib" "^2.3.1"

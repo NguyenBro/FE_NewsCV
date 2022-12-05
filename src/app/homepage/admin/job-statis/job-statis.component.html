@@ -26,6 +26,7 @@
       <div class="item">
         <div class="divimage">
           <a [href]="apply.cv" height="100px" width="100px">link CV</a>
+          <pdf-viewer [src]="apply.cv" [render-text]="true"></pdf-viewer>
         </div>
         <div class="content">
           <div>Tên: {{ apply.fullName }}</div>

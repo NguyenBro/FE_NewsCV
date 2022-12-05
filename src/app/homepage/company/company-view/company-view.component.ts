@@ -85,27 +85,7 @@ export class CompanyViewComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    // this.comFrame = this.service.company;
-    // console.log('cỏmame', this.comFrame);
-    // this.listJobOfCompany$ = this.service
-    //   .setJobByCompany(this.comFrame?.code)
-    //   .pipe(map((data) => data.data));
-    // this.listJob$ = combineLatest({
-    //   listOfCompetences: this.listJobOfCompany$,
-    //   pageIndex: this.pageIndex$,
-    //   pageSize: this.pageSize$,
-    //   searches: this.listOfSearches$,
-    //   refresh: this.refreshBehavior$,
-    // }).pipe(
-    //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-    //     listOfCompetences.slice(
-    //       (pageIndex - 1) * pageSize,
-    //       pageIndex * pageSize
-    //     )
-    //   )
-    // );
-  }
+  ngOnInit(): void {}
 
   public create() {
     this.service.conditionDup = false;

@@ -30,30 +30,58 @@
     </div>
     <div *ngFor="let candidate of listCom$ | async" class="list">
       <div *ngIf="!load" class="item">
-        <div class="divimage">
-          <img class="image" [src]="candidate.thumbnail" />
-        </div>
-        <div class="content">
-          <div>
-            <div>Tiêu đề: {{ candidate.title }}</div>
-            <div>Trạng thái: {{ candidate.status }}</div>
-            <div>Lượt thích: {{ candidate.numLike }}</div>
+        <div class="itemcon">
+          <div class="divimage">
+            <img class="image" [src]="candidate.thumbnail" />
           </div>
-          <div>
+          <div class="content">
             <div>
-              link:
-              <a [href]="candidate.link" height="100px" width="100px">{{
-                candidate.link
-              }}</a>
+              <div>Thể loại: {{ candidate.codeCategory }}</div>
+              <div>Trạng thái: {{ candidate.status }}</div>
+              <div>Lượt thích: {{ candidate.numLike }}</div>
             </div>
-            <div>Lượt xem: {{ candidate.numView }}</div>
-            <div>Lượt không thích: {{ candidate.numDisLike }}</div>
-          </div>
-          <div>
-            <div>Lượt chia sẽ: {{ candidate.numShare }}</div>
-            <div>Lượt lưu: {{ candidate.numSave }}</div>
+            <div>
+              <div>
+                link:
+                <a [href]="candidate.link" height="100px" width="100px">{{
+                  candidate.link
+                }}</a>
+              </div>
+              <div>Lượt xem: {{ candidate.numView }}</div>
+              <div>Lượt không thích: {{ candidate.numDisLike }}</div>
+            </div>
+            <div>
+              <div>Lượt chia sẻ: {{ candidate.numShare }}</div>
+              <div>Lượt lưu: {{ candidate.numSave }}</div>
+            </div>
           </div>
         </div>
+        <button
+          nz-button
+          nzType="primary"
+          class="but"
+          (click)="snapStatus(candidate.id, 'Cancel')"
+          *ngIf="candidate.status === 'Done'"
+        >
+          Huỷ
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          class="but"
+          (click)="snapStatus(candidate.id, 'Done')"
+          *ngIf="candidate.status === 'Waiting'"
+        >
+          Duyệt
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          class="but"
+          *ngIf="candidate.status === 'Cancel'"
+        >
+          Đã hủy
+        </button>
       </div>
     </div>
   </div>
