@@ -3,6 +3,7 @@
 @tailwind utilities;
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-zorro-antd/ng-zorro-antd.css";
+@import "~quill/dist/quill.snow.css";
 @import "../src/app/shared/styles/ehiring.less";
 @import "../src/app/shared/styles/variables.less";
 @import "../src/app/shared/styles/generate-style.less";
@@ -32,7 +33,9 @@ body {
       background-color: white;
     }
   }
-  .select-special.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+  .select-special.ant-select-focused:not(.ant-select-disabled).ant-select:not(
+      .ant-select-customize-input
+    )
     .ant-select-selector {
     border-color: @light;
     box-shadow: none;

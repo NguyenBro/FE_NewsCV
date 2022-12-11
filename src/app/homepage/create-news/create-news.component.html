@@ -1,11 +1,26 @@
-<div class="container">
-  <header class="header">
-    <h1>AngularEditor</h1>
-    <p>Native WYSIWYG editor for Angular 6+ and 13+</p>
-  </header>
-  <angular-editor [(ngModel)]="htmlContent" [config]="config"></angular-editor>
-  <h5 class="html-header">HTML Output</h5>
-  <div class="html">
-    {{ htmlContent }}
+<div>
+  <quill-editor [(ngModel)]="text"></quill-editor>
+  <quill-view [content]="html" format="text" theme="snow"></quill-view>
+  <quill-view-html [content]="html" theme="snow"></quill-view-html>
+  <div class="ql-container ql-snow" style="border-width: 0">
+    <div class="ql-editor" [innerHTML]="html"></div>
   </div>
+  <quill-view [content]="text" format="text" theme="snow"></quill-view>
+  <quill-view-html [content]="text" theme="snow"></quill-view-html>
+
+  <nz-date-picker
+    [(ngModel)]="date"
+    (ngModelChange)="onChange($event)"
+  ></nz-date-picker>
+  aaaa
+  <a [href]="pdfSrc" target="_blank">
+    <pdf-viewer
+      [src]="pdfSrc"
+      [original-size]="false"
+      [show-all]="false"
+      [zoom]="0.4"
+      style="width: 40vh; height: 25vh"
+    ></pdf-viewer>
+  </a>
+  aaaaa
 </div>

@@ -17,12 +17,18 @@ import { Recruit, ResponseObject, user } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { Editor } from 'ngx-editor';
+import { getISOWeek } from 'date-fns';
+import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
+
 @Component({
   selector: 'app-competence-frame-form',
   templateUrl: './competence-frame-form.component.html',
   styleUrls: ['./competence-frame-form.component.less'],
 })
 export class CompetenceFrameFormComponent {
+  editor: Editor = new Editor();
+
   user: user = new user();
   selectedCategory = '';
   listCategory = [
@@ -69,6 +75,10 @@ export class CompetenceFrameFormComponent {
           console.log('user1131', this.user);
         }
       });
+  }
+  ngOnInit(): void {}
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
   }
   selectCategory(item: string) {
     this.selectedCategory = item;
