@@ -33,6 +33,13 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import {
+  RichTextEditorModule,
+  ToolbarService,
+  LinkService,
+  ImageService,
+  HtmlEditorService,
+} from '@syncfusion/ej2-angular-richtexteditor';
 @NgModule({
   declarations: [
     CompetenceFramesEntryComponent,
@@ -70,7 +77,9 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzUploadModule,
     NzDropDownModule,
     NzDatePickerModule,
+    RichTextEditorModule,
     // QuillModule.forRoot(),
   ],
+  providers: [ToolbarService, LinkService, ImageService, HtmlEditorService],
 })
 export class CompetenceFrameModule {}

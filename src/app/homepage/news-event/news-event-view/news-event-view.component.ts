@@ -117,7 +117,7 @@ export class NewsEventViewComponent implements OnInit {
   remove() {
     if (this.comFrame) {
       this.message.success('Xoá thành công tin tức');
-      this.service.delete(this.comFrame);
+      this.service.deleteEvenByCode(this.comFrame.code).subscribe();
       this.news.getPageList();
       this.cancel();
     }

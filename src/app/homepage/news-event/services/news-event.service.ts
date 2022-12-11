@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from 'process';
 
@@ -24,7 +24,17 @@ export class NewsEventService {
   constructor(private http: HttpClient) {
     this.initListPool();
   }
-
+  deleteEvenByCode(Code: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<ResponseObject>(
+      `${this.urlPath + '/api/v1/event-news/delete-by-code/' + Code}`,
+      { headers: headers }
+    );
+  }
   public getRefresh() {
     return this.refreshBehavior;
   }
@@ -74,15 +84,6 @@ export class NewsEventService {
         this.listCom.splice(i, 1);
       }
     }
-    this.refresh();
-  }
-
-  deleteById(id: string) {
-    this.listCom.forEach((comFrame: ComFrame, idx: number) => {
-      if (comFrame.id == id) {
-        this.listCom.splice(idx, 1);
-      }
-    });
     this.refresh();
   }
 

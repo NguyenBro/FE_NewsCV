@@ -8,7 +8,14 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
 import { HomepageComponent } from '../../homepage.component';
 import { Company } from '../../model/news.model';
@@ -23,6 +30,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
+  loadDing = true;
   public list: Company[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -42,21 +50,23 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-  private rawListCom$ = this.service.getListOfCompetences();
-  // .pipe(map((data) => data.data))
-  public listCom$ = combineLatest({
-    listOfCompetences: this.rawListCom$,
-    pageIndex: this.pageIndex$,
-    pageSize: this.pageSize$,
-    searches: this.listOfSearches$,
-    refresh: this.refreshBehavior$,
-  }).pipe(
-    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-      listOfCompetences
-        .filter((competence) => this.isSearchCompetence(competence, searches))
-        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
-    )
-  );
+  private rawListCom$: Observable<Company[]> = this.service
+    .getListCompany()
+    .pipe(map((data) => data.data));
+  public listCom$: Observable<Company[]> = new Observable<Company[]>();
+  //  = combineLatest({
+  //   listOfCompetences: this.rawListCom$,
+  //   pageIndex: this.pageIndex$,
+  //   pageSize: this.pageSize$,
+  //   searches: this.listOfSearches$,
+  //   refresh: this.refreshBehavior$,
+  // }).pipe(
+  //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+  //     listOfCompetences
+  //       .filter((competence) => this.isSearchCompetence(competence, searches))
+  //       .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+  //   )
+  // );
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -78,6 +88,23 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     } else {
       this.showQt = false;
     }
+    this.loadData();
+    this.loadDing = false;
+  }
+  async loadData() {
+    this.listCom$ = await combineLatest({
+      listOfCompetences: this.rawListCom$,
+      pageIndex: this.pageIndex$,
+      pageSize: this.pageSize$,
+      searches: this.listOfSearches$,
+      refresh: this.refreshBehavior$,
+    }).pipe(
+      map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        listOfCompetences
+          .filter((competence) => this.isSearchCompetence(competence, searches))
+          .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      )
+    );
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);
@@ -173,7 +200,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   deleteCompetenceFrame(id: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa khung năng lực ${id} không?`,
+      nzTitle: `Bạn có muốn xóa công ty ${id} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {

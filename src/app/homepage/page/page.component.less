@@ -1,5 +1,5 @@
 @import "/src/app/shared/styles/ehiring.less";
-
+@import "/src/app/shared/styles/generate-style.less";
 .page {
   margin: 0;
   display: flex;
@@ -59,11 +59,31 @@
   }
   &-footer {
     margin-top: 1rem;
+    padding: 2rem;
+    color: white;
     display: flex;
-    flex-direction: row;
+    background-color: @primary-2;
     .left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
       padding-left: 1rem;
-      flex: 0 1 calc(600% / 10);
+      flex: 0 1 50%;
+      text-align-last: center;
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align-last: center;
+      flex: 0 1 50%;
     }
   }
+}
+.titfood {
+  font-size: 21px;
+  font-weight: 700;
+}
+.item {
+  font-size: 17px;
 }

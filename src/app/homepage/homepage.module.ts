@@ -22,12 +22,29 @@ import { newsService } from './services/news.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { InfomationModule } from './infomation/infomation.module';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { CreateNewsComponent } from './create-news/create-news.component';
+import {
+  RichTextEditorModule,
+  ToolbarService,
+  LinkService,
+  ImageService,
+  HtmlEditorService,
+} from '@syncfusion/ej2-angular-richtexteditor';
+import { NgxEditorModule } from 'ngx-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     PageComponent,
     LoginComponent,
     ResignComponent,
     HomepageComponent,
+    CreateNewsComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +62,14 @@ import { InfomationModule } from './infomation/infomation.module';
     NzSpinModule,
     NzAlertModule,
     InfomationModule,
+    NzListModule,
+    NzGridModule,
+    NzTabsModule,
+    NzCardModule,
+    RichTextEditorModule,
+    NgxEditorModule,
+    AngularEditorModule,
+    FormsModule,
   ],
 })
 export class HomepageModule {}

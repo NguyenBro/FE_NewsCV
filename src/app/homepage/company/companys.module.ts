@@ -27,7 +27,8 @@ import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyViewComponent } from './company-view/company-view.component';
 import { CompetenceFrameRoutingModule } from './company.routing';
 import { CompanysEntryComponent } from './companys-entry/companys-entry.component';
-
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @NgModule({
   declarations: [
     CompanysEntryComponent,
@@ -60,6 +61,8 @@ import { CompanysEntryComponent } from './companys-entry/companys-entry.componen
     SectionModule,
     UiCommonModule,
     ButtonDropdownModule,
+    NzSpinModule,
+    NzAlertModule,
   ],
 })
 export class CompanysModule {}

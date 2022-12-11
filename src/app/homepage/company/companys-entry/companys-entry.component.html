@@ -53,10 +53,20 @@
 
   <!-- <div class="layout-body"> -->
   <ng-template #topBody>
-    <div class="text-xl text-primary-1 font-bold">Thông tin tuyển dụng</div>
+    <div class="text-xl text-primary-1 font-bold">Danh sách các công ty</div>
+    <div *ngIf="loadDing" class="pt-24">
+      <nz-spin nzTip="Loading...">
+        <nz-alert
+          class="pl-24"
+          nzType="info"
+          nzMessage="Đang load dữ liệu"
+          nzDescription="Xin vui lòng đợi"
+        ></nz-alert>
+      </nz-spin>
+    </div>
   </ng-template>
   <ng-template #competenceFrameList>
-    <div class="h-full">
+    <div class="h-full" *ngIf="!loadDing">
       <div class="site-showList">
         <!-- <div class="site-showList">  -->
         <div

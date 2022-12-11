@@ -53,7 +53,9 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
 
-  private rawListCom$ = this.service.getListOfCompetences();
+  private rawListCom$: Observable<scholarship[]> = this.service
+    .getListScholarship()
+    .pipe(map((data) => data.data));
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,

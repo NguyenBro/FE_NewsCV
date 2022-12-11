@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
+import { CreateNewsComponent } from './create-news/create-news.component';
 import { HomepageComponent } from './homepage.component';
 import { InfomationComponent } from './infomation/infomation.component';
 import { LoginComponent } from './login/login.component';
@@ -25,6 +26,10 @@ import { ResignComponent } from './resign/resign.component';
           {
             path: 'resign',
             component: ResignComponent,
+          },
+          {
+            path: 'create-news',
+            component: CreateNewsComponent,
           },
           {
             path: 'infomation',
