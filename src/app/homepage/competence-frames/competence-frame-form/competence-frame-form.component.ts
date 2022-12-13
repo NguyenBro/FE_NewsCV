@@ -28,7 +28,7 @@ import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
 })
 export class CompetenceFrameFormComponent {
   editor: Editor = new Editor();
-
+  isEnglish = false;
   user: user = new user();
   selectedCategory = '';
   listCategory = [
@@ -64,7 +64,8 @@ export class CompetenceFrameFormComponent {
     private router: Router,
     private serviceNews: newsService,
     private competenceFrameCom: CompetenceFramesEntryComponent,
-    private http: HttpClient
+    private http: HttpClient,
+    private i18n: NzI18nService
   ) {
     this.comFrame$.subscribe();
     serviceNews
@@ -76,7 +77,9 @@ export class CompetenceFrameFormComponent {
         }
       });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.i18n.setLocale(this.isEnglish ? zh_CN : en_US);
+  }
   onChange(result: Date): void {
     console.log('onChange: ', result);
   }

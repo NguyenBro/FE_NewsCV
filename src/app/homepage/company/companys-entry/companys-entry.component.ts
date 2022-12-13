@@ -315,7 +315,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listCom.length;
+      this.listLength = this.service.listCompany.length;
       this.list = this.service.listCompany.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount

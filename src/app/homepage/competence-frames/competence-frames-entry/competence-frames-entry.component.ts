@@ -224,7 +224,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
     });
   }
   deleteById(id: string) {
-    this.service.deleteById(id);
+    // this.service.deleteById(id);
     this.message.success('Xoá thành công khung năng lực');
     this.router.navigate(['./homepage/competence-frames']);
     this.isDetailShown = false;
@@ -322,7 +322,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listCom.length;
+      this.listLength = this.service.listRecruit.length;
       this.list = this.service.listRecruit.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount

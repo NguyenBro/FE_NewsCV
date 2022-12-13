@@ -29,6 +29,8 @@ import { CompetenceFrameRoutingModule } from './company.routing';
 import { CompanysEntryComponent } from './companys-entry/companys-entry.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { QuillModule } from 'ngx-quill';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 @NgModule({
   declarations: [
     CompanysEntryComponent,
@@ -63,6 +65,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     ButtonDropdownModule,
     NzSpinModule,
     NzAlertModule,
+    QuillModule.forRoot(),
+    NzUploadModule,
   ],
 })
 export class CompanysModule {}

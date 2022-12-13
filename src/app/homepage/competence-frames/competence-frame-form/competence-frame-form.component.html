@@ -119,34 +119,20 @@
             class="p-4 w-full border-mid rounded-lg input-custom"
             style="outline: none"
           />
-          <div class="flex">
-            <p>Ngày bắt đầu :</p>
-            <input type="date" [(ngModel)]="Recruit.startTime" />
+          <div class="flex gap-1">
+            <p class="self-center">Ngày bắt đầu :</p>
             <nz-date-picker
               [(ngModel)]="Recruit.startTime"
               (ngModelChange)="onChange($event)"
             ></nz-date-picker>
           </div>
-          <div class="flex">
-            <p>Ngày kết thúc :</p>
-            <input type="date" [(ngModel)]="Recruit.endTime" />
+          <div class="flex gap-1">
+            <p class="self-center">Ngày kết thúc :</p>
+            <nz-date-picker
+              [(ngModel)]="Recruit.endTime"
+              (ngModelChange)="onChange($event)"
+            ></nz-date-picker>
           </div>
-          <!-- <nz-date-picker [(ngModel)]="Recruit.endTime"></nz-date-picker>
-          <nz-date-picker
-            [nzDisabledDate]="disabledStartDate"
-            nzFormat="yyyy-MM-dd"
-            [(ngModel)]="Recruit.startTime"
-            nzPlaceHolder="Start"
-            (nzOnOpenChange)="handleStartOpenChange($event)"
-          ></nz-date-picker>
-          <nz-date-picker
-            #endDatePicker
-            [nzDisabledDate]="disabledEndDate"
-            nzFormat="yyyy-MM-dd"
-            [(ngModel)]="Recruit.endTime"
-            nzPlaceHolder="End"
-            (nzOnOpenChange)="handleEndOpenChange($event)"
-          ></nz-date-picker> -->
         </div>
       </app-section>
       <app-section title="Giới thiệu" [collapsible]="false">
@@ -216,12 +202,14 @@
         </div>
       </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
-        <quill-editor
+        <textarea
           section-container
           [(ngModel)]="Recruit.contact"
-          placeholder="Nhập liên hệ"
           class="descriptioninput p-4"
-        ></quill-editor>
+          nz-input
+          placeholder="Nhập liên hệ"
+          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        ></textarea>
         <div
           class="pt-2 flex flex-row-reverse text-color-mid"
           section-container

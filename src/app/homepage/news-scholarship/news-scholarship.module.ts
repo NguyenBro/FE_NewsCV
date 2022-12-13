@@ -34,6 +34,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { QuillModule } from 'ngx-quill';
 @NgModule({
   declarations: [
     NewsScholarshipEntryComponent,
@@ -73,6 +74,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
     NzAvatarModule,
     NzSpinModule,
     NzAlertModule,
+    QuillModule.forRoot(),
   ],
 })
 export class NewsScholarshipModule {}

@@ -3,8 +3,8 @@
     [isPrimary]="false"
     [status]="
       currentComFrame.name !== '' && currentComFrame.name !== undefined
-        ? 'Chỉnh sửa năng lực '
-        : 'Tạo mới năng lực'
+        ? 'Chỉnh sửa công ty '
+        : 'Tạo mới công ty'
     "
     [sectionName]="
       currentComFrame.name !== '' && currentComFrame.name !== undefined
@@ -30,9 +30,21 @@
         />
       </app-section>
       <app-section title="Ảnh đại diện công ty" [collapsible]="false">
+        <!-- <nz-upload
+          section-container
+          [nzHeaders]="{ authorization: 'authorization-text' }"
+          (nzChange)="handleChange($event)"
+          [nzBeforeUpload]=''
+        >
+          <button nz-button>
+            <span nz-icon nzType="upload"></span>
+            Click to Upload
+          </button>
+        </nz-upload> -->
         <div section-container>
           <p class="namecard">Chọn ảnh đại diện công ty:</p>
           <input
+            accept="image/*"
             (change)="chooseLogo($event)"
             placeholder="Upload CV"
             type="file"
@@ -44,59 +56,63 @@
           <p class="namecard">Chọn ảnh bìa công ty:</p>
           <input
             (change)="chooseBackgroud($event)"
+            [(ngModel)]="currentComFrame.background"
             placeholder="Upload CV"
             type="file"
           />
         </div>
       </app-section>
       <app-section title="Link công ty" [collapsible]="false">
-        <textarea
+        <input
           section-container
           [(ngModel)]="currentComFrame.link"
           class="descriptioninput p-4"
           nz-input
-          placeholder="Nhập địa chỉ"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+          placeholder="Nhập link công ty"
+        />
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>
       </app-section>
       <app-section title="Địa chỉ" [collapsible]="false">
-        <textarea
+        <input
           section-container
           [(ngModel)]="currentComFrame.address"
           class="descriptioninput p-4"
           nz-input
           placeholder="Nhập địa chỉ"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+        />
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>
       </app-section>
       <app-section title="Email" [collapsible]="false">
-        <textarea
+        <input
           section-container
           [(ngModel)]="currentComFrame.email"
           class="descriptioninput p-4"
           nz-input
           placeholder="Nhập email"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+        />
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>
       </app-section>
       <app-section title="Giới thiệu" [collapsible]="false">
-        <textarea
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.intro"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <!-- <textarea
           section-container
           [(ngModel)]="currentComFrame.intro"
           class="descriptioninput p-4"
           nz-input
           placeholder="Nhập email"
           [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+        ></textarea> -->
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>
