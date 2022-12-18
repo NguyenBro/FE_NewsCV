@@ -11,8 +11,14 @@ import { NewsEventService } from '../services/news-event.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
-import { ComFrame } from '../../model/competence-frames.model';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subscription,
+  timer,
+} from 'rxjs';
 import { HomepageComponent } from '../../homepage.component';
 import { event } from '../../model/news.model';
 
@@ -45,7 +51,9 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-  private rawListCom$ = this.service.getListOfCompetences();
+  private rawListCom$: Observable<event[]> = this.service
+    .getListEvent()
+    .pipe(map((data) => data.data));
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
@@ -70,7 +78,6 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     homepage.select = 'news';
     homepage.showLogo = false;
     this.flex = false;
-    this.getPageList(this.currentPage);
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -176,14 +183,14 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     this.getPageList(0, true);
   }
 
-  deleteCompetenceFrame(id: string, event: Event) {
+  deleteCompetenceFrame(id: string, code: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
       nzTitle: `Bạn có muốn xóa tin: ${id} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
-        return this.deleteById(id);
+        return this.deleteByCode(code);
       },
       nzOkText: 'Xóa',
       nzCancelText: 'Hủy',
@@ -192,10 +199,11 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
       },
     });
   }
-  deleteById(id: string) {
-    this.service.deleteById(id);
+  deleteByCode(code: string) {
+    this.service.deleteEvenByCode(code).subscribe();
     this.message.success('Xoá thành công tin tức');
     this.router.navigate(['./homepage/news-event']);
+    window.location.reload();
     this.isDetailShown = false;
     this.getPageList(this.currentPage);
   }

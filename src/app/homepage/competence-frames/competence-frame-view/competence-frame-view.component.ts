@@ -221,7 +221,7 @@ export class CompetenceFrameViewComponent implements OnInit {
   remove() {
     if (this.comFrame) {
       this.message.success('Xoá thành công khung năng lực');
-      this.service.delete(this.comFrame);
+      // this.service.delete(this.comFrame);
       this.competenceFrameCom.getPageList();
       this.cancel();
     }

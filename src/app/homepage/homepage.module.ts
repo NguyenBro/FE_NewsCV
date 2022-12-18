@@ -9,7 +9,6 @@ import { SharedModule } from '../shared/styles/shared.module';
 import { NzOverlayModule } from 'ng-zorro-antd/core/overlay';
 import { CompetenceFrameModule } from './competence-frames/competence-frames.module';
 
-import { InfomationComponent } from './infomation/infomation.component';
 import { UiCommonModule } from '../shared/lib/ui-common.module';
 import { LoginComponent } from './login/login.component';
 import { ResignComponent } from './resign/resign.component';
@@ -18,16 +17,27 @@ import { AdminComponent } from './admin/admin.component';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { newsService } from './services/news.service';
+
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { InfomationModule } from './infomation/infomation.module';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { CreateNewsComponent } from './create-news/create-news.component';
+
+import { FormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 @NgModule({
   declarations: [
     PageComponent,
     LoginComponent,
     ResignComponent,
     HomepageComponent,
+    CreateNewsComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +55,14 @@ import { InfomationModule } from './infomation/infomation.module';
     NzSpinModule,
     NzAlertModule,
     InfomationModule,
+    NzListModule,
+    NzGridModule,
+    NzTabsModule,
+    NzCardModule,
+    PdfViewerModule,
+    FormsModule,
+    NzDatePickerModule,
+    QuillModule.forRoot(),
   ],
 })
 export class HomepageModule {}

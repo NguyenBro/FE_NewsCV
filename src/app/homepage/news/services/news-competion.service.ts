@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -53,6 +53,17 @@ export class NewsCompetionService {
       ''
     );
   }
+  addCompetion(scho: competion) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/competion-news'}`, //đây
+      scho,
+      { headers: headers }
+    );
+  } //chỉnh api
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();

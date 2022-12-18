@@ -11,7 +11,14 @@ import { CompetenceFramesService } from '../services/competence-frames.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, Subscription, timer } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  Observable,
+  Subscription,
+  timer,
+} from 'rxjs';
 // import { ComFrame } from '../../model/competence-frames.model';
 import { Recruit } from '../../model/news.model';
 import { HomepageComponent } from '../../homepage.component';
@@ -44,7 +51,9 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-  public rawListCom$ = this.service.getListOfCompetences();
+  public rawListCom$: Observable<Recruit[]> = this.service
+    .getListRecruit()
+    .pipe(map((data) => data.data));
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
@@ -201,7 +210,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   deleteCompetenceFrame(id: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa khung năng lực ${id} không?`,
+      nzTitle: `Bạn có muốn xóa bài tuyển dụng ${id} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -215,7 +224,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
     });
   }
   deleteById(id: string) {
-    this.service.deleteById(id);
+    // this.service.deleteById(id);
     this.message.success('Xoá thành công khung năng lực');
     this.router.navigate(['./homepage/competence-frames']);
     this.isDetailShown = false;
@@ -313,7 +322,7 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listCom.length;
+      this.listLength = this.service.listRecruit.length;
       this.list = this.service.listRecruit.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount

@@ -15,6 +15,7 @@ import { ComFrame } from '../../model/competence-frames.model';
 import { CompanysService } from '../services/companys.service';
 import { Company, ResponseObject } from '../../model/news.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-company-form',
@@ -46,7 +47,16 @@ export class CompanyFormComponent {
   ) {
     this.comFrame$.subscribe();
   }
-
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.message.error(`${info.file.name} file upload failed.`);
+    }
+  }
   showModal(): void {
     this.isVisibleModal = true;
   }

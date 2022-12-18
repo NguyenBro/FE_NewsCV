@@ -1,3 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M18 1H14.7273C13.2806 1 11.8933 1.57946 10.8703 2.61091C9.8474 3.64236 9.27273 5.04131 9.27273 6.5V9.8H6V14.2H9.27273V23H13.6364V14.2H16.9091L18 9.8H13.6364V6.5C13.6364 6.20826 13.7513 5.92847 13.9559 5.72218C14.1605 5.51589 14.4379 5.4 14.7273 5.4H18V1Z" stroke="#222B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg"
+aria-label="Facebook" role="img"
+viewBox="0 0 512 512"><rect
+width="512" height="512"
+rx="15%"
+fill="#1877f2"/><path d="M355.6 330l11.4-74h-71v-48c0-20.2 9.9-40 41.7-40H370v-63s-29.3-5-57.3-5c-58.5 0-96.7 35.4-96.7 99.6V256h-65v74h65v182h80V330h59.6z" fill="#fff"/></svg>

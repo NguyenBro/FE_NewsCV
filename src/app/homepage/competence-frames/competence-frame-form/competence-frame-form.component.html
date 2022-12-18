@@ -119,35 +119,25 @@
             class="p-4 w-full border-mid rounded-lg input-custom"
             style="outline: none"
           />
-          <div class="flex">
-            <p>Ngày bắt đầu :</p>
-            <input type="date" [(ngModel)]="Recruit.startTime" />
+          <div class="flex gap-1">
+            <p class="self-center">Ngày bắt đầu :</p>
+            <nz-date-picker
+              [(ngModel)]="Recruit.startTime"
+              (ngModelChange)="onChange($event)"
+            ></nz-date-picker>
           </div>
-          <div class="flex">
-            <p>Ngày kết thúc :</p>
-            <input type="date" [(ngModel)]="Recruit.endTime" />
+          <div class="flex gap-1">
+            <p class="self-center">Ngày kết thúc :</p>
+            <nz-date-picker
+              [(ngModel)]="Recruit.endTime"
+              (ngModelChange)="onChange($event)"
+            ></nz-date-picker>
           </div>
-          <!-- <nz-date-picker [(ngModel)]="Recruit.endTime"></nz-date-picker>
-          <nz-date-picker
-            [nzDisabledDate]="disabledStartDate"
-            nzFormat="yyyy-MM-dd"
-            [(ngModel)]="Recruit.startTime"
-            nzPlaceHolder="Start"
-            (nzOnOpenChange)="handleStartOpenChange($event)"
-          ></nz-date-picker>
-          <nz-date-picker
-            #endDatePicker
-            [nzDisabledDate]="disabledEndDate"
-            nzFormat="yyyy-MM-dd"
-            [(ngModel)]="Recruit.endTime"
-            nzPlaceHolder="End"
-            (nzOnOpenChange)="handleEndOpenChange($event)"
-          ></nz-date-picker> -->
         </div>
       </app-section>
       <app-section title="Giới thiệu" [collapsible]="false">
         <!-- <div [innerHTML]="comFrame?.treatment"></div> -->
-        <textarea
+        <!-- <textarea
           section-container
           [(ngModel)]="Recruit.introduction"
           class="descriptioninput p-4"
@@ -155,42 +145,61 @@
           placeholder="Nhập giới thiệu"
           [nzAutosize]="{ minRows: 6, maxRows: 6 }"
         ></textarea>
-        <div class="">Trường không bắt buộc</div>
+        <div class="">Trường không bắt buộc</div> -->
+        <quill-editor
+          section-container
+          [(ngModel)]="Recruit.introduction"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div
+          class="pt-2 flex flex-row-reverse text-color-mid"
+          section-container
+        >
+          Trường không bắt buộc
+        </div>
       </app-section>
       <app-section title="Mô tả" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="Recruit.description"
-          class="descriptioninput p-4"
-          nz-input
           placeholder="Nhập mô tả"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
-        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div
+          class="pt-2 flex flex-row-reverse text-color-mid"
+          section-container
+        >
           Trường không bắt buộc
         </div>
       </app-section>
       <app-section title="Yêu cầu" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="Recruit.requirement"
-          class="descriptioninput p-4"
-          nz-input
           placeholder="Nhập yêu cầu"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
-        <div class="">Trường không bắt buộc</div>
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div
+          class="pt-2 flex flex-row-reverse text-color-mid"
+          section-container
+        >
+          Trường không bắt buộc
+        </div>
       </app-section>
       <app-section title="Đãi ngộ" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="Recruit.treatment"
-          class="descriptioninput p-4"
-          nz-input
           placeholder="Nhập đãi ngộ"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
-        <div class="">Trường không bắt buộc</div>
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div
+          class="pt-2 flex flex-row-reverse text-color-mid"
+          section-container
+        >
+          Trường không bắt buộc
+        </div>
       </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
         <textarea
@@ -201,7 +210,12 @@
           placeholder="Nhập liên hệ"
           [nzAutosize]="{ minRows: 6, maxRows: 6 }"
         ></textarea>
-        <div class="">Trường không bắt buộc</div>
+        <div
+          class="pt-2 flex flex-row-reverse text-color-mid"
+          section-container
+        >
+          Trường không bắt buộc
+        </div>
       </app-section>
     </div>
   </app-right-side>
