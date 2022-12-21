@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -27,7 +29,9 @@ import { competion, scholarship } from '../../model/news.model';
   templateUrl: './news-scholarship-entry.component.html',
   styleUrls: ['./news-scholarship-entry.component.less'],
 })
-export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
+export class NewsScholarshipEntryComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   showQt: boolean;
   load = false;
   @ViewChild('competenceFrameList', { static: true })
@@ -75,7 +79,8 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
     private message: NzMessageService,
     private service: NewsScholarshipService,
     private modal: NzModalService,
-    private homepage: HomepageComponent
+    private homepage: HomepageComponent,
+    private cdr: ChangeDetectorRef
   ) {
     homepage.select = 'news';
     homepage.showLogo = false;
@@ -92,6 +97,9 @@ export class NewsScholarshipEntryComponent implements OnInit, OnDestroy {
     } else {
       this.showQt = false;
     }
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
   }
   async loadData() {
     this.rawListCom$ = this.service.getListOfCompetences();

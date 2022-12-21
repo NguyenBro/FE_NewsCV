@@ -57,28 +57,43 @@
         <app-section title="Mô tả">
           <div container>
             <div section-container class="competence-tags">
-              <div>{{ (comFrameInfo$ | async)?.shortContent }}</div>
+              <quill-view-html
+              [content]="(comFrameInfo$ | async)?.shortContent || ''"
+              theme="snow"
+            ></quill-view-html>
             </div>
           </div>
         </app-section>
         <app-section title="Giới thiệu" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.introduction"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.introduction || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Yêu cầu" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.requirement"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.requirement || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Lợi ích" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.benefit"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.benefit || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Hình thức đăng ký" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.contact"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.contact || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Bình luận">

@@ -61,21 +61,12 @@
         <app-section title="Mô tả">
           <div container>
             <div section-container class="competence-tags">
-              <div [innerHTML]="(comFrameInfo$ | async)?.description"></div>
+              <!-- <div [innerHTML]="(comFrameInfo$ | async)?.description"></div> -->
+              <quill-view-html
+                [content]="(comFrameInfo$ | async)?.description || ''"
+                theme="snow"
+              ></quill-view-html>
             </div>
-            <!-- <textarea
-              nz-input
-              placeholder="Nhập mô tả"
-              [value]="(comFrameInfo$ | async)?.['description']"
-              style="
-                border-color: #32cc4c;
-                resize: none;
-                border-radius: 8px;
-                font-weight: 400;
-                padding: 1rem;
-                pointer-events: none;
-              "
-            ></textarea> -->
           </div>
         </app-section>
         <app-section title="Chi tiết tin tuyển dụng" [collapsible]="false">
@@ -122,12 +113,18 @@
         </app-section>
         <app-section title="Yêu cầu ứng viên" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="comFrame?.requirement"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.requirement || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Quyền lợi" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="comFrame?.treatment"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.treatment || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="" [collapsible]="false">
@@ -192,206 +189,6 @@
                     "
                   ></textarea>
                 </div>
-                <!-- design email -->
-                <div class="email-body">
-                  <quill-editor
-                    class="editor"
-                    (onEditorCreated)="quillEditor = $event"
-                    [(ngModel)]="htmlContent"
-                    (onSelectionChanged)="updateQuillConfig($event)"
-                  >
-                    <div quill-editor-toolbar collapsible class="collapsed">
-                      <div class="upper-bar">
-                        <div class="left-side">
-                          <span class="ql-formats">
-                            <button
-                              class="btn"
-                              eIcon
-                              eIconType="bold"
-                              eIconSize="1.5rem"
-                              [title]="'Bold'"
-                              (click)="fql('bold')"
-                            ></button>
-                            <button
-                              class="btn"
-                              eIcon
-                              eIconType="italic"
-                              eIconSize="1.5rem"
-                              [title]="'Italic'"
-                              (click)="fql('italic')"
-                            ></button>
-                            <button
-                              class="btn"
-                              eIcon
-                              eIconType="underline"
-                              eIconSize="1.5rem"
-                              [title]="'Underline'"
-                              (click)="fql('underline')"
-                            ></button>
-                            <button
-                              class="text-more"
-                              collapsibleTitle
-                              eIcon
-                              eIconType="text-more"
-                              eIconSize="1.5rem"
-                              [title]="'More Formatting'"
-                            ></button>
-                          </span>
-                          <span class="ql-formats">
-                            <button
-                              eIcon
-                              eIconType="align-left"
-                              eIconSize="1.5rem"
-                              [title]="'Left'"
-                              (click)="fql('align', '')"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="align-center"
-                              eIconSize="1.5rem"
-                              [title]="'Center'"
-                              (click)="fql('align', 'center')"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="ordered-list"
-                              eIconSize="1.5rem"
-                              [title]="'Ordered List'"
-                              (click)="fql('list', 'ordered')"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="unordered-list"
-                              eIconSize="1.5rem"
-                              [title]="'Bullet List'"
-                              (click)="fql('list', 'bullet')"
-                            ></button>
-                          </span>
-                          <span class="ql-formats">
-                            <button
-                              eIcon
-                              eIconType="insert-link"
-                              eIconSize="1.5rem"
-                              [title]="'Add Link'"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="insert-image"
-                              eIconSize="1.5rem"
-                              [title]="'Add Image'"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="smile"
-                              eIconSize="1.5rem"
-                              [title]="'Add Emoji'"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="insert-more"
-                              eIconSize="1.5rem"
-                              [title]="'Insert More'"
-                            ></button>
-                          </span>
-                        </div>
-                        <div class="right-side">
-                          <span class="ql-formats">
-                            <button
-                              eIcon
-                              eIconType="undo"
-                              eIconSize="1.5rem"
-                              [title]="'Undo'"
-                              (click)="fql('undo')"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="redo"
-                              eIconSize="1.5rem"
-                              [title]="'Redo'"
-                              (click)="fql('redo')"
-                            ></button>
-                            <button
-                              eIcon
-                              eIconType="more"
-                              eIconSize="1.5rem"
-                              [title]="'More'"
-                            ></button>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="lower-bar" collapsibleContent>
-                        <span class="ql-formats">
-                          <button
-                            eIcon
-                            eIconType="strike-through"
-                            eIconSize="1.5rem"
-                            [title]="'Strike'"
-                            (click)="fql('strike')"
-                          ></button>
-                          <button
-                            eIcon
-                            eIconType="subscript"
-                            eIconSize="1.5rem"
-                            [title]="'Subscript'"
-                            (click)="fql('script', 'sub')"
-                          ></button>
-                          <button
-                            eIcon
-                            eIconType="superscript"
-                            eIconSize="1.5rem"
-                            [title]="'Superscript'"
-                            (click)="fql('script', 'super')"
-                          ></button>
-                          <button
-                            class="dropdown-button"
-                            eIcon
-                            eIconType="font-family"
-                            eIconWidth="2rem"
-                            eIconHeight="1.5rem"
-                            [title]="'Font Family'"
-                          ></button>
-                          <button
-                            class="dropdown-button"
-                            eIcon
-                            eIconType="font-size"
-                            eIconWidth="2rem"
-                            eIconHeight="1.5rem"
-                            [title]="'Font Size'"
-                          ></button>
-                          <button
-                            eIcon
-                            eIconType="edit-alt"
-                            eIconSize="1.5rem"
-                            [title]="'Edit'"
-                          ></button>
-                          <button
-                            class="dropdown-button"
-                            eIcon
-                            eIconType="inline-class"
-                            eIconWidth="2rem"
-                            eIconHeight="1.5rem"
-                            [title]="'Inline Class'"
-                          ></button>
-                          <button
-                            class="dropdown-button"
-                            eIcon
-                            eIconType="inline-style"
-                            eIconWidth="2rem"
-                            eIconHeight="1.5rem"
-                            [title]="'Inline Style'"
-                          ></button>
-                          <button
-                            eIcon
-                            eIconType="clear-formatting"
-                            eIconSize="1.5rem"
-                            [title]="'Clear Formatting'"
-                          ></button>
-                        </span>
-                      </div>
-                    </div>
-                  </quill-editor>
-                </div>
-                <!-- design email -->
               </div>
               <div *nzModalFooter>
                 <button nz-button nzType="default" (click)="handleCancel()">

@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -27,7 +29,9 @@ import { event } from '../../model/news.model';
   templateUrl: './news-event-entry.component.html',
   styleUrls: ['./news-event-entry.component.less'],
 })
-export class NewsEventEntryComponent implements OnInit, OnDestroy {
+export class NewsEventEntryComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
@@ -73,7 +77,8 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     private message: NzMessageService,
     private service: NewsEventService,
     private modal: NzModalService,
-    private homepage: HomepageComponent
+    private homepage: HomepageComponent,
+    private cdr: ChangeDetectorRef
   ) {
     homepage.select = 'news';
     homepage.showLogo = false;
@@ -87,6 +92,9 @@ export class NewsEventEntryComponent implements OnInit, OnDestroy {
     } else {
       this.showQt = false;
     }
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

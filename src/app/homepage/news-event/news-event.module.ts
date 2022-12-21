@@ -32,6 +32,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { QuillModule } from 'ngx-quill';
 @NgModule({
   declarations: [
     NewsEventEntryComponent,
@@ -69,6 +70,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     NzButtonModule,
     NzListModule,
     NzAvatarModule,
+    QuillModule.forRoot(),
   ],
 })
 export class NewsEventModule {}

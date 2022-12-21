@@ -57,39 +57,51 @@
         <app-section title="Mô tả">
           <div container>
             <div section-container class="competence-tags">
-              <div>{{ (comFrameInfo$ | async)?.shortContent }}</div>
+              <quill-view-html
+                [content]="(comFrameInfo$ | async)?.shortContent || ''"
+                theme="snow"
+              ></quill-view-html>
             </div>
           </div>
         </app-section>
         <app-section title="Giới thiệu" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.introduction"></div>
-            <!-- <div #app></div> -->
-            <!-- <span
-              class="tag"
-              *ngFor="let item of (comFrameInfo$ | async)?.['competences']"
-              >{{ item }}</span
-            > -->
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.introduction || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Thông tin" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.information"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.information || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Chủ đề cuộc thi" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.subject"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.subject || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Giải thưởng" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.prize"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.prize || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Hình thức đăng ký" [collapsible]="false">
           <div section-container class="competence-tags">
-            <div [innerHTML]="(comFrameInfo$ | async)?.contact"></div>
+            <quill-view-html
+              [content]="(comFrameInfo$ | async)?.contact || ''"
+              theme="snow"
+            ></quill-view-html>
           </div>
         </app-section>
         <app-section title="Bình luận">
