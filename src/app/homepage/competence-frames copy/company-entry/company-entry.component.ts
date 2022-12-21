@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { CompanyService } from '../services/company';
+
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
@@ -19,21 +21,19 @@ import {
   Subscription,
   timer,
 } from 'rxjs';
+import { Company, Recruit } from '../../model/news.model';
 import { HomepageComponent } from '../../homepage.component';
-import { competion } from '../../model/news.model';
-import { NewsCompetionService } from '../services/news-competion.service';
 
 @Component({
-  selector: 'app-news-entry',
-  templateUrl: './news-entry.component.html',
-  styleUrls: ['./news-entry.component.less'],
+  selector: 'app-competence-frames-entry',
+  templateUrl: './company-entry.component.html',
+  styleUrls: ['./company-entry.component.less'],
 })
-export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CompanyEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
-  flex = false;
-  public list: competion[] = [];
+  public list: Company[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
 
@@ -44,7 +44,6 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   listLength = 0;
   order = 0;
 
-  paginationAmounts = [27, 18, 9];
   paginationAmount = 9;
 
   subscriptions = new Subscription();
@@ -52,8 +51,8 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-  private rawListCom$: Observable<competion[]> = this.service
-    .getListCompetion()
+  public rawListCom$: Observable<Company[]> = this.service
+    .getListCompany()
     .pipe(map((data) => data.data));
   public listCom$ = combineLatest({
     listOfCompetences: this.rawListCom$,
@@ -72,16 +71,15 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private message: NzMessageService,
-    private service: NewsCompetionService,
+    private service: CompanyService,
     private modal: NzModalService,
     private homepage: HomepageComponent,
     private cdr: ChangeDetectorRef
   ) {
-    homepage.select = 'news';
+    homepage.select = 'company';
     homepage.showLogo = false;
-    this.flex = false;
     this.getPageList(this.currentPage);
-    this.getPageList(this.currentPage);
+    // this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -103,17 +101,14 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   onListOfSearchesChange(event: string[]) {
     this.listOfSearches$.next(event);
   }
-  isSearchCompetence(competence: competion, searches: string[]): boolean {
+  isSearchCompetence(competence: Company, searches: string[]): boolean {
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>
-        competence.title
+        competence.name
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) ||
-        competence.shortContent
-          ?.toLocaleLowerCase()
-          .includes(search.toLocaleLowerCase()) ||
-        competence.codeCategory
+        competence.intro
           ?.toLocaleLowerCase()
           .includes(search.toLocaleLowerCase())
     );
@@ -126,20 +121,19 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getSearchKeyword();
   }
 
-  selectCompetenceFrame(value: string, obj: competion, cardRef: HTMLElement) {
+  selectCompetenceFrame(value: string, obj: Company, cardRef: HTMLElement) {
     this.subscriptions.add(
       timer(50).subscribe(() => {
         cardRef.scrollIntoView({
           behavior: 'smooth',
         });
       })
-    );
+    ); //sau khi click sẽ scroll lên đầu trang
 
-    this.service.competion = obj;
+    this.service.Company = obj;
     this.selectedCompetenceFrame = value;
 
-    console.log('flex', this.flex);
-    this.router.navigate(['./homepage/news-competion/' + value]);
+    this.router.navigate(['./homepage/companys/' + value]);
   }
 
   getSearchKeyword() {
@@ -192,7 +186,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   deleteCompetenceFrame(id: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa cuộc thi: ${id} không?`,
+      nzTitle: `Bạn có muốn xóa bài tuyển dụng ${id} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -206,9 +200,9 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   deleteById(id: string) {
-    this.service.deleteById(id);
-    this.message.success('Xoá thành công tin tức');
-    this.router.navigate(['./homepage/news-competion']);
+    // this.service.deleteById(id);
+    this.message.success('Xoá thành công khung năng lực');
+    this.router.navigate(['./homepage/companys']);
     this.isDetailShown = false;
     this.getPageList(this.currentPage);
   }
@@ -216,10 +210,10 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('create');
     this.service.conditionDup = false;
     this.router
-      .navigate(['./homepage/news-competion'], { skipLocationChange: true })
+      .navigate(['./homepage/companys'], { skipLocationChange: true })
       .then(() => {
         console.log('create1');
-        this.router.navigate(['./homepage/news-competion/create']);
+        this.router.navigate(['./homepage/companys/create']);
       });
 
     this.isDetailShown = true;
@@ -234,36 +228,48 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.currentPage = page == undefined ? this.currentPage : page;
 
     if (this.filterList) {
-      let tempList: competion[] = [];
-      this.service.listCompetion.forEach((comFrame: competion) => {
+      let tempList: Company[] = [];
+      this.service.listCompany.forEach((company: Company) => {
         if (
           this.filterList.every((filterKeyword: string) => {
             const lowerFilterKeyword = filterKeyword.toLowerCase();
-            if (comFrame.shortContent === undefined) {
+            if (company.intro === undefined) {
               return (
                 // if(this.sevices.checkVietnames())
                 this.service
-                  .toLowerCaseNonAccentVietnamese(comFrame.title)
+                  .toLowerCaseNonAccentVietnamese(company.name)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(company.email)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(company.address)
                   .includes(lowerFilterKeyword)
-                //   ||
-                // comFrame.competences.some((competence: string) =>
-                //   this.service
-                //     .toLowerCaseNonAccentVietnamese(competence)
-                //     .includes(lowerFilterKeyword)
-                // )
               );
             } else {
               return (
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.title,
+                    company.name,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.shortContent,
+                    company.intro,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    company.email,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    company.address,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword)
@@ -271,21 +277,21 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           })
         ) {
-          tempList.push(comFrame);
+          tempList.push(company);
         }
       });
       this.listLength = tempList.length;
 
       if (this.order == 1) {
         tempList = tempList.sort((n1, n2) => {
-          if (n1.title > n2.title) return 1;
-          if (n1.title < n2.title) return -1;
+          if (n1.name > n2.name) return 1;
+          if (n1.name < n2.name) return -1;
           return 0;
         });
       } else if (this.order == -1) {
         tempList = tempList.sort((n1, n2) => {
-          if (n1.title < n2.title) return 1;
-          if (n1.title > n2.title) return -1;
+          if (n1.name < n2.name) return 1;
+          if (n1.name > n2.name) return -1;
           return 0;
         });
       }
@@ -295,8 +301,8 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listCom.length;
-      this.list = this.service.listCompetion.slice(
+      this.listLength = this.service.listCompany.length;
+      this.list = this.service.listCompany.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount
       );

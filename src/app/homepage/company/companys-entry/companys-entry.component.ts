@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -16,7 +18,6 @@ import {
   Subscription,
   timer,
 } from 'rxjs';
-import { ComFrame } from '../../model/competence-frames.model';
 import { HomepageComponent } from '../../homepage.component';
 import { Company } from '../../model/news.model';
 import { CompanysService } from '../services/companys.service';
@@ -26,11 +27,13 @@ import { CompanysService } from '../services/companys.service';
   templateUrl: './companys-entry.component.html',
   styleUrls: ['./companys-entry.component.less'],
 })
-export class CompanysEntryComponent implements OnInit, OnDestroy {
+export class CompanysEntryComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
-  loadDing = true;
+  // loadDing = true;
   public list: Company[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -53,32 +56,30 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
   private rawListCom$: Observable<Company[]> = this.service
     .getListCompany()
     .pipe(map((data) => data.data));
-  public listCom$: Observable<Company[]> = new Observable<Company[]>();
-  //  = combineLatest({
-  //   listOfCompetences: this.rawListCom$,
-  //   pageIndex: this.pageIndex$,
-  //   pageSize: this.pageSize$,
-  //   searches: this.listOfSearches$,
-  //   refresh: this.refreshBehavior$,
-  // }).pipe(
-  //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-  //     listOfCompetences
-  //       .filter((competence) => this.isSearchCompetence(competence, searches))
-  //       .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
-  //   )
-  // );
+  public listCom$: Observable<Company[]> = combineLatest({
+    listOfCompetences: this.rawListCom$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        .filter((competence) => this.isSearchCompetence(competence, searches))
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private message: NzMessageService,
     private service: CompanysService,
     private modal: NzModalService,
-    private homepage: HomepageComponent
+    private homepage: HomepageComponent,
+    private cdr: ChangeDetectorRef
   ) {
     homepage.select = 'company';
     homepage.showLogo = false;
-    this.getPageList(this.currentPage);
-    console.log('listcom', this.listCom$);
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -88,8 +89,12 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     } else {
       this.showQt = false;
     }
-    this.loadData();
-    this.loadDing = false;
+    // this.loadData();
+
+    // this.loadDing = false;
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
   }
   async loadData() {
     this.listCom$ = await combineLatest({
@@ -214,7 +219,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
     });
   }
   deleteById(id: string) {
-    this.service.deleteById(id);
+    // this.service.deleteById(id);
     this.message.success('Xoá thành công khung năng lực');
     this.router.navigate(['./homepage/companys']);
     this.isDetailShown = false;
@@ -243,21 +248,21 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
 
     if (this.filterList) {
       let tempList: Company[] = [];
-      this.service.listCompany.forEach((comFrame: Company) => {
+      this.service.listCompany.forEach((company: Company) => {
         if (
           this.filterList.every((filterKeyword: string) => {
             const lowerFilterKeyword = filterKeyword.toLowerCase();
-            if (comFrame.intro === undefined) {
+            if (company.intro === undefined) {
               return (
                 // if(this.sevices.checkVietnames())
                 this.service
-                  .toLowerCaseNonAccentVietnamese(comFrame.name)
+                  .toLowerCaseNonAccentVietnamese(company.name)
                   .includes(lowerFilterKeyword) ||
                 this.service
-                  .toLowerCaseNonAccentVietnamese(comFrame.email)
+                  .toLowerCaseNonAccentVietnamese(company.email)
                   .includes(lowerFilterKeyword) ||
                 this.service
-                  .toLowerCaseNonAccentVietnamese(comFrame.address)
+                  .toLowerCaseNonAccentVietnamese(company.address)
                   .includes(lowerFilterKeyword)
               );
             } else {
@@ -265,25 +270,25 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.name,
+                    company.name,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.intro,
+                    company.intro,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.email,
+                    company.email,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
-                    comFrame.address,
+                    company.address,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword)
@@ -291,7 +296,7 @@ export class CompanysEntryComponent implements OnInit, OnDestroy {
             }
           })
         ) {
-          tempList.push(comFrame);
+          tempList.push(company);
         }
       });
       this.listLength = tempList.length;

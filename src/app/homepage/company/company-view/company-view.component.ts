@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -22,7 +27,7 @@ import { CompanysService } from '../services/companys.service';
   templateUrl: './company-view.component.html',
   styleUrls: ['./company-view.component.less'],
 })
-export class CompanyViewComponent implements OnInit {
+export class CompanyViewComponent implements OnInit, AfterViewInit {
   public comFrame: Company | undefined = new Company();
   public id = '';
   public listJobOfCompany$: Observable<Recruit[]> = new Observable<Recruit[]>();
@@ -43,12 +48,11 @@ export class CompanyViewComponent implements OnInit {
       this.id = p['comFrameId'];
       return this.service.getCompanyInfo(p['comFrameId']);
     }),
-    tap(
-      (it) => (
-        (this.comFrame = it),
-        (this.listJobOfCompany$ = this.service
-          .setJobByCompany(this.comFrame?.code)
-          .pipe(map((data) => data.data))),
+    tap((it) => {
+      this.comFrame = it;
+      (this.listJobOfCompany$ = this.service
+        .setJobByCompany(this.comFrame?.code)
+        .pipe(map((data) => data.data))),
         (this.listJob$ = combineLatest({
           listOfCompetences: this.listJobOfCompany$,
           pageIndex: this.pageIndex$,
@@ -62,9 +66,8 @@ export class CompanyViewComponent implements OnInit {
               pageIndex * pageSize
             )
           )
-        ))
-      )
-    )
+        ));
+    })
   );
 
   constructor(
@@ -73,7 +76,8 @@ export class CompanyViewComponent implements OnInit {
     private service: CompanysService,
     private router: Router,
     private competenceFrameCom: CompanysEntryComponent,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private cdr: ChangeDetectorRef
   ) {
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -84,7 +88,9 @@ export class CompanyViewComponent implements OnInit {
       this.showQt = false;
     }
   }
-
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
   ngOnInit(): void {}
 
   public create() {
@@ -116,7 +122,7 @@ export class CompanyViewComponent implements OnInit {
   remove() {
     if (this.comFrame) {
       this.message.success('Xoá thành công khung năng lực');
-      this.service.delete(this.comFrame);
+      // this.service.delete(this.comFrame);
       this.competenceFrameCom.getPageList();
       this.cancel();
     }

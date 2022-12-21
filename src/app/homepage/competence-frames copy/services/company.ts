@@ -1,22 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { Company, Recruit, ResponseObject } from '../../model/news.model';
+import {
+  Application,
+  Company,
+  Recruit,
+  ResponseObject,
+} from '../../model/news.model';
+import { CompanyEntryComponent } from '../company-entry/company-entry.component';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CompanysService {
+export class CompanyService {
   public listviet = listOfVietnamese;
   public conditionDup = false;
-  // public comframe = new ComFrame();
-  // public listCom: ComFrame[] = [];
-  public company = new Company();
+  public comframe = new ComFrame();
+  public listCom: ComFrame[] = [];
+  public Company = new Company();
   public listCompany: Company[] = [];
-  public listJob: Recruit[] = [];
   urlPath = 'https://server-api.newscv.tech';
   private refreshBehavior = new BehaviorSubject<number>(0);
 
@@ -31,29 +36,46 @@ export class CompanysService {
     this.refreshBehavior.next(this.refreshBehavior.value + 1);
   }
   public getListOfCompetences() {
-    this.initListPool();
     console.log('complet');
     return of(this.listCompany);
   }
-  public setListOfJob() {
-    this.initListPool();
-    console.log('complet');
-    return of(this.listJob);
-  }
+  applyCv(apply: Application): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
 
-  async initListPool() {
-    await this.getListCompany().subscribe((res) => {
-      this.listCompany = res.data;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
-    await this.setJobByCompany().subscribe((res) => {
-      this.listJob = res.data;
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/application'}`,
+      apply,
+      { headers: headers }
+    );
+  }
+  addCompany(company: Company) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news'}`,
+      company,
+      { headers: headers }
+    );
   }
   setJobByCompany(code?: string) {
     return this.http.get<ResponseObject>(
       `${this.urlPath + '/api/v1/company/get-job-by-code/' + code}`
     );
   }
+  async initListPool() {
+    await this.getListCompany().subscribe((res) => {
+      this.listCompany = res.data;
+    });
+  }
+
   getListCompany() {
     return this.http.get<ResponseObject>(
       `${this.urlPath + '/api/v1/company/get-all'}`
@@ -65,7 +87,7 @@ export class CompanysService {
       ''
     );
   }
-  addCompany(company: Company) {
+  createJobNews(recruit: Recruit) {
     const token = localStorage.getItem('token');
     console.log('token', token);
 
@@ -73,14 +95,10 @@ export class CompanysService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/company'}`,
-      company,
+      `${this.urlPath + '/api/v1/job-news'}`,
+      recruit,
       { headers: headers }
     );
-  }
-  create(newCom: ComFrame) {
-    // this.listCom.unshift(newCom);
-    this.refresh();
   }
   // update(newCom: ComFrame) {
   //   this.listCom.forEach((comFrame: ComFrame, idx: number) => {
@@ -92,9 +110,9 @@ export class CompanysService {
   //     }
   //   });
   // }
-  // delete(newCom: Company) {
+  // delete(newCom: Recruit) {
   //   for (let i = 0; i < this.listCom.length; i++) {
-  //     if (this.listCompany[i] === newCom) {
+  //     if (this.listRecruit[i] === newCom) {
   //       this.listCom.splice(i, 1);
   //     }
   //   }
@@ -110,12 +128,12 @@ export class CompanysService {
   //   this.refresh();
   // }
 
-  // public getComFrameInfo(id?: string): Observable<ComFrame | undefined> {
-  //   if (!id) {
-  //     return of(new ComFrame());
-  //   }
-  //   return of(this.listCom.find((item) => item.id === id));
-  // }
+  public getComFrameInfo(id?: string): Observable<ComFrame | undefined> {
+    if (!id) {
+      return of(new ComFrame());
+    }
+    return of(this.listCom.find((item) => item.id === id));
+  }
   public getCompanyInfo(id?: string): Observable<Company | undefined> {
     if (!id) {
       return of(new Company());

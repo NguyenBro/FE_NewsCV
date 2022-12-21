@@ -74,6 +74,13 @@ import { ResignComponent } from './resign/resign.component';
             loadChildren: () =>
               import('./company/companys.module').then((m) => m.CompanysModule),
           },
+          // {
+          //   path: 'companys',
+          //   loadChildren: () =>
+          //     import('./competence-frames copy/company.module').then(
+          //       (m) => m.CompanyModule
+          //     ),
+          // },
         ],
       },
     ]),

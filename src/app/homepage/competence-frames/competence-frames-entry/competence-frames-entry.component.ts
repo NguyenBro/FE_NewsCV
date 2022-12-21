@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -19,7 +21,6 @@ import {
   Subscription,
   timer,
 } from 'rxjs';
-// import { ComFrame } from '../../model/competence-frames.model';
 import { Recruit } from '../../model/news.model';
 import { HomepageComponent } from '../../homepage.component';
 
@@ -28,7 +29,9 @@ import { HomepageComponent } from '../../homepage.component';
   templateUrl: './competence-frames-entry.component.html',
   styleUrls: ['./competence-frames-entry.component.less'],
 })
-export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
+export class CompetenceFramesEntryComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
@@ -43,7 +46,6 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
   listLength = 0;
   order = 0;
 
-  paginationAmounts = [27, 18, 9];
   paginationAmount = 9;
 
   subscriptions = new Subscription();
@@ -73,12 +75,13 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
     private message: NzMessageService,
     private service: CompetenceFramesService,
     private modal: NzModalService,
-    private homepage: HomepageComponent
+    private homepage: HomepageComponent,
+    private cdr: ChangeDetectorRef
   ) {
     homepage.select = 'recruit';
     homepage.showLogo = false;
     this.getPageList(this.currentPage);
-    this.getPageList(this.currentPage);
+    // this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -87,6 +90,9 @@ export class CompetenceFramesEntryComponent implements OnInit, OnDestroy {
     } else {
       this.showQt = false;
     }
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);

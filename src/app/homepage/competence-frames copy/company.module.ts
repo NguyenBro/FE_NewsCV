@@ -23,26 +23,31 @@ import { FooterModule } from 'src/app/shared/styles/footer/footer.module';
 import { RightSideModule } from 'src/app/shared/styles/right-side/right-side.module';
 import { SearchBarModule } from 'src/app/shared/styles/search-bar/search-bar.module';
 import { SectionModule } from 'src/app/shared/styles/section/section.module';
-import { NewsFormComponent } from './news-form/news-form.component';
-import { NewsViewComponent } from './news-view/news-view.component';
-import { NewsRoutingModule } from './news.routing';
-import { NewsEntryComponent } from './news-entry/news-entry.component';
-import { ContainerLayoutWModule } from 'src/app/shared/styles/container-layout-w/container-layout-w.module';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { CompanyFormComponent } from './company-form/company-form.component';
+import { CompanyViewComponent } from './company-view/company-view.component';
+import { CompetenceFrameRoutingModule } from './company.routing';
+import { CompanyEntryComponent } from './company-entry/company-entry.component';
+
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+
 import { QuillModule } from 'ngx-quill';
 @NgModule({
-  declarations: [NewsEntryComponent, NewsViewComponent, NewsFormComponent],
+  declarations: [
+    CompanyEntryComponent,
+    CompanyViewComponent,
+    CompanyFormComponent,
+  ],
   imports: [
     CommonModule,
     RightSideModule,
     SearchBarModule,
     FooterModule,
     ContainerLayoutModule,
-    ContainerLayoutWModule,
-    NewsRoutingModule,
+    CompetenceFrameRoutingModule,
     NzLayoutModule,
     NzModalModule,
     PdfViewerModule,
@@ -62,11 +67,13 @@ import { QuillModule } from 'ngx-quill';
     SectionModule,
     UiCommonModule,
     ButtonDropdownModule,
-    NzCommentModule,
     NzButtonModule,
-    NzListModule,
-    NzAvatarModule,
+    NzSpaceModule,
+    NzUploadModule,
+    NzDropDownModule,
+    NzDatePickerModule,
+
     QuillModule.forRoot(),
   ],
 })
-export class NewsModule {}
+export class CompanyModule {}
