@@ -13,6 +13,8 @@ import { map, mergeMap, tap } from 'rxjs';
 import { NewsEventEntryComponent } from '../news-event-entry/news-event-entry.component';
 import { NewsEventService } from '../services/news-event.service';
 import { ComFrame } from '../../model/competence-frames.model';
+import { newsService } from '../../services/news.service';
+import { user } from '../../model/news.model';
 
 @Component({
   selector: 'app-news-form',
@@ -20,6 +22,7 @@ import { ComFrame } from '../../model/competence-frames.model';
   styleUrls: ['./news-event-form.component.less'],
 })
 export class NewsEventFormComponent {
+  user: user = new user();
   public isEmptyName = false;
   public isVisibleModal = false;
   public currentComFrame: ComFrame = new ComFrame();
@@ -51,9 +54,19 @@ export class NewsEventFormComponent {
     private message: NzMessageService,
     private route: ActivatedRoute,
     private router: Router,
-    private news: NewsEventEntryComponent
+    private news: NewsEventEntryComponent,
+    private serviceNews: newsService
   ) {
+    this.news.flex = true;
     this.comFrame$.subscribe();
+    serviceNews
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+          console.log('user1131', this.user);
+        }
+      });
   }
 
   enteredToDo(event: CdkDragEnter) {

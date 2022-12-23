@@ -59,11 +59,11 @@ export class NewsCompetionService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/competion-news'}`, //đây
+      `${this.urlPath + '/api/v1/contest-news'}`,
       scho,
       { headers: headers }
     );
-  } //chỉnh api
+  }
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();

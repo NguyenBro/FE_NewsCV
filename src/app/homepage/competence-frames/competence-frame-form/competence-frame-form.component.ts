@@ -92,7 +92,7 @@ export class CompetenceFrameFormComponent {
   }
 
   public cancel() {
-    this.router.navigate(['.homepage/competence-frames']);
+    this.router.navigate(['./homepage/competence-frames']);
     this.competenceFrameCom.isDetailShown = false;
   }
   public save() {
@@ -101,17 +101,18 @@ export class CompetenceFrameFormComponent {
         // this.service.update(this.currentComFrame);
         this.message.success('Chỉnh sửa thành công');
       } else {
-        console.log('recruit', this.Recruit);
         this.Recruit.type = 'tuyen-dung';
-
         this.Recruit.userId = Number(this.user.id);
         this.Recruit.companyCode = 'fujinet';
-        // this.Recruit.startTime = '2019-01-16';
-        // this.Recruit.endTime = '2019-01-16';
-        console.log('recruit', this.Recruit);
-
-        this.service.createJobNews(this.Recruit).subscribe();
-        this.message.success('Thêm thành công');
+        this.Recruit.status = 'Waiting';
+        this.service.createJobNews(this.Recruit).subscribe((res) => {
+          if (res.errorCode === null) {
+            this.message.success('Thêm thành công');
+            this.cancel();
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
       }
 
       // this.competenceFrameCom.getPageList(0, true);//loi dong nay
@@ -145,8 +146,11 @@ export class CompetenceFrameFormComponent {
           }
         )
         .subscribe((res) => {
-          console.log('fileasdasd', res.data);
-          this.Recruit.thumbnail = res.data;
+          if (res.errorCode === null) {
+            this.Recruit.thumbnail = res.data;
+          } else {
+            this.message.error('Ảnh không hợp lệ, vui lòng chọn ảnh khác');
+          }
         });
     }
   }

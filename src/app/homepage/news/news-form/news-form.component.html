@@ -4,8 +4,8 @@
     [status]="
       currentComFrame.codeCategory !== '' &&
       currentComFrame.codeCategory !== undefined
-        ? 'Chỉnh sửa học bổng '
-        : 'Tạo mới học bổng'
+        ? 'Chỉnh sửa cuộc thi '
+        : 'Tạo mới cuộc thi'
     "
     [sectionName]="
       currentComFrame.codeCategory !== '' &&
@@ -98,7 +98,39 @@
           Trường không bắt buộc
         </div>
       </app-section>
-
+      <app-section title="Thông tin" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.information"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Chủ đề cuộc thi" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.subject"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Cơ cấu giải thưởng" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.prize"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
         <textarea
           section-container

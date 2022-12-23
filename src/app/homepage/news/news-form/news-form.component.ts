@@ -46,6 +46,7 @@ export class NewsFormComponent {
     private news: NewsEntryComponent,
     private http: HttpClient
   ) {
+    this.news.flex = true;
     this.comFrame$.subscribe();
   }
 
@@ -54,7 +55,7 @@ export class NewsFormComponent {
   }
 
   public cancel() {
-    this.router.navigate(['.homepage/news-competion']);
+    this.router.navigate(['./homepage/news-competion']);
     this.news.isDetailShown = false;
   }
   public save() {
@@ -63,11 +64,17 @@ export class NewsFormComponent {
         // this.service.update(this.currentComFrame);
         this.message.success('Chỉnh sửa thành công');
       } else {
-        this.currentComFrame.type = 'hoc-bong';
+        this.currentComFrame.type = 'cuoc-thi';
+        this.currentComFrame.status = 'Waiting';
         this.currentComFrame.userId = Number(this.user.id);
-        this.service.addCompetion(this.currentComFrame).subscribe(); //kiểm tra đường dẫn
-        console.log('this.currentComFrameaaaaa', this.currentComFrame);
-        this.message.success('Thêm thành công');
+        this.service.addCompetion(this.currentComFrame).subscribe((Res) => {
+          if (Res.errorCode === null) {
+            this.message.success('Thêm thành công');
+            this.cancel();
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
       }
 
       // this.news.getPageList(0, true);

@@ -48,6 +48,7 @@ export class NewsScholarshipFormComponent {
     private news: NewsScholarshipEntryComponent,
     private http: HttpClient
   ) {
+    this.news.flex = true;
     this.comFrame$.subscribe();
     serviceNews
       .getLoggedInUser(localStorage.getItem('email') || '')

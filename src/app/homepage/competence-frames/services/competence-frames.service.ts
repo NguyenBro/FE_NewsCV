@@ -77,34 +77,17 @@ export class CompetenceFramesService {
       { headers: headers }
     );
   }
-  // update(newCom: ComFrame) {
-  //   this.listCom.forEach((comFrame: ComFrame, idx: number) => {
-  //     if (comFrame.id == newCom.id) {
-  //       this.listCom[idx] = newCom;
-  //       this.refresh();
-
-  //       return;
-  //     }
-  //   });
-  // }
-  // delete(newCom: Recruit) {
-  //   for (let i = 0; i < this.listCom.length; i++) {
-  //     if (this.listRecruit[i] === newCom) {
-  //       this.listCom.splice(i, 1);
-  //     }
-  //   }
-  //   this.refresh();
-  // }
-
-  // deleteById(id: string) {
-  //   this.listCom.forEach((comFrame: ComFrame, idx: number) => {
-  //     if (comFrame.id == id) {
-  //       this.listCom.splice(idx, 1);
-  //     }
-  //   });
-  //   this.refresh();
-  // }
-
+  deleteCompetenceByCode(code: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news/delete-by-code/' + code}`,
+      { headers: headers }
+    );
+  }
   public getComFrameInfo(id?: string): Observable<ComFrame | undefined> {
     if (!id) {
       return of(new ComFrame());

@@ -78,6 +78,18 @@ export class CompanysService {
       { headers: headers }
     );
   }
+
+  deleteCompanyByCode(code: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<ResponseObject>(
+      `${this.urlPath + '/api/v1/company/' + code}`,
+      { headers: headers }
+    );
+  }
   create(newCom: ComFrame) {
     // this.listCom.unshift(newCom);
     this.refresh();
