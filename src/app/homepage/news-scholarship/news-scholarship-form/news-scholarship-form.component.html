@@ -2,15 +2,13 @@
   <app-right-side
     [isPrimary]="false"
     [status]="
-      currentComFrame.codeCategory !== '' &&
-      currentComFrame.codeCategory !== undefined
+      currentComFrame.code !== '' && currentComFrame.code !== undefined
         ? 'Chỉnh sửa học bổng '
         : 'Tạo mới học bổng'
     "
     [sectionName]="
-      currentComFrame.codeCategory !== '' &&
-      currentComFrame.codeCategory !== undefined
-        ? currentComFrame.codeCategory
+      currentComFrame.typeNews !== '' && currentComFrame.typeNews !== undefined
+        ? currentComFrame.typeNews
         : ''
     "
     (cancel)="cancel()"
@@ -100,12 +98,6 @@
             style="outline: none"
           />
           <input
-            [(ngModel)]="currentComFrame.typeNews"
-            placeholder="Thể loại tin tức"
-            class="p-4 w-full border-mid rounded-lg input-custom"
-            style="outline: none"
-          />
-          <input
             [(ngModel)]="currentComFrame.level"
             placeholder="Cấp bậc"
             class="p-4 w-full border-mid rounded-lg input-custom"
@@ -147,14 +139,12 @@
         </div>
       </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="currentComFrame.contact"
-          class="descriptioninput p-4"
-          nz-input
           placeholder="Nhập mô tả"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+          class="descriptioninput p-4"
+        ></quill-editor>
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>

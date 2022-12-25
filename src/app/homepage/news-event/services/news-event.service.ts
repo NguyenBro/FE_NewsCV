@@ -35,6 +35,19 @@ export class NewsEventService {
       { headers: headers }
     );
   }
+  updateEventNews(event: event) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/event-news/' + event.id}`,
+      event,
+      { headers: headers }
+    );
+  }
   addEvent(event: event) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

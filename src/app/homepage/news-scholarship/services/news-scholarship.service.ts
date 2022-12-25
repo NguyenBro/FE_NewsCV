@@ -63,6 +63,19 @@ export class NewsScholarshipService {
       { headers: headers }
     );
   }
+  updateScholarshipNews(scho: scholarship) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/scholarship-news/' + scho.id}`,
+      scho,
+      { headers: headers }
+    );
+  }
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();

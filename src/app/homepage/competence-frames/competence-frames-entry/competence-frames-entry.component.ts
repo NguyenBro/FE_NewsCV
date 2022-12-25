@@ -35,6 +35,7 @@ export class CompetenceFramesEntryComponent
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
+  showcreate: boolean;
   public list: Recruit[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -89,6 +90,11 @@ export class CompetenceFramesEntryComponent
       this.showQt = true;
     } else {
       this.showQt = false;
+    }
+    if (localStorage.getItem('role') === 'COMPANY') {
+      this.showcreate = true;
+    } else {
+      this.showcreate = false;
     }
   }
   ngAfterViewInit() {

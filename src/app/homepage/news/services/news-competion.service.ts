@@ -75,6 +75,19 @@ export class NewsCompetionService {
       { headers: headers }
     );
   }
+  updateCompetionNews(compe: competion) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/contest-news/' + compe.id}`,
+      compe,
+      { headers: headers }
+    );
+  }
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();

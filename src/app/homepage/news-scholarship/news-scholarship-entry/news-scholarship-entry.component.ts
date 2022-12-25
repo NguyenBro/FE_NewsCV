@@ -163,8 +163,6 @@ export class NewsScholarshipEntryComponent
 
     this.service.scholarship = obj;
     this.selectedCompetenceFrame = value;
-
-    console.log('flex', this.flex);
     this.router.navigate(['./homepage/news-scholarship/' + value]);
   }
 

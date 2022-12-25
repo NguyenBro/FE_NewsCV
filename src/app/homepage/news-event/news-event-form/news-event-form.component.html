@@ -124,14 +124,12 @@
         </div>
       </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="currentComFrame.contact"
+          placeholder="Nhập giới thiệu"
           class="descriptioninput p-4"
-          nz-input
-          placeholder="Nhập mô tả"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+        ></quill-editor>
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>

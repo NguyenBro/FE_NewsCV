@@ -16,6 +16,8 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./job-statis.component.less'],
 })
 export class JobStatisComponent implements OnInit {
+  load = false;
+  selectedCompany = '';
   listApply: Application[] = [];
   public showRight = false;
   selectedJob: Candidate = new Candidate();
@@ -72,6 +74,28 @@ export class JobStatisComponent implements OnInit {
     );
   }
   ngOnInit(): void {}
+  async select(name: string) {
+    this.load = true;
+    this.showRight = false;
+    this.selectedCompany = name;
+    this.listCandidate$ = await this.services
+      .getCandidateByCompany(this.selectedCompany)
+      .pipe(map((data) => data.data));
+    this.listCom$ = combineLatest({
+      listOfCompetences: this.listCandidate$,
+      pageIndex: this.pageIndex$,
+      pageSize: this.pageSize$,
+      searches: this.listOfSearches$,
+      refresh: this.refreshBehavior$,
+    }).pipe(
+      map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        listOfCompetences
+          // .filter((competence) => this.isSearchCompetence(competence, searches))
+          .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      )
+    );
+    this.load = false;
+  }
   onSelected(can: Candidate) {
     this.showRight = true;
     this.selectedJob = can;
@@ -85,5 +109,9 @@ export class JobStatisComponent implements OnInit {
         }
         console.log('listNameCompany', this.listApply);
       });
+  }
+  snapStatus(id: Number, status: String) {
+    this.services.updateStatusAppli(id.toString(), status).subscribe();
+    this.select(this.selectedCompany);
   }
 }

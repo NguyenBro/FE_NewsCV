@@ -80,9 +80,14 @@ export class CompetenceFrameFormComponent {
       .subscribe((user) => {
         if (user.errorCode === null) {
           this.user = user.data;
-          console.log('user1131', this.user);
+          for (var i = 0; i < this.user.email.length; i++) {
+            if (this.user.email[i] === '@') {
+              this.Recruit.companyCode = this.user.email.slice(0, i);
+            }
+          }
         }
       });
+    this.selectedCategory = this.Recruit.codeCategory;
   }
   ngOnInit(): void {
     this.i18n.setLocale(this.isEnglish ? zh_CN : en_US);
@@ -92,7 +97,7 @@ export class CompetenceFrameFormComponent {
   }
   selectCategory(item: { name: string; code: string }) {
     this.selectedCategory = item.name;
-    this.Recruit.codeCategory = item.code;
+    this.Recruit.codeCategory = item.name;
   }
   showModal(): void {
     this.isVisibleModal = true;
@@ -104,25 +109,29 @@ export class CompetenceFrameFormComponent {
   }
   public save() {
     if (this.Recruit.title != '') {
-      if (this.id !== '' && this.id !== undefined) {
-        // this.service.update(this.currentComFrame);
-        this.message.success('Chỉnh sửa thành công');
+      if (this.Recruit.title !== '' && this.Recruit.title !== undefined) {
+        this.service.updateJobNews(this.Recruit).subscribe((res) => {
+          if (res.errorCode === null) {
+            window.location.reload();
+            this.message.success('Chỉnh sửa thành công');
+          } else {
+            this.message.error('Chỉnh sửa thất bại');
+          }
+        });
       } else {
         this.Recruit.type = 'tuyen-dung';
         this.Recruit.userId = Number(this.user.id);
-        this.Recruit.companyCode = 'fujinet';
         this.Recruit.status = 'Waiting';
         this.service.createJobNews(this.Recruit).subscribe((res) => {
           if (res.errorCode === null) {
+            window.location.reload();
             this.message.success('Thêm thành công');
-            this.competenceFrameCom.loadData();
-            this.cancel();
           } else {
             this.message.error('Thêm thất bại');
           }
         });
       }
-
+      this.cancel();
       // this.competenceFrameCom.getPageList(0, true);//loi dong nay
       // this.service.recruit = this.Recruit;
       // this.router.navigate([

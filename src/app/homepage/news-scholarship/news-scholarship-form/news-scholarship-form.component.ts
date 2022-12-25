@@ -90,9 +90,20 @@ export class NewsScholarshipFormComponent {
   }
   public save() {
     if (this.currentComFrame.codeCategory != '') {
-      if (this.id !== '' && this.id !== undefined) {
-        // this.service.update(this.currentComFrame);
-        this.message.success('Chỉnh sửa thành công');
+      if (
+        this.currentComFrame.code !== '' &&
+        this.currentComFrame.code !== undefined
+      ) {
+        this.service
+          .updateScholarshipNews(this.currentComFrame)
+          .subscribe((res) => {
+            if (res.errorCode === null) {
+              window.location.reload();
+              this.message.success('Chỉnh sửa thành công');
+            } else {
+              this.message.error('Chỉnh sửa thất bại');
+            }
+          });
       } else {
         this.currentComFrame.type = 'hoc-bong';
         this.currentComFrame.status = 'Waiting';
@@ -101,14 +112,14 @@ export class NewsScholarshipFormComponent {
           .addScholarshipNews(this.currentComFrame)
           .subscribe((Res) => {
             if (Res.errorCode === null) {
+              window.location.reload();
               this.message.success('Thêm thành công');
-              this.cancel();
             } else {
               this.message.error('Thêm thất bại');
             }
           });
       }
-
+      this.cancel();
       // this.news.getPageList(0, true);
       // this.service.scholarship = this.currentComFrame;
       // this.router.navigate([

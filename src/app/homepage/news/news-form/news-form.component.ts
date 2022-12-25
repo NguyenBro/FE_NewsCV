@@ -90,25 +90,35 @@ export class NewsFormComponent {
   }
   public save() {
     if (this.currentComFrame.codeCategory != '') {
-      if (this.id !== '' && this.id !== undefined) {
-        // this.service.update(this.currentComFrame);
-        this.message.success('Chỉnh sửa thành công');
+      if (
+        this.currentComFrame.code !== '' &&
+        this.currentComFrame.code !== undefined
+      ) {
+        this.service
+          .updateCompetionNews(this.currentComFrame)
+          .subscribe((res) => {
+            if (res.errorCode === null) {
+              window.location.reload();
+              this.message.success('Chỉnh sửa thành công');
+            } else {
+              this.message.error('Chỉnh sửa thất bại');
+            }
+          });
       } else {
         this.currentComFrame.type = 'cuoc-thi';
         this.currentComFrame.status = 'Waiting';
         this.currentComFrame.userId = Number(this.user.id);
         this.service.addCompetion(this.currentComFrame).subscribe((Res) => {
           if (Res.errorCode === null) {
-            this.cancel();
             this.news.getPageList(0, true);
-            this.service.refresh();
+            window.location.reload();
             this.message.success('Thêm thành công, đợi xét duyệt');
           } else {
             this.message.error('Thêm thất bại');
           }
         });
       }
-
+      this.cancel();
       // this.news.getPageList(0, true);
       // this.service.scholarship = this.currentComFrame;
       // this.router.navigate([

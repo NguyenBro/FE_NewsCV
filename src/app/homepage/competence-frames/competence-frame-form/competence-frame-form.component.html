@@ -46,7 +46,7 @@
           </nz-dropdown-menu>
         </div>
       </app-section>
-      <app-section title="Ảnh sự kiện" [collapsible]="false">
+      <!-- <app-section title="Ảnh sự kiện" [collapsible]="false">
         <div section-container>
           <p class="namecard">Chọn ảnh của bạn:</p>
           <input
@@ -55,7 +55,7 @@
             type="file"
           />
         </div>
-      </app-section>
+      </app-section> -->
       <app-section title="Nội dung ngắn gọn" [collapsible]="false">
         <input
           section-container
@@ -201,14 +201,12 @@
         </div>
       </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="Recruit.contact"
-          class="descriptioninput p-4"
-          nz-input
           placeholder="Nhập liên hệ"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+          class="descriptioninput p-4"
+        ></quill-editor>
         <div
           class="pt-2 flex flex-row-reverse text-color-mid"
           section-container

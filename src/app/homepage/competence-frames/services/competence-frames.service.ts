@@ -77,6 +77,19 @@ export class CompetenceFramesService {
       { headers: headers }
     );
   }
+  updateJobNews(recruit: Recruit) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/job-news/' + recruit.id}`,
+      recruit,
+      { headers: headers }
+    );
+  }
   deleteCompetenceByCode(code: string) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
