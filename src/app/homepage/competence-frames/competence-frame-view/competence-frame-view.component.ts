@@ -220,10 +220,17 @@ export class CompetenceFrameViewComponent implements OnInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công khung năng lực');
-      // this.service.delete(this.comFrame);
-      this.competenceFrameCom.getPageList();
-      this.cancel();
+      this.service
+        .deleteCompetenceByCode(this.comFrame.code)
+        .subscribe((res) => {
+          if (res.errorCode === null) {
+            this.cancel();
+            window.location.reload();
+            this.message.success('Xoá tuyển dụng thành công');
+          } else {
+            this.message.error('Xoá thất bại');
+          }
+        });
     }
   }
   public duplicateClick() {

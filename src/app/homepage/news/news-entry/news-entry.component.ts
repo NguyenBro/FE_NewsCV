@@ -189,14 +189,14 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.getPageList(0, true);
   }
 
-  deleteCompetenceFrame(id: string, event: Event) {
+  deleteCompetenceFrame(name: string, code: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa cuộc thi: ${id} không?`,
+      nzTitle: `Bạn có muốn xóa cuộc thi: ${name} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
-        return this.deleteById(id);
+        return this.deleteByCode(code);
       },
       nzOkText: 'Xóa',
       nzCancelText: 'Hủy',
@@ -205,12 +205,17 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     });
   }
-  deleteById(id: string) {
-    this.service.deleteById(id);
-    this.message.success('Xoá thành công tin tức');
-    this.router.navigate(['./homepage/news-competion']);
-    this.isDetailShown = false;
-    this.getPageList(this.currentPage);
+  deleteByCode(code: string) {
+    this.service.deleteByCode(code).subscribe((res) => {
+      if (res.errorCode === null) {
+        this.isDetailShown = false;
+        this.getPageList(this.currentPage);
+        window.location.reload();
+        this.message.success('Xoá tin tức thành công');
+      } else {
+        this.message.error('Xoá thất bại');
+      }
+    });
   }
   createCompetenceFrame() {
     console.log('create');

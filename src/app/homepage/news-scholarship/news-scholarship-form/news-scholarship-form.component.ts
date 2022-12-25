@@ -29,7 +29,23 @@ export class NewsScholarshipFormComponent {
   public currentComFrame: scholarship = new scholarship();
   filterList: string[] = [];
   public id = '';
+  selectedCategory = '';
 
+  listCategory = [
+    { name: 'An toàn thông tin', code: 'an-toan-thong-tin' },
+    { name: 'Blockchain', code: 'blockchain' },
+    { name: 'Devoop', code: 'devoop' },
+    { name: 'Kỹ thuật dữ liệu', code: 'du-lieu' },
+    { name: 'Hệ thống thông tin', code: 'he-thong-thong-tin' },
+    { name: 'Kỹ thuật máy tính', code: 'ky-thuat-may-tinh' },
+    { name: 'Lập trình', code: 'lap-trinh' },
+    { name: 'Trí tuệ nhân tạo', code: 'tri-tue-nhan-tao' },
+    { name: 'Website', code: 'website' },
+    { name: 'Phần Mềm', code: 'software' },
+    { name: 'Tester', code: 'kiem-thu' },
+    { name: 'Mobile', code: 'mobile' },
+    { name: 'Điện Toán Đám Mây', code: 'cloud' },
+  ];
   public comFrame$ = this.route.params.pipe(
     map((p) => p['comFrameId']),
     mergeMap((p) => this.service.getScholarshipInfo(p)),
@@ -59,13 +75,17 @@ export class NewsScholarshipFormComponent {
         }
       });
   }
-
+  selectCategory(item: { name: string; code: string }) {
+    this.selectedCategory = item.name;
+    this.currentComFrame.codeCategory = item.code;
+    this.currentComFrame.typeNews = item.name;
+  }
   showModal(): void {
     this.isVisibleModal = true;
   }
 
   public cancel() {
-    this.router.navigate(['.homepage/news-scholarship']);
+    this.router.navigate(['./homepage/news-scholarship']);
     this.news.isDetailShown = false;
   }
   public save() {
@@ -75,10 +95,18 @@ export class NewsScholarshipFormComponent {
         this.message.success('Chỉnh sửa thành công');
       } else {
         this.currentComFrame.type = 'hoc-bong';
+        this.currentComFrame.status = 'Waiting';
         this.currentComFrame.userId = Number(this.user.id);
-        this.service.addScholarshipNews(this.currentComFrame).subscribe();
-        console.log('this.currentComFrameaaaaa', this.currentComFrame);
-        this.message.success('Thêm thành công');
+        this.service
+          .addScholarshipNews(this.currentComFrame)
+          .subscribe((Res) => {
+            if (Res.errorCode === null) {
+              this.message.success('Thêm thành công');
+              this.cancel();
+            } else {
+              this.message.error('Thêm thất bại');
+            }
+          });
       }
 
       // this.news.getPageList(0, true);

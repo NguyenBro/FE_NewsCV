@@ -32,12 +32,19 @@ export class CompetenceFrameFormComponent {
   user: user = new user();
   selectedCategory = '';
   listCategory = [
-    'Blockchain',
-    'Website',
-    'Phần Mềm',
-    'Tester',
-    'Mobile',
-    'Điện Toán Đám Mây',
+    { name: 'An toàn thông tin', code: 'an-toan-thong-tin' },
+    { name: 'Blockchain', code: 'blockchain' },
+    { name: 'Devoop', code: 'devoop' },
+    { name: 'Kỹ thuật dữ liệu', code: 'du-lieu' },
+    { name: 'Hệ thống thông tin', code: 'he-thong-thong-tin' },
+    { name: 'Kỹ thuật máy tính', code: 'ky-thuat-may-tinh' },
+    { name: 'Lập trình', code: 'lap-trinh' },
+    { name: 'Trí tuệ nhân tạo', code: 'tri-tue-nhan-tao' },
+    { name: 'Website', code: 'website' },
+    { name: 'Phần Mềm', code: 'software' },
+    { name: 'Tester', code: 'kiem-thu' },
+    { name: 'Mobile', code: 'mobile' },
+    { name: 'Điện Toán Đám Mây', code: 'cloud' },
   ];
 
   startValue: Date | null = null;
@@ -83,9 +90,9 @@ export class CompetenceFrameFormComponent {
   onChange(result: Date): void {
     console.log('onChange: ', result);
   }
-  selectCategory(item: string) {
-    this.selectedCategory = item;
-    this.Recruit.codeCategory = this.selectedCategory;
+  selectCategory(item: { name: string; code: string }) {
+    this.selectedCategory = item.name;
+    this.Recruit.codeCategory = item.code;
   }
   showModal(): void {
     this.isVisibleModal = true;
@@ -108,6 +115,7 @@ export class CompetenceFrameFormComponent {
         this.service.createJobNews(this.Recruit).subscribe((res) => {
           if (res.errorCode === null) {
             this.message.success('Thêm thành công');
+            this.competenceFrameCom.loadData();
             this.cancel();
           } else {
             this.message.error('Thêm thất bại');

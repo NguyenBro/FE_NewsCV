@@ -64,6 +64,17 @@ export class NewsCompetionService {
       { headers: headers }
     );
   }
+  deleteByCode(code: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<ResponseObject>(
+      `${this.urlPath + '/api/v1/contest-news/delete-by-code/' + code}`,
+      { headers: headers }
+    );
+  }
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();
@@ -84,15 +95,6 @@ export class NewsCompetionService {
         this.listCom.splice(i, 1);
       }
     }
-    this.refresh();
-  }
-
-  deleteById(id: string) {
-    this.listCom.forEach((comFrame: ComFrame, idx: number) => {
-      if (comFrame.id == id) {
-        this.listCom.splice(idx, 1);
-      }
-    });
     this.refresh();
   }
 

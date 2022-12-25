@@ -94,6 +94,24 @@ export class CompetenceFramesEntryComponent
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
+  loadData() {
+    this.rawListCom$ = this.service
+      .getListRecruit()
+      .pipe(map((data) => data.data));
+    this.listCom$ = combineLatest({
+      listOfCompetences: this.rawListCom$,
+      pageIndex: this.pageIndex$,
+      pageSize: this.pageSize$,
+      searches: this.listOfSearches$,
+      refresh: this.refreshBehavior$,
+    }).pipe(
+      map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        listOfCompetences
+          .filter((competence) => this.isSearchCompetence(competence, searches))
+          .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      )
+    );
+  }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);
   }
@@ -232,10 +250,10 @@ export class CompetenceFramesEntryComponent
   deleteById(code: string) {
     this.service.deleteCompetenceByCode(code).subscribe((res) => {
       if (res.errorCode === null) {
-        this.message.success('Xoá tuyển dụng thành công');
-        this.router.navigate(['./homepage/competence-frames']);
         this.isDetailShown = false;
         this.getPageList(this.currentPage);
+        window.location.reload();
+        this.message.success('Xoá tuyển dụng thành công');
       } else {
         this.message.error('Xoá thất bại');
       }

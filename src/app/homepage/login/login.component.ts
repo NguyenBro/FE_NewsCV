@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.service.login(this.user).subscribe((res) => {
       this.service.token = res.data;
       if (this.service.token === null) {
-        this.message.success('Đăng nhập thất bại');
+        this.message.error('Đăng nhập thất bại');
       } else {
         this.message.success('Đăng nhập thành công');
 
