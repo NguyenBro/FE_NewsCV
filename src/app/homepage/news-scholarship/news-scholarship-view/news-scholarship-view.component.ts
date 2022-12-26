@@ -118,10 +118,17 @@ export class NewsScholarshipViewComponent implements OnInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công tin tức');
-      this.service.delete(this.comFrame);
-      this.news.getPageList();
-      this.cancel();
+      this.service.deleteByCode(this.comFrame.code).subscribe((res) => {
+        if (res.errorCode === null) {
+          this.message.success('Xoá tin tức thành công');
+          this.news.getPageList();
+          this.cancel();
+          window.location.reload();
+          this.message.success('Xoá tin tức thành công');
+        } else {
+          this.message.error('Xoá thất bại');
+        }
+      });
     }
   }
   public duplicateClick() {

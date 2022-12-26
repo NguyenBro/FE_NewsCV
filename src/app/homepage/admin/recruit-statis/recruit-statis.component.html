@@ -53,9 +53,15 @@
     <div>Danh sách ứng viên</div>
     <div *ngFor="let apply of listApply" class="list">
       <div class="item">
-        <div class="divimage">
-          <a [href]="apply.cv" height="100px" width="100px">link CV</a>
-        </div>
+        <a [href]="apply.cv" target="_blank" class="info date">
+          <pdf-viewer
+            [src]="apply.cv"
+            [original-size]="false"
+            [show-all]="false"
+            [zoom]="1"
+            style="width: 15vh; height: 23vh"
+          ></pdf-viewer>
+        </a>
         <div class="content">
           <div>Tên: {{ apply.fullName }}</div>
           <div>Số điện thoại: {{ apply.phone }}</div>

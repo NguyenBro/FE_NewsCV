@@ -25,6 +25,7 @@ export class CompetenceFrameViewComponent implements OnInit {
   public user: user = new user();
   showQt: boolean;
   showUs: boolean;
+  showCom: boolean;
   public apply: Application = new Application();
   public quillEditor: any;
   public htmlContent =
@@ -92,13 +93,15 @@ export class CompetenceFrameViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
-    if (
-      localStorage.getItem('role') === 'ADMIN' ||
-      localStorage.getItem('role') === 'USER'
-    ) {
+    if (localStorage.getItem('role') === 'USER') {
       this.showUs = true;
     } else {
       this.showUs = false;
+    }
+    if (localStorage.getItem('role') === 'COMPANY') {
+      this.showCom = true;
+    } else {
+      this.showCom = false;
     }
   }
 
@@ -220,10 +223,17 @@ export class CompetenceFrameViewComponent implements OnInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công khung năng lực');
-      // this.service.delete(this.comFrame);
-      this.competenceFrameCom.getPageList();
-      this.cancel();
+      this.service
+        .deleteCompetenceByCode(this.comFrame.code)
+        .subscribe((res) => {
+          if (res.errorCode === null) {
+            this.message.success('Xoá tuyển dụng thành công');
+            this.cancel();
+            window.location.reload();
+          } else {
+            this.message.error('Xoá thất bại');
+          }
+        });
     }
   }
   public duplicateClick() {

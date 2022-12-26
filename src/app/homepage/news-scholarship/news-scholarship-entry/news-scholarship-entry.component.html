@@ -67,7 +67,9 @@
 
   <!-- <div class="layout-body"> -->
   <ng-template #topBody>
-    <div class="text-xl text-primary-1 font-bold">Thông tin các cuộc thi</div>
+    <div class="text-xl text-primary-1 font-bold">
+      Danh sách thông tin học bổng
+    </div>
   </ng-template>
   <ng-template #competenceFrameList>
     <div class="h-full">
@@ -127,7 +129,9 @@
             <button
               *ngIf="showQt"
               class="text-lg px-2 mr-3 absolute right-0 top-3"
-              (click)="deleteCompetenceFrame(test.codeCategory, $event)"
+              (click)="
+                deleteCompetenceFrame(test.codeCategory, test.code, $event)
+              "
             >
               <span nz-icon nzType="svg:trash"> </span>
             </button>

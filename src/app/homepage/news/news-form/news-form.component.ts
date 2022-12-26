@@ -15,6 +15,7 @@ import { NewsCompetionService } from '../services/news-competion.service';
 import { ComFrame } from '../../model/competence-frames.model';
 import { competion, ResponseObject, user } from '../../model/news.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { newsService } from '../../services/news.service';
 
 @Component({
   selector: 'app-news-form',
@@ -28,7 +29,23 @@ export class NewsFormComponent {
   public currentComFrame: competion = new competion();
   filterList: string[] = [];
   public id = '';
+  selectedCategory = '';
 
+  listCategory = [
+    { name: 'An toàn thông tin', code: 'an-toan-thong-tin' },
+    { name: 'Blockchain', code: 'blockchain' },
+    { name: 'Devoop', code: 'devoop' },
+    { name: 'Kỹ thuật dữ liệu', code: 'du-lieu' },
+    { name: 'Hệ thống thông tin', code: 'he-thong-thong-tin' },
+    { name: 'Kỹ thuật máy tính', code: 'ky-thuat-may-tinh' },
+    { name: 'Lập trình', code: 'lap-trinh' },
+    { name: 'Trí tuệ nhân tạo', code: 'tri-tue-nhan-tao' },
+    { name: 'Website', code: 'website' },
+    { name: 'Phần Mềm', code: 'software' },
+    { name: 'Tester', code: 'kiem-thu' },
+    { name: 'Mobile', code: 'mobile' },
+    { name: 'Điện Toán Đám Mây', code: 'cloud' },
+  ];
   public comFrame$ = this.route.params.pipe(
     map((p) => p['comFrameId']),
     mergeMap((p) => this.service.getCompetionInfo(p)),
@@ -44,32 +61,64 @@ export class NewsFormComponent {
     private route: ActivatedRoute,
     private router: Router,
     private news: NewsEntryComponent,
-    private http: HttpClient
+    private http: HttpClient,
+    private serviceNews: newsService
   ) {
+    this.news.flex = true;
     this.comFrame$.subscribe();
+    serviceNews
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+          console.log('user1131', this.user);
+        }
+      });
   }
 
   showModal(): void {
     this.isVisibleModal = true;
   }
-
+  selectCategory(item: { name: string; code: string }) {
+    this.selectedCategory = item.name;
+    this.currentComFrame.codeCategory = item.code;
+    this.currentComFrame.typeNews = item.name;
+  }
   public cancel() {
-    this.router.navigate(['.homepage/news-competion']);
+    this.router.navigate(['./homepage/news-competion']);
     this.news.isDetailShown = false;
   }
   public save() {
     if (this.currentComFrame.codeCategory != '') {
-      if (this.id !== '' && this.id !== undefined) {
-        // this.service.update(this.currentComFrame);
-        this.message.success('Chỉnh sửa thành công');
+      if (
+        this.currentComFrame.code !== '' &&
+        this.currentComFrame.code !== undefined
+      ) {
+        this.service
+          .updateCompetionNews(this.currentComFrame)
+          .subscribe((res) => {
+            if (res.errorCode === null) {
+              window.location.reload();
+              this.message.success('Chỉnh sửa thành công');
+            } else {
+              this.message.error('Chỉnh sửa thất bại');
+            }
+          });
       } else {
-        this.currentComFrame.type = 'hoc-bong';
+        this.currentComFrame.type = 'cuoc-thi';
+        this.currentComFrame.status = 'Waiting';
         this.currentComFrame.userId = Number(this.user.id);
-        this.service.addCompetion(this.currentComFrame).subscribe(); //kiểm tra đường dẫn
-        console.log('this.currentComFrameaaaaa', this.currentComFrame);
-        this.message.success('Thêm thành công');
+        this.service.addCompetion(this.currentComFrame).subscribe((Res) => {
+          if (Res.errorCode === null) {
+            this.news.getPageList(0, true);
+            window.location.reload();
+            this.message.success('Thêm thành công, đợi xét duyệt');
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
       }
-
+      this.cancel();
       // this.news.getPageList(0, true);
       // this.service.scholarship = this.currentComFrame;
       // this.router.navigate([

@@ -163,8 +163,6 @@ export class NewsScholarshipEntryComponent
 
     this.service.scholarship = obj;
     this.selectedCompetenceFrame = value;
-
-    console.log('flex', this.flex);
     this.router.navigate(['./homepage/news-scholarship/' + value]);
   }
 
@@ -215,14 +213,14 @@ export class NewsScholarshipEntryComponent
     this.getPageList(0, true);
   }
 
-  deleteCompetenceFrame(id: string, event: Event) {
+  deleteCompetenceFrame(name: string, code: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa tin: ${id} không?`,
+      nzTitle: `Bạn có muốn xóa tin: ${name} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
-        return this.deleteById(id);
+        return this.deleteById(code);
       },
       nzOkText: 'Xóa',
       nzCancelText: 'Hủy',
@@ -231,12 +229,18 @@ export class NewsScholarshipEntryComponent
       },
     });
   }
-  deleteById(id: string) {
-    this.service.deleteById(id);
-    this.message.success('Xoá thành công tin tức');
-    this.router.navigate(['./homepage/news-scholarship']);
-    this.isDetailShown = false;
-    this.getPageList(this.currentPage);
+  deleteById(code: string) {
+    this.service.deleteByCode(code).subscribe((res) => {
+      if (res.errorCode === null) {
+        this.message.success('Xoá tin tức thành công');
+        this.isDetailShown = false;
+        this.getPageList(this.currentPage);
+        window.location.reload();
+        this.message.success('Xoá tin tức thành công');
+      } else {
+        this.message.error('Xoá thất bại');
+      }
+    });
   }
   createCompetenceFrame() {
     console.log('create');

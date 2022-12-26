@@ -2,13 +2,15 @@
   <app-right-side
     [isPrimary]="false"
     [status]="
-      currentComFrame.name !== '' && currentComFrame.name !== undefined
-        ? 'Chỉnh sửa sự kiện '
-        : 'Tạo mới sự kiện'
+      currentComFrame.codeCategory !== '' &&
+      currentComFrame.codeCategory !== undefined
+        ? 'Chỉnh sửa cuộc thi '
+        : 'Tạo mới cuộc thi'
     "
     [sectionName]="
-      currentComFrame.name !== '' && currentComFrame.name !== undefined
-        ? currentComFrame.name
+      currentComFrame.codeCategory !== '' &&
+      currentComFrame.codeCategory !== undefined
+        ? currentComFrame.typeNews
         : ''
     "
     (cancel)="cancel()"
@@ -20,19 +22,29 @@
       class="body list-section"
       style="height: 100%; padding: 1.5rem"
     >
-      <app-section title="Tên khung năng lực" [collapsible]="false">
-        <input
-          section-container
-          [(ngModel)]="currentComFrame.name"
-          placeholder="Tên khung năng lực"
-          class="h-10 p-4 w-full border-mid rounded-lg input-custom"
-          style="outline: none"
-        />
+      <app-section title="Thể loại" [collapsible]="false">
+        <div section-container>
+          <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+            {{ selectedCategory === "" ? "Chọn thể loại " : selectedCategory }}
+            <span nz-icon nzType="down"></span>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
+                *ngFor="let item of listCategory"
+                (click)="selectCategory(item)"
+              >
+                {{ item.name }}
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
       </app-section>
-      <app-section title="Mô tả" [collapsible]="false">
+      <app-section title="Tiêu đề" [collapsible]="false">
         <textarea
           section-container
-          [(ngModel)]="currentComFrame.description"
+          [(ngModel)]="currentComFrame.title"
           class="descriptioninput p-4"
           nz-input
           placeholder="Nhập mô tả"
@@ -42,75 +54,84 @@
           Trường không bắt buộc
         </div>
       </app-section>
+      <app-section title="Ảnh sự kiện" [collapsible]="false">
+        <div section-container>
+          <p class="namecard">Chọn ảnh của bạn:</p>
+          <input
+            (change)="chooseCv($event)"
+            placeholder="Upload CV"
+            type="file"
+          />
+        </div>
+      </app-section>
       <app-section
-        class="flex-auto flex-col"
-        title="Danh sách năng lực mẫu"
+        title="Thông tin sự kiện tuyển dụng của công ty"
         [collapsible]="false"
-        style="display: flex"
       >
-        <div
+        <div section-container class="flex flex-col gap-4">
+          <input
+            [(ngModel)]="currentComFrame.link"
+            placeholder="Link sự kiện"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+          <input
+            [(ngModel)]="currentComFrame.location"
+            placeholder="Địa chỉ"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+
+          <input
+            [(ngModel)]="currentComFrame.shortContent"
+            placeholder="Tóm tắt"
+            class="p-4 w-full border-mid rounded-lg input-custom"
+            style="outline: none"
+          />
+        </div>
+      </app-section>
+      <app-section title="Nội dung" [collapsible]="false">
+        <quill-editor
           section-container
-          class="section-content flex-auto"
-          style="height: 100%; display: flex; flex-direction: column"
-        >
-          <div class="competence-search">
-            <div class="input-postfix">
-              <input
-                type="text"
-                placeholder="Tìm kiếm năng lực"
-                (keyup)="search($event)"
-              />
-
-              <span class="icon" nz-icon nzType="svg:search"></span>
-            </div>
-          </div>
-
-          <div cdkDropListGroup class="competence-frame">
-            <div class="competence-frame-item">
-              <div
-                class="competence-list"
-                cdkDropList
-                [cdkDropListData]="todo"
-                (cdkDropListDropped)="drop($event)"
-              >
-                <span
-                  class="tag"
-                  *ngFor="let item of todo"
-                  (click)="add(item)"
-                  cdkDrag
-                >
-                  {{ item }}
-                </span>
-              </div>
-            </div>
-            <div class="competence-frame-item">
-              <div
-                class="absolute flex items-center justify-center inset-0 pointer-events-none text-edit"
-                *ngIf="currentComFrame.competences.length === 0"
-              >
-                Kéo thả các năng lực bên trái vào đây<br />để thêm năng lực và
-                ngược lại
-              </div>
-              <div
-                class="competence-list chosen"
-                cdkDropList
-                [cdkDropListData]="currentComFrame.competences"
-                (cdkDropListDropped)="drop($event)"
-              >
-                <span
-                  class="tag"
-                  *ngFor="
-                    let item1 of currentComFrame.competences;
-                    index as idx
-                  "
-                  (click)="remove(item1)"
-                  cdkDrag
-                >
-                  {{ item1 }}
-                </span>
-              </div>
-            </div>
-          </div>
+          [(ngModel)]="currentComFrame.content"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Thông tin" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.information"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Người tham gia" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.participation"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Liên hệ" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.contact"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
         </div>
       </app-section>
     </div>

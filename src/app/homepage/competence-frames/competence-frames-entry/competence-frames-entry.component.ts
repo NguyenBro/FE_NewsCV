@@ -35,6 +35,7 @@ export class CompetenceFramesEntryComponent
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
+  showcreate: boolean;
   public list: Recruit[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -90,9 +91,32 @@ export class CompetenceFramesEntryComponent
     } else {
       this.showQt = false;
     }
+    if (localStorage.getItem('role') === 'COMPANY') {
+      this.showcreate = true;
+    } else {
+      this.showcreate = false;
+    }
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
+  }
+  loadData() {
+    this.rawListCom$ = this.service
+      .getListRecruit()
+      .pipe(map((data) => data.data));
+    this.listCom$ = combineLatest({
+      listOfCompetences: this.rawListCom$,
+      pageIndex: this.pageIndex$,
+      pageSize: this.pageSize$,
+      searches: this.listOfSearches$,
+      refresh: this.refreshBehavior$,
+    }).pipe(
+      map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        listOfCompetences
+          .filter((competence) => this.isSearchCompetence(competence, searches))
+          .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      )
+    );
   }
   onPageIndexChange(event: number) {
     this.pageIndex$.next(event);
@@ -213,14 +237,14 @@ export class CompetenceFramesEntryComponent
     this.getPageList(0, true);
   }
 
-  deleteCompetenceFrame(id: string, event: Event) {
+  deleteCompetenceFrame(code: string, name: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa bài tuyển dụng ${id} không?`,
+      nzTitle: `Bạn có muốn xóa bài tuyển dụng ${name} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
-        return this.deleteById(id);
+        return this.deleteById(code);
       },
       nzOkText: 'Xóa',
       nzCancelText: 'Hủy',
@@ -229,12 +253,17 @@ export class CompetenceFramesEntryComponent
       },
     });
   }
-  deleteById(id: string) {
-    // this.service.deleteById(id);
-    this.message.success('Xoá thành công khung năng lực');
-    this.router.navigate(['./homepage/competence-frames']);
-    this.isDetailShown = false;
-    this.getPageList(this.currentPage);
+  deleteById(code: string) {
+    this.service.deleteCompetenceByCode(code).subscribe((res) => {
+      if (res.errorCode === null) {
+        this.isDetailShown = false;
+        this.getPageList(this.currentPage);
+        window.location.reload();
+        this.message.success('Xoá tuyển dụng thành công');
+      } else {
+        this.message.error('Xoá thất bại');
+      }
+    });
   }
   createCompetenceFrame() {
     console.log('create');

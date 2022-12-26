@@ -39,7 +39,7 @@
       </app-button-dropdown>
 
       <button
-        *ngIf="showQt"
+        *ngIf="showcreate"
         class="button-secondary"
         (click)="createCompetenceFrame()"
       >
@@ -106,7 +106,7 @@
             <button
               *ngIf="showQt"
               class="text-lg px-2 mr-3 absolute right-0 top-3"
-              (click)="deleteCompetenceFrame(test.title, $event)"
+              (click)="deleteCompetenceFrame(test.code, test.title, $event)"
             >
               <span nz-icon nzType="svg:trash"> </span>
             </button>

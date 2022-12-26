@@ -202,14 +202,14 @@ export class CompanysEntryComponent
     this.getPageList(0, true);
   }
 
-  deleteCompetenceFrame(id: string, event: Event) {
+  deleteCompetenceFrame(code: string, name: string, event: Event) {
     event.stopPropagation();
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa công ty ${id} không?`,
+      nzTitle: `Bạn có muốn xóa công ty ${name} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
-        return this.deleteById(id);
+        return this.deleteById(code);
       },
       nzOkText: 'Xóa',
       nzCancelText: 'Hủy',
@@ -218,12 +218,17 @@ export class CompanysEntryComponent
       },
     });
   }
-  deleteById(id: string) {
-    // this.service.deleteById(id);
-    this.message.success('Xoá thành công khung năng lực');
-    this.router.navigate(['./homepage/companys']);
-    this.isDetailShown = false;
-    this.getPageList(this.currentPage);
+  deleteById(code: string) {
+    this.service.deleteCompanyByCode(code).subscribe((res) => {
+      if (res.errorCode === null) {
+        this.message.success('Xoá công ty thành công');
+        this.router.navigate(['./homepage/companys']);
+        this.isDetailShown = false;
+        this.getPageList(this.currentPage);
+      } else {
+        this.message.error('Xoá thất bại');
+      }
+    });
   }
   createCompetenceFrame() {
     console.log('create');

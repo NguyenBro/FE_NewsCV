@@ -32,12 +32,19 @@ export class CompetenceFrameFormComponent {
   user: user = new user();
   selectedCategory = '';
   listCategory = [
-    'Blockchain',
-    'Website',
-    'Phần Mềm',
-    'Tester',
-    'Mobile',
-    'Điện Toán Đám Mây',
+    { name: 'An toàn thông tin', code: 'an-toan-thong-tin' },
+    { name: 'Blockchain', code: 'blockchain' },
+    { name: 'Devoop', code: 'devoop' },
+    { name: 'Kỹ thuật dữ liệu', code: 'du-lieu' },
+    { name: 'Hệ thống thông tin', code: 'he-thong-thong-tin' },
+    { name: 'Kỹ thuật máy tính', code: 'ky-thuat-may-tinh' },
+    { name: 'Lập trình', code: 'lap-trinh' },
+    { name: 'Trí tuệ nhân tạo', code: 'tri-tue-nhan-tao' },
+    { name: 'Website', code: 'website' },
+    { name: 'Phần Mềm', code: 'software' },
+    { name: 'Tester', code: 'kiem-thu' },
+    { name: 'Mobile', code: 'mobile' },
+    { name: 'Điện Toán Đám Mây', code: 'cloud' },
   ];
 
   startValue: Date | null = null;
@@ -73,9 +80,14 @@ export class CompetenceFrameFormComponent {
       .subscribe((user) => {
         if (user.errorCode === null) {
           this.user = user.data;
-          console.log('user1131', this.user);
+          for (var i = 0; i < this.user.email.length; i++) {
+            if (this.user.email[i] === '@') {
+              this.Recruit.companyCode = this.user.email.slice(0, i);
+            }
+          }
         }
       });
+    this.selectedCategory = this.Recruit.codeCategory;
   }
   ngOnInit(): void {
     this.i18n.setLocale(this.isEnglish ? zh_CN : en_US);
@@ -83,37 +95,43 @@ export class CompetenceFrameFormComponent {
   onChange(result: Date): void {
     console.log('onChange: ', result);
   }
-  selectCategory(item: string) {
-    this.selectedCategory = item;
-    this.Recruit.codeCategory = this.selectedCategory;
+  selectCategory(item: { name: string; code: string }) {
+    this.selectedCategory = item.name;
+    this.Recruit.codeCategory = item.name;
   }
   showModal(): void {
     this.isVisibleModal = true;
   }
 
   public cancel() {
-    this.router.navigate(['.homepage/competence-frames']);
+    this.router.navigate(['./homepage/competence-frames']);
     this.competenceFrameCom.isDetailShown = false;
   }
   public save() {
     if (this.Recruit.title != '') {
-      if (this.id !== '' && this.id !== undefined) {
-        // this.service.update(this.currentComFrame);
-        this.message.success('Chỉnh sửa thành công');
+      if (this.Recruit.title !== '' && this.Recruit.title !== undefined) {
+        this.service.updateJobNews(this.Recruit).subscribe((res) => {
+          if (res.errorCode === null) {
+            window.location.reload();
+            this.message.success('Chỉnh sửa thành công');
+          } else {
+            this.message.error('Chỉnh sửa thất bại');
+          }
+        });
       } else {
-        console.log('recruit', this.Recruit);
         this.Recruit.type = 'tuyen-dung';
-
         this.Recruit.userId = Number(this.user.id);
-        this.Recruit.companyCode = 'fujinet';
-        // this.Recruit.startTime = '2019-01-16';
-        // this.Recruit.endTime = '2019-01-16';
-        console.log('recruit', this.Recruit);
-
-        this.service.createJobNews(this.Recruit).subscribe();
-        this.message.success('Thêm thành công');
+        this.Recruit.status = 'Waiting';
+        this.service.createJobNews(this.Recruit).subscribe((res) => {
+          if (res.errorCode === null) {
+            window.location.reload();
+            this.message.success('Thêm thành công');
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
       }
-
+      this.cancel();
       // this.competenceFrameCom.getPageList(0, true);//loi dong nay
       // this.service.recruit = this.Recruit;
       // this.router.navigate([
@@ -145,8 +163,11 @@ export class CompetenceFrameFormComponent {
           }
         )
         .subscribe((res) => {
-          console.log('fileasdasd', res.data);
-          this.Recruit.thumbnail = res.data;
+          if (res.errorCode === null) {
+            this.Recruit.thumbnail = res.data;
+          } else {
+            this.message.error('Ảnh không hợp lệ, vui lòng chọn ảnh khác');
+          }
         });
     }
   }

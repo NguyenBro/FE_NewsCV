@@ -35,7 +35,7 @@ export class NewsEventViewComponent implements OnInit {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      return this.service.getCompetionInfo(p['comFrameId']);
+      return this.service.getEventInfo(p['comFrameId']);
     }),
     tap((it) => (this.comFrame = it))
   );
@@ -116,10 +116,16 @@ export class NewsEventViewComponent implements OnInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công tin tức');
-      this.service.deleteEvenByCode(this.comFrame.code).subscribe();
-      this.news.getPageList();
-      this.cancel();
+      this.service.deleteEvenByCode(this.comFrame.code).subscribe((res) => {
+        if (res.errorCode === null) {
+          this.news.getPageList();
+          this.cancel();
+          window.location.reload();
+          this.message.success('Xoá tin tức thành công');
+        } else {
+          this.message.error('Xoá thất bại');
+        }
+      });
     }
   }
   public duplicateClick() {

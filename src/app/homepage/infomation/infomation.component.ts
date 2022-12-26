@@ -32,30 +32,6 @@ export class InfomationComponent implements OnInit {
           localStorage.removeItem('role');
         }
       });
-    // router.events.subscribe((val) => {
-    //   if (val instanceof NavigationEnd) {
-    //     if (val.url === '/homepage/login') {
-    //       service
-    //         .getLoggedInUser(localStorage.getItem('email') || '')
-    //         .subscribe((user) => {
-    //           if (user.errorCode === null) {
-    //             this.service.userLogin = user.data;
-    //             console.log('user1131', this.service.userLogin);
-    //             this.router.navigate(['./homepage/page']);
-    //           }
-    //         });
-    //     } else {
-    //       service
-    //         .getLoggedInUser(localStorage.getItem('email') || '')
-    //         .subscribe((user) => {
-    //           if (user.errorCode === null) {
-    //             this.service.userLogin = user.data;
-    //             console.log('user1133', this.service.userLogin);
-    //           }
-    //         });
-    //     }
-    //   }
-    // });
   }
   ngOnInit(): void {}
 }

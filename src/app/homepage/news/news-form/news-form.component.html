@@ -2,15 +2,13 @@
   <app-right-side
     [isPrimary]="false"
     [status]="
-      currentComFrame.codeCategory !== '' &&
-      currentComFrame.codeCategory !== undefined
-        ? 'Chỉnh sửa học bổng '
-        : 'Tạo mới học bổng'
+      currentComFrame.code !== '' && currentComFrame.code !== undefined
+        ? 'Chỉnh sửa cuộc thi '
+        : 'Tạo mới cuộc thi'
     "
     [sectionName]="
-      currentComFrame.codeCategory !== '' &&
-      currentComFrame.codeCategory !== undefined
-        ? currentComFrame.codeCategory
+      currentComFrame.typeNews !== '' && currentComFrame.typeNews !== undefined
+        ? currentComFrame.typeNews
         : ''
     "
     (cancel)="cancel()"
@@ -22,14 +20,24 @@
       class="body list-section"
       style="height: 100%; padding: 1.5rem"
     >
-      <app-section title="Thể loại học bổng" [collapsible]="false">
-        <input
-          section-container
-          [(ngModel)]="currentComFrame.codeCategory"
-          placeholder="Tên khung năng lực"
-          class="h-10 p-4 w-full border-mid rounded-lg input-custom"
-          style="outline: none"
-        />
+      <app-section title="Thể loại" [collapsible]="false">
+        <div section-container>
+          <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+            {{ selectedCategory === "" ? "Chọn thể loại " : selectedCategory }}
+            <span nz-icon nzType="down"></span>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li
+                nz-menu-item
+                *ngFor="let item of listCategory"
+                (click)="selectCategory(item)"
+              >
+                {{ item.name }}
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
       </app-section>
       <app-section title="Tiêu đề" [collapsible]="false">
         <textarea
@@ -78,13 +86,6 @@
             class="p-4 w-full border-mid rounded-lg input-custom"
             style="outline: none"
           />
-
-          <input
-            [(ngModel)]="currentComFrame.typeNews"
-            placeholder="Thể loại tin tức"
-            class="p-4 w-full border-mid rounded-lg input-custom"
-            style="outline: none"
-          />
         </div>
       </app-section>
       <app-section title="Giới thiệu" [collapsible]="false">
@@ -98,16 +99,46 @@
           Trường không bắt buộc
         </div>
       </app-section>
-
+      <app-section title="Thông tin" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.information"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Chủ đề cuộc thi" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.subject"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
+      <app-section title="Cơ cấu giải thưởng" [collapsible]="false">
+        <quill-editor
+          section-container
+          [(ngModel)]="currentComFrame.prize"
+          placeholder="Nhập giới thiệu"
+          class="descriptioninput p-4"
+        ></quill-editor>
+        <div class="pt-2 flex flex-row-reverse text-color-mid">
+          Trường không bắt buộc
+        </div>
+      </app-section>
       <app-section title="Liên hệ" [collapsible]="false">
-        <textarea
+        <quill-editor
           section-container
           [(ngModel)]="currentComFrame.contact"
+          placeholder="Nhập giới thiệu"
           class="descriptioninput p-4"
-          nz-input
-          placeholder="Nhập mô tả"
-          [nzAutosize]="{ minRows: 6, maxRows: 6 }"
-        ></textarea>
+        ></quill-editor>
         <div class="pt-2 flex flex-row-reverse text-color-mid">
           Trường không bắt buộc
         </div>

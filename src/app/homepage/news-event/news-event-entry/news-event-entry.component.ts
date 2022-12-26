@@ -208,12 +208,16 @@ export class NewsEventEntryComponent
     });
   }
   deleteByCode(code: string) {
-    this.service.deleteEvenByCode(code).subscribe();
-    this.message.success('Xoá thành công tin tức');
-    this.router.navigate(['./homepage/news-event']);
-    window.location.reload();
-    this.isDetailShown = false;
-    this.getPageList(this.currentPage);
+    this.service.deleteEvenByCode(code).subscribe((res) => {
+      if (res.errorCode === null) {
+        this.isDetailShown = false;
+        this.getPageList(this.currentPage);
+        window.location.reload();
+        this.message.success('Xoá tin tức thành công');
+      } else {
+        this.message.error('Xoá thất bại');
+      }
+    });
   }
   createCompetenceFrame() {
     console.log('create');

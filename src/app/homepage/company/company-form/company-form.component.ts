@@ -109,7 +109,7 @@ export class CompanyFormComponent {
     }
   }
   public cancel() {
-    this.router.navigate(['.homepage/companys']);
+    this.router.navigate(['./homepage/companys']);
     this.competenceFrameCom.isDetailShown = false;
   }
   public save() {
@@ -117,10 +117,16 @@ export class CompanyFormComponent {
       if (this.id !== '' && this.id !== undefined) {
         // this.service.update(this.currentComFrame);
         this.message.success('Chỉnh sửa thành công');
+        this.cancel();
       } else {
-        console.log('recruit', this.currentComFrame);
-        this.service.addCompany(this.currentComFrame).subscribe();
-        this.message.success('Thêm thành công');
+        this.service.addCompany(this.currentComFrame).subscribe((res) => {
+          if (res.errorCode === null) {
+            this.message.success('Thêm thành công');
+            this.cancel();
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
       }
 
       // this.competenceFrameCom.getPageList(0, true);

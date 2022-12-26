@@ -59,11 +59,35 @@ export class NewsCompetionService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/competion-news'}`, //đây
+      `${this.urlPath + '/api/v1/contest-news'}`,
       scho,
       { headers: headers }
     );
-  } //chỉnh api
+  }
+  deleteByCode(code: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<ResponseObject>(
+      `${this.urlPath + '/api/v1/contest-news/delete-by-code/' + code}`,
+      { headers: headers }
+    );
+  }
+  updateCompetionNews(compe: competion) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/contest-news/' + compe.id}`,
+      compe,
+      { headers: headers }
+    );
+  }
   create(newCom: ComFrame) {
     this.listCom.unshift(newCom);
     this.refresh();
@@ -84,15 +108,6 @@ export class NewsCompetionService {
         this.listCom.splice(i, 1);
       }
     }
-    this.refresh();
-  }
-
-  deleteById(id: string) {
-    this.listCom.forEach((comFrame: ComFrame, idx: number) => {
-      if (comFrame.id == id) {
-        this.listCom.splice(idx, 1);
-      }
-    });
     this.refresh();
   }
 

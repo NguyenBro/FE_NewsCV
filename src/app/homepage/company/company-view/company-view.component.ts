@@ -101,7 +101,7 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
     this.router.navigate(['./companys/' + this.id + '/edit']);
   }
   public cancel() {
-    this.router.navigate(['./companys/']);
+    this.router.navigate(['./companys']);
     this.competenceFrameCom.cancelDetailShow();
   }
   public delete() {
@@ -121,12 +121,29 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
   }
   remove() {
     if (this.comFrame) {
-      this.message.success('Xoá thành công khung năng lực');
-      // this.service.delete(this.comFrame);
-      this.competenceFrameCom.getPageList();
-      this.cancel();
+      this.service.deleteCompanyByCode(this.comFrame.code).subscribe((res) => {
+        if (res.errorCode === null) {
+          this.message.success('Xoá công ty thành công');
+          this.competenceFrameCom.getPageList();
+          this.cancel();
+        } else {
+          this.message.error('Xoá thất bại');
+        }
+      });
     }
   }
+  // deleteById(code: string) {
+  //   this.service.deleteCompanyByCode(code).subscribe((res) => {
+  //     if (res.errorCode === null) {
+  //       this.message.success('Xoá công ty thành công');
+  //       this.router.navigate(['./homepage/companys']);
+  //       this.isDetailShown = false;
+  //       this.getPageList(this.currentPage);
+  //     } else {
+  //       this.message.success('Xoá thất bại');
+  //     }
+  //   });
+  // }
   public duplicateClick() {
     this.message.success('Sao chép thành công khung năng lực');
     this.service.conditionDup = true;

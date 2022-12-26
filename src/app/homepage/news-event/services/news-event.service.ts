@@ -35,6 +35,30 @@ export class NewsEventService {
       { headers: headers }
     );
   }
+  updateEventNews(event: event) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/event-news/' + event.id}`,
+      event,
+      { headers: headers }
+    );
+  }
+  addEvent(event: event) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/event-news'}`,
+      event,
+      { headers: headers }
+    );
+  }
   public getRefresh() {
     return this.refreshBehavior;
   }
@@ -93,7 +117,7 @@ export class NewsEventService {
     }
     return of(this.listCom.find((item) => item.id === id));
   }
-  public getCompetionInfo(id?: string): Observable<event | undefined> {
+  public getEventInfo(id?: string): Observable<event | undefined> {
     if (!id) {
       return of(new event());
     }
