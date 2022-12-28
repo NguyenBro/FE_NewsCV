@@ -100,16 +100,13 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
   public update() {
     this.router.navigate(['./companys/' + this.id + '/edit']);
   }
-  loadPage() {
-    window.location.reload();
-  }
   public cancel() {
     this.router.navigate(['./companys']);
     this.competenceFrameCom.cancelDetailShow();
   }
   public delete() {
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa năng lực ${this.comFrame?.name} không?`,
+      nzTitle: `Bạn có muốn xóa công ty ${this.comFrame?.name} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
@@ -126,10 +123,9 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
     if (this.comFrame) {
       this.service.deleteCompanyByCode(this.comFrame.code).subscribe((res) => {
         if (res.errorCode === null) {
+          this.message.success('Xoá công ty thành công');
           this.competenceFrameCom.getPageList();
           this.cancel();
-          setTimeout(this.loadPage, 1000);
-          this.message.success('Xoá công ty thành công');
         } else {
           this.message.error('Xoá thất bại');
         }

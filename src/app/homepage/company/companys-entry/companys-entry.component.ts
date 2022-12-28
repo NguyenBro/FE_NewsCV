@@ -218,17 +218,13 @@ export class CompanysEntryComponent
       },
     });
   }
-  loadPage() {
-    window.location.reload();
-  }
   deleteById(code: string) {
     this.service.deleteCompanyByCode(code).subscribe((res) => {
       if (res.errorCode === null) {
+        this.message.success('Xoá công ty thành công');
         this.router.navigate(['./homepage/companys']);
         this.isDetailShown = false;
         this.getPageList(this.currentPage);
-        setTimeout(this.loadPage, 1000);
-        this.message.success('Xoá công ty thành công');
       } else {
         this.message.error('Xoá thất bại');
       }
