@@ -100,6 +100,9 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
   public update() {
     this.router.navigate(['./companys/' + this.id + '/edit']);
   }
+  loadPage() {
+    window.location.reload();
+  }
   public cancel() {
     this.router.navigate(['./companys']);
     this.competenceFrameCom.cancelDetailShow();
@@ -123,9 +126,10 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
     if (this.comFrame) {
       this.service.deleteCompanyByCode(this.comFrame.code).subscribe((res) => {
         if (res.errorCode === null) {
-          this.message.success('Xoá công ty thành công');
           this.competenceFrameCom.getPageList();
           this.cancel();
+          setTimeout(this.loadPage, 1000);
+          this.message.success('Xoá công ty thành công');
         } else {
           this.message.error('Xoá thất bại');
         }

@@ -17,13 +17,10 @@ export class PageComponent implements OnInit {
     private homepagecom: HomepageComponent
   ) {
     this.homepagecom.loadData();
-    this.homepagecom.load = true;
   }
 
   ngOnInit(): void {}
-  onPageIndexChange(index: number) {
-    // this.pageIndex$.next(index);
-  }
+
   create() {
     this.router.navigate(['./homepage/create-news']);
   }

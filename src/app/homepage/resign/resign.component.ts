@@ -55,9 +55,12 @@ export class ResignComponent implements OnInit {
               'Thông tin không hợp lệ, vui lòng kiểm tra lại'
             );
           } else {
-            this.message.success('Đăng ký thành công');
-            this.service.addUser(this.user).subscribe();
-            this.router.navigate(['./homepage/page']);
+            this.service.addUser(this.user).subscribe((res) => {
+              if (res.errorCode === null) {
+                this.message.success('Đăng ký thành công');
+                this.router.navigate(['./homepage/page']);
+              }
+            });
           }
         });
       }
