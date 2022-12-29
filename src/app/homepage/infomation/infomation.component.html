@@ -5,7 +5,7 @@
     </div>
 
     <div class="layout-left-body">
-      <div class="layout-left-body-left">
+      <!-- <div class="layout-left-body-left">
         <div collapsible>
           <div collapsibleTitle>
             Thông tin ứng tuyển
@@ -17,7 +17,7 @@
                 <div class="recruit-apply-information-item">
                   <span nz-icon nzType="svg:job" eIconSize="1.25rem"></span>
                   <span>Vị trí ứng tuyển:</span>
-                  <!-- <a>UX UI Designer</a> -->
+                  <a>UX UI Designer</a>
                 </div>
                 <div class="recruit-apply-information-item">
                   <span nz-icon nzType="svg:dollar" eIconSize="1.25rem"></span>
@@ -64,7 +64,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="layout-left-body-right">
         <router-outlet class="body"></router-outlet>
       </div>
@@ -109,22 +109,23 @@
         <div class="content recruit-information">
           <div class="item">
             <span nz-icon nzType="svg:gender"></span
-            ><span>{{ user.gender }}</span>
+            ><span>Giới tính: {{ user.gender }}</span>
           </div>
           <div class="item">
             <span nz-icon nzType="svg:calendar"></span
-            ><span>{{ user.birthDate }}</span>
+            ><span>Ngày sinh: {{ user.birthDate }}</span>
           </div>
           <div class="item">
-            <span nz-icon nzType="svg:mail"></span><span>{{ user.email }}</span>
+            <span nz-icon nzType="svg:mail"></span
+            ><span>Email: {{ user.email }}</span>
           </div>
           <div class="item">
             <span nz-icon nzType="svg:phone-call"></span
-            ><span>{{ user.phone }}</span>
+            ><span>Số điện thoại: {{ user.phone }}</span>
           </div>
           <div class="item">
             <span nz-icon nzType="svg:home-location-alt"></span
-            ><span>{{ user.address }}</span>
+            ><span>Địa chỉ: {{ user.address }}</span>
           </div>
         </div>
       </div>

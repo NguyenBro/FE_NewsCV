@@ -278,12 +278,12 @@
 
     .test-round {
       background: @white;
-      height: 12rem;
+      height: fit-content;
       padding: 1rem 0;
       border-radius: @border-radius-1;
 
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
 
       .status {
@@ -375,7 +375,7 @@ input {
 
 .lower-section {
   background: transparent;
-
+  padding: 0 2rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -398,30 +398,52 @@ input {
 .list-headers {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  text-align: center;
 }
 
-.header {
-  flex: 1 1 23%;
+.header1 {
+  flex: 1 1 20%;
   padding-left: 1rem;
 }
-
+.header2 {
+  flex: 1 1 10%;
+  padding-left: 1rem;
+}
+.header3 {
+  flex: 1 1 60%;
+  padding-left: 1rem;
+}
+.header {
+  flex: 1 1 25%;
+  padding-left: 1rem;
+}
 .list-content {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   gap: 1rem;
 }
 .image {
-  max-height: 9rem;
-  max-width: 9rem;
+  max-height: 20%;
+  max-width: 20%;
   padding: 1rem;
 }
 .info {
-  flex: 0 1 23%;
+  text-align-last: center;
+  flex: 0 1 10%;
   padding-left: 1rem;
-
-  // white-space: nowrap;
   overflow: hidden;
-  // text-overflow: ellipsis;
+}
+.info1 {
+  flex: 0 1 60%;
+  padding-left: 1rem;
+  overflow: hidden;
+}
+.info2 {
+  text-align-last: center;
+  flex: 0 1 25%;
+  padding-left: 1rem;
+  overflow: hidden;
 }
 
 .interviewer {
