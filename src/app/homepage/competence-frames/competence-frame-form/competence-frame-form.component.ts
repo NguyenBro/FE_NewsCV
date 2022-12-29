@@ -124,14 +124,14 @@ export class CompetenceFrameFormComponent {
         this.Recruit.status = 'Waiting';
         this.service.createJobNews(this.Recruit).subscribe((res) => {
           if (res.errorCode === null) {
-            window.location.reload();
+            this.cancel();
+            setTimeout(this.loadPage, 1000);
             this.message.success('Thêm thành công');
           } else {
             this.message.error('Thêm thất bại');
           }
         });
       }
-      this.cancel();
       // this.competenceFrameCom.getPageList(0, true);//loi dong nay
       // this.service.recruit = this.Recruit;
       // this.router.navigate([
@@ -143,6 +143,9 @@ export class CompetenceFrameFormComponent {
         nzDuration: 3000,
       });
     }
+  }
+  loadPage() {
+    window.location.reload();
   }
   chooseCv(event: any) {
     let fileList: FileList = event.target.files;

@@ -17,7 +17,6 @@ import { newsService } from './services/news.service';
   styleUrls: ['./homepage.component.less'],
 })
 export class HomepageComponent implements OnInit {
-  load = true;
   showQt: boolean;
   public isShow = false;
   select = '';
@@ -37,8 +36,6 @@ export class HomepageComponent implements OnInit {
     private serviceCompetence: CompetenceFramesService,
     private serviceAdmin: AdminService
   ) {
-    this.select = 'page';
-    this.loadData();
     if (
       localStorage.getItem('role') === 'ADMIN' ||
       localStorage.getItem('role') === 'COMPANY'
@@ -47,6 +44,11 @@ export class HomepageComponent implements OnInit {
     } else {
       this.showQt = false;
     }
+    this.select = 'page';
+    this.loadData();
+  }
+  loadPage() {
+    window.location.reload();
   }
   listNews = ['Học bổng', 'Sự kiện', 'Cuộc thi'];
   news = 'Tin tức';
@@ -68,7 +70,6 @@ export class HomepageComponent implements OnInit {
           localStorage.removeItem('searchKeyword');
           localStorage.removeItem('role');
         }
-        this.load = false;
       });
   }
   page() {
@@ -113,6 +114,7 @@ export class HomepageComponent implements OnInit {
         localStorage.removeItem('searchKeyword');
         localStorage.removeItem('role'); //cần chỉnh
         this.router.navigate(['./homepage/login']);
+        setTimeout(this.loadPage, 1000);
         this.message.success('Đăng xuất thành công');
         return;
       },

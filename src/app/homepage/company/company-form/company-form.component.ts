@@ -13,9 +13,10 @@ import { map, mergeMap, tap } from 'rxjs';
 import { CompanysEntryComponent } from '../companys-entry/companys-entry.component';
 import { ComFrame } from '../../model/competence-frames.model';
 import { CompanysService } from '../services/companys.service';
-import { Company, ResponseObject } from '../../model/news.model';
+import { Company, ResponseObject, user } from '../../model/news.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { newsService } from '../../services/news.service';
 
 @Component({
   selector: 'app-company-form',
@@ -23,6 +24,8 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
   styleUrls: ['./company-form.component.less'],
 })
 export class CompanyFormComponent {
+  isVisible = false;
+  user: user = new user();
   public isEmptyName = false;
   public isVisibleModal = false;
   public currentComFrame: Company = new Company();
@@ -43,7 +46,8 @@ export class CompanyFormComponent {
     private route: ActivatedRoute,
     private router: Router,
     private competenceFrameCom: CompanysEntryComponent,
-    private http: HttpClient
+    private http: HttpClient,
+    private newsServices: newsService
   ) {
     this.comFrame$.subscribe();
   }
@@ -108,21 +112,43 @@ export class CompanyFormComponent {
         });
     }
   }
+  loadPage() {
+    window.location.reload();
+  }
   public cancel() {
     this.router.navigate(['./homepage/companys']);
     this.competenceFrameCom.isDetailShown = false;
+    setTimeout(this.loadPage, 1000);
   }
   public save() {
     if (this.currentComFrame.name != '') {
-      if (this.id !== '' && this.id !== undefined) {
+      if (
+        this.currentComFrame.code !== '' &&
+        this.currentComFrame.code !== undefined
+      ) {
         // this.service.update(this.currentComFrame);
         this.message.success('Chỉnh sửa thành công');
         this.cancel();
       } else {
+        this.currentComFrame.code = this.removeVietnameseTones(
+          this.currentComFrame.name
+        )
+          .split(' ')
+          .join('')
+          .toLowerCase();
         this.service.addCompany(this.currentComFrame).subscribe((res) => {
           if (res.errorCode === null) {
-            this.message.success('Thêm thành công');
-            this.cancel();
+            this.user.name = this.currentComFrame.name;
+            this.user.email = this.currentComFrame.code + '@newscv.tech';
+            this.user.password = this.currentComFrame.code + '@NEWSCV';
+            this.user.roleCodes = ['COMPANY'];
+            this.user.avatar = this.currentComFrame.logo;
+            this.user.background = this.currentComFrame.background;
+            this.newsServices.addUser(this.user).subscribe((res) => {
+              if (res.errorCode === null) {
+                this.isVisible = true;
+              }
+            });
           } else {
             this.message.error('Thêm thất bại');
           }
@@ -139,16 +165,39 @@ export class CompanyFormComponent {
       });
     }
   }
-
-  require(event: Event) {
-    if (event.target) {
-      const element = event.target as HTMLInputElement;
-      const name = element.value;
-      if (name === '') {
-        this.isEmptyName = true;
-      } else {
-        this.isEmptyName = false;
-      }
-    }
+  handleCancel(): void {
+    this.isVisible = false;
+    this.cancel();
+  }
+  removeVietnameseTones(str: string) {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+    str = str.replace(/đ/g, 'd');
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, 'A');
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, 'E');
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, 'I');
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, 'O');
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, 'U');
+    str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, 'Y');
+    str = str.replace(/Đ/g, 'D');
+    // Some system encode vietnamese combining accent as individual utf-8 characters
+    // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+    str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ''); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+    str = str.replace(/\u02C6|\u0306|\u031B/g, ''); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+    // Remove extra spaces
+    // Bỏ các khoảng trắng liền nhau
+    str = str.replace(/ + /g, ' ');
+    str = str.trim();
+    // Remove punctuations
+    // Bỏ dấu câu, kí tự đặc biệt
+    str = str.replace(
+      /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
+      ' '
+    );
+    return str;
   }
 }

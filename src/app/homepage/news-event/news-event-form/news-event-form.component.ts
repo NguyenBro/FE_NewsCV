@@ -110,6 +110,10 @@ export class NewsEventFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-event']);
     this.news.isDetailShown = false;
+    setTimeout(this.loadPage, 1000);
+  }
+  loadPage() {
+    window.location.reload();
   }
   public save() {
     if (this.currentComFrame.codeCategory != '') {
@@ -119,7 +123,7 @@ export class NewsEventFormComponent {
       ) {
         this.service.updateEventNews(this.currentComFrame).subscribe((res) => {
           if (res.errorCode === null) {
-            window.location.reload();
+            this.cancel();
             this.message.success('Chỉnh sửa thành công');
           } else {
             this.message.error('Chỉnh sửa thất bại');
@@ -131,14 +135,13 @@ export class NewsEventFormComponent {
         this.currentComFrame.userId = Number(this.user.id);
         this.service.addEvent(this.currentComFrame).subscribe((Res) => {
           if (Res.errorCode === null) {
-            window.location.reload();
+            this.cancel();
             this.message.success('Thêm thành công');
           } else {
             this.message.error('Thêm thất bại');
           }
         });
       }
-      this.cancel();
       // this.news.getPageList(0, true);
       // this.service.scholarship = this.currentComFrame;
       // this.router.navigate([

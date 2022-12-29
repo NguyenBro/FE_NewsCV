@@ -2,7 +2,7 @@
   <app-right-side
     [isPrimary]="false"
     [status]="
-      currentComFrame.name !== '' && currentComFrame.name !== undefined
+      currentComFrame.code !== '' && currentComFrame.code !== undefined
         ? 'Chỉnh sửa công ty '
         : 'Tạo mới công ty'
     "
@@ -25,15 +25,6 @@
           section-container
           [(ngModel)]="currentComFrame.name"
           placeholder="Tên công ty"
-          class="h-10 p-4 w-full border-mid rounded-lg input-custom"
-          style="outline: none"
-        />
-      </app-section>
-      <app-section title="Code công ty" [collapsible]="false">
-        <input
-          section-container
-          [(ngModel)]="currentComFrame.code"
-          placeholder="Code công ty"
           class="h-10 p-4 w-full border-mid rounded-lg input-custom"
           style="outline: none"
         />
@@ -125,6 +116,17 @@
           Trường không bắt buộc
         </div>
       </app-section>
+      <nz-modal
+        [(nzVisible)]="isVisible"
+        nzTitle="Thêm công ty mới thành công."
+        (nzOnCancel)="handleCancel()"
+        nzFooter=" "
+      >
+        <div *nzModalContent class="flex flex-col gap-4">
+          <div class="flex items-center">Tài khoản: {{ user.email }}</div>
+          <div class="flex items-center">Mật khẩu: {{ user.password }}</div>
+        </div>
+      </nz-modal>
     </div>
   </app-right-side>
 </div>

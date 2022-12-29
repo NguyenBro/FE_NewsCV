@@ -106,7 +106,7 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
   }
   public delete() {
     this.modal.warning({
-      nzTitle: `Bạn có muốn xóa năng lực ${this.comFrame?.name} không?`,
+      nzTitle: `Bạn có muốn xóa công ty ${this.comFrame?.name} không?`,
       nzOkDanger: true,
       nzClassName: 'customPopUp warning',
       nzOnOk: () => {
