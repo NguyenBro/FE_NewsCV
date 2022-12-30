@@ -112,7 +112,8 @@ export class CompetenceFrameFormComponent {
       if (this.Recruit.title !== '' && this.Recruit.title !== undefined) {
         this.service.updateJobNews(this.Recruit).subscribe((res) => {
           if (res.errorCode === null) {
-            window.location.reload();
+            this.cancel();
+            setTimeout(this.loadPage, 1000);
             this.message.success('Chỉnh sửa thành công');
           } else {
             this.message.error('Chỉnh sửa thất bại');

@@ -49,7 +49,10 @@
       <span nz-icon nzType="svg:trash"> </span>
     </button>
     <div container-title>
-      {{ (comFrameInfo$ | async)?.codeCategory }}
+      <div>{{ (comFrameInfo$ | async)?.codeCategory }}</div>
+      <div class="font-normal">
+        {{ (comFrameInfo$ | async)?.title }}
+      </div>
     </div>
     <div container-body>
       <div class="content list-section">

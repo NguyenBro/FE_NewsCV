@@ -85,9 +85,9 @@ export class NewsScholarshipEntryComponent
     homepage.select = 'news';
     homepage.showLogo = false;
     this.flex = false;
-    // console.log('load1', this.load);
-    // this.loadData();
-    // console.log('load2', this.load);
+    this.service
+      .getListScholarship()
+      .subscribe((res) => (this.listLength = res.data.length));
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||

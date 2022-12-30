@@ -80,7 +80,9 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     homepage.select = 'news';
     homepage.showLogo = false;
     this.flex = false;
-    this.getPageList(this.currentPage);
+    this.service
+      .getListCompetion()
+      .subscribe((res) => (this.listLength = res.data.length));
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||

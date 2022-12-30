@@ -110,7 +110,6 @@ export class NewsEventFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-event']);
     this.news.isDetailShown = false;
-    setTimeout(this.loadPage, 1000);
   }
   loadPage() {
     window.location.reload();
@@ -124,6 +123,7 @@ export class NewsEventFormComponent {
         this.service.updateEventNews(this.currentComFrame).subscribe((res) => {
           if (res.errorCode === null) {
             this.cancel();
+            setTimeout(this.loadPage, 1000);
             this.message.success('Chỉnh sửa thành công');
           } else {
             this.message.error('Chỉnh sửa thất bại');
@@ -136,6 +136,7 @@ export class NewsEventFormComponent {
         this.service.addEvent(this.currentComFrame).subscribe((Res) => {
           if (Res.errorCode === null) {
             this.cancel();
+            setTimeout(this.loadPage, 1000);
             this.message.success('Thêm thành công');
           } else {
             this.message.error('Thêm thất bại');

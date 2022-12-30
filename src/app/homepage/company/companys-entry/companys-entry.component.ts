@@ -80,6 +80,9 @@ export class CompanysEntryComponent
   ) {
     homepage.select = 'company';
     homepage.showLogo = false;
+    this.service
+      .getListCompany()
+      .subscribe((res) => (this.listLength = res.data.length));
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||

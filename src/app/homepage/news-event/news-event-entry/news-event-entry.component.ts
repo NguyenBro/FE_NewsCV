@@ -83,6 +83,9 @@ export class NewsEventEntryComponent
     homepage.select = 'news';
     homepage.showLogo = false;
     this.flex = false;
+    this.service
+      .getListEvent()
+      .subscribe((res) => (this.listLength = res.data.length));
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
