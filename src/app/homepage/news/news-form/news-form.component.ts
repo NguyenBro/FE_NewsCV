@@ -87,7 +87,6 @@ export class NewsFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-competion']);
     this.news.isDetailShown = false;
-    setTimeout(this.loadPage, 1000);
   }
   loadPage() {
     window.location.reload();
@@ -103,6 +102,7 @@ export class NewsFormComponent {
           .subscribe((res) => {
             if (res.errorCode === null) {
               this.cancel();
+              setTimeout(this.loadPage, 1000);
               this.message.success('Chỉnh sửa thành công');
             } else {
               this.message.error('Chỉnh sửa thất bại');
@@ -116,6 +116,7 @@ export class NewsFormComponent {
           if (Res.errorCode === null) {
             this.news.getPageList(0, true);
             this.cancel();
+            setTimeout(this.loadPage, 1000);
             this.message.success('Thêm thành công, đợi xét duyệt');
           } else {
             this.message.error('Thêm thất bại');

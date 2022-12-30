@@ -36,11 +36,11 @@
           </div>
           <div collapsibleContent class="interview-rounds">
             <div class="list-headers">
-              <span class="header">Tên cuộc thi</span>
-              <span class="header">Thời gian đăng bài</span>
-              <span class="header">Tên học bổng</span>
-              <span class="header">Trạng thái</span>
-              <div class="three-dots"></div>
+              <span class="header1">Tên cuộc thi</span>
+              <span class="header2">Thời gian đăng bài</span>
+              <span class="header3">Tên học bổng</span>
+              <span class="header2">Trạng thái</span>
+              <!-- <div class="three-dots"></div> -->
             </div>
             <div class="list-content">
               <div
@@ -52,7 +52,7 @@
                 <!-- <a [href]="hb.link" target="_blank" class="info interviewer">{{
                   hb.link
                 }}</a> -->
-                <span class="info interviewer">{{ hb.title }}</span>
+                <span class="info1 interviewer">{{ hb.title }}</span>
                 <div class="info">
                   <div class="status pass">
                     <i eIcon eIconType="building"></i>
@@ -65,13 +65,13 @@
                     >
                   </div>
                 </div>
-                <div class="three-dots">
+                <!-- <div class="three-dots">
                   <i
                     eIcon
                     eIconType="menu-dots-vertical"
                     eIconSize="1.25rem"
                   ></i>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -84,11 +84,10 @@
           </div>
           <div collapsibleContent class="interview-rounds">
             <div class="list-headers">
-              <span class="header">Tên cuộc thi</span>
-              <span class="header">Thời gian đăng bài</span>
-              <span class="header">Tên sự kiện</span>
-              <span class="header">Trạng thái</span>
-              <div class="three-dots"></div>
+              <span class="header1">Tên cuộc thi</span>
+              <span class="header2">Thời gian đăng bài</span>
+              <span class="header3">Tên sự kiện</span>
+              <span class="header2">Trạng thái</span>
             </div>
             <div class="list-content">
               <div
@@ -109,13 +108,6 @@
                     >
                   </div>
                 </div>
-                <div class="three-dots">
-                  <i
-                    eIcon
-                    eIconType="menu-dots-vertical"
-                    eIconSize="1.25rem"
-                  ></i>
-                </div>
               </div>
             </div>
           </div>
@@ -128,11 +120,10 @@
           </div>
           <div collapsibleContent class="interview-rounds">
             <div class="list-headers">
-              <span class="header">Tên cuộc thi</span>
-              <span class="header">Thời gian đăng bài</span>
-              <span class="header">Tên cuộc thi</span>
-              <span class="header">Trạng thái</span>
-              <div class="three-dots"></div>
+              <span class="header1">Tên cuộc thi</span>
+              <span class="header2">Thời gian đăng bài</span>
+              <span class="header3">Tên cuộc thi</span>
+              <span class="header2">Trạng thái</span>
             </div>
             <div class="list-content">
               <div
@@ -152,13 +143,6 @@
                       >{{ hb.status }}</span
                     >
                   </div>
-                </div>
-                <div class="three-dots">
-                  <i
-                    eIcon
-                    eIconType="menu-dots-vertical"
-                    eIconSize="1.25rem"
-                  ></i>
                 </div>
               </div>
             </div>
@@ -185,23 +169,22 @@
               <span class="header">Vị trí</span>
               <span class="header">Thời gian ứng tuyển</span>
               <span class="header">Link CV</span>
-              <div class="three-dots"></div>
             </div>
             <div class="list-content">
               <div
                 class="interview-round"
                 *ngFor="let job of listJobWapplice$ | async"
               >
-                <div class="info round">
+                <div class="info2 round">
                   {{ job.nameCompany }}
                 </div>
-                <span class="info date">{{ job.position }}</span>
+                <span class="info2 date">{{ job.position }}</span>
                 <!-- <a [href]="job.timeApply" class="info interviewer">{{
                   job.timeApply
                 }}</a> -->
                 <!-- <span class="info interviewer">{{ job.cv }}</span> -->
-                <div class="info">
-                  <div class="location offline">
+                <div class="info2">
+                  <div class="location offline place-content-center">
                     <i eIcon eIconType="building"></i>
                     <span
                       class="text-white"
@@ -212,19 +195,9 @@
                     >
                   </div>
                 </div>
-                <a
-                  [href]="job.timeApply"
-                  target="_blank"
-                  class="info interviewer"
+                <a [href]="job.cv" target="_blank" class="info2 interviewer"
                   >CV</a
                 >
-                <div class="three-dots">
-                  <i
-                    eIcon
-                    eIconType="menu-dots-vertical"
-                    eIconSize="1.25rem"
-                  ></i>
-                </div>
               </div>
             </div>
           </div>
@@ -240,21 +213,20 @@
               <span class="header">Vị trí</span>
               <span class="header">Thời gian ứng tuyển</span>
               <span class="header">Link CV</span>
-              <div class="three-dots"></div>
             </div>
             <div class="list-content">
               <div
                 class="interview-round"
                 *ngFor="let job of listJobDapplice$ | async"
               >
-                <div class="info round">
+                <div class="info2 round">
                   {{ job.nameCompany }}
                 </div>
-                <span class="info date">{{ job.position }}</span>
+                <span class="info2 date">{{ job.position }}</span>
 
                 <!-- <span class="info interviewer">{{ job.cv }}</span> -->
-                <div class="info">
-                  <div class="location offline">
+                <div class="info2">
+                  <div class="location offline place-content-center">
                     <i eIcon eIconType="building"></i>
                     <span
                       class="text-white"
@@ -265,16 +237,9 @@
                     >
                   </div>
                 </div>
-                <a [href]="job.cv" target="_blank" class="info interviewer"
+                <a [href]="job.cv" target="_blank" class="info2 interviewer"
                   >CV</a
                 >
-                <div class="three-dots">
-                  <i
-                    eIcon
-                    eIconType="menu-dots-vertical"
-                    eIconSize="1.25rem"
-                  ></i>
-                </div>
               </div>
             </div>
           </div>
@@ -295,20 +260,18 @@
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="test-rounds">
-            <div class="list-headers">
+            <!-- <div class="list-headers">
               <span class="header">Ngày nộp</span>
               <span class="header">Link CV</span>
               <span class="header">Tên người nộp</span>
               <span class="header">Tình trạng</span>
               <div class="three-dots"></div>
-            </div>
-            <div class="list-content">
+            </div> -->
+            <div class="list-content layout-grid grid-cols-3">
               <div
                 *ngFor="let cv of listCVWapplice$ | async"
                 class="test-round"
               >
-                <span class="info round">{{ cv.applyTime }}</span>
-                <!-- <a [href]="cv.cv" class="info date">{{ cv.cv }}</a> -->
                 <a [href]="cv.cv" target="_blank" class="info date">
                   <pdf-viewer
                     [src]="cv.cv"
@@ -318,7 +281,8 @@
                     style="width: 15vh; height: 23vh"
                   ></pdf-viewer>
                 </a>
-                <span class="info">{{ cv.fullName }}</span>
+                <span class="info round">Ngày nộp: {{ cv.applyTime }}</span>
+                <!-- <span class="info">{{ cv.fullName }}</span>
                 <div class="info">
                   <div class="status fail">
                     <span>{{ cv.status }}</span>
@@ -335,7 +299,7 @@
                     eIconType="menu-dots-vertical"
                     eIconSize="1.25rem"
                   ></i>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -346,20 +310,18 @@
             <i eIcon eIconType="caret-down" class="collapsible-icon"></i>
           </div>
           <div collapsibleContent class="test-rounds">
-            <div class="list-headers">
+            <!-- <div class="list-headers">
               <span class="header">Ngày nộp</span>
               <span class="header">Link CV</span>
               <span class="header">Tên người nộp</span>
               <span class="header">Tình trạng</span>
               <div class="three-dots"></div>
-            </div>
-            <div class="list-content">
+            </div> -->
+            <div class="list-content layout-grid grid-cols-3">
               <div
                 *ngFor="let cv of listCVDapplice$ | async"
                 class="test-round"
               >
-                <span class="info round">{{ cv.applyTime }}</span>
-                <!-- <a [href]="cv.cv" class="info date">{{ cv.cv }}</a> -->
                 <a [href]="cv.cv" target="_blank" class="info date">
                   <pdf-viewer
                     [src]="cv.cv"
@@ -369,7 +331,8 @@
                     style="width: 15vh; height: 23vh"
                   ></pdf-viewer>
                 </a>
-                <span class="info">{{ cv.fullName }}</span>
+                <span class="info round">Ngày nộp: {{ cv.applyTime }}</span>
+                <!-- <span class="info">{{ cv.fullName }}</span>
                 <div class="info">
                   <div class="status pass">
                     <span>{{ cv.status }}</span>
@@ -386,7 +349,7 @@
                     eIconType="menu-dots-vertical"
                     eIconSize="1.25rem"
                   ></i>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

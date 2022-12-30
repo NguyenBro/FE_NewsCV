@@ -81,6 +81,9 @@ export class CompetenceFramesEntryComponent
   ) {
     homepage.select = 'recruit';
     homepage.showLogo = false;
+    this.service
+      .getListRecruit()
+      .subscribe((data) => (this.listLength = data.data.length));
     this.getPageList(this.currentPage);
     // this.getPageList(this.currentPage);
     if (
@@ -336,7 +339,7 @@ export class CompetenceFramesEntryComponent
           tempList.push(Recruit);
         }
       });
-      this.listLength = tempList.length;
+      // this.listLength = tempList.length;
 
       if (this.order == 1) {
         tempList = tempList.sort((n1, n2) => {
@@ -357,7 +360,7 @@ export class CompetenceFramesEntryComponent
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listRecruit.length;
+      // this.listLength = this.service.listRecruit.length;
       this.list = this.service.listRecruit.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount

@@ -40,14 +40,15 @@
     }
 
     &-body {
-      height: calc(100% - 4.375rem);
+      // height: calc(100% - 4.375rem);
+      height: fit-content;
 
       flex: 0 1 100%;
-      padding: 2rem 2rem 0 0;
+      // padding: 2rem 2rem 0 0;
 
-      display: flex;
-      flex-direction: row;
-      gap: 2rem;
+      // display: flex;
+      // flex-direction: row;
+      // gap: 2rem;
 
       &-left {
         flex: 0 0 40%;
@@ -67,8 +68,8 @@
           text-align: -webkit-center;
         }
 
-        flex: 0 1 60%;
-        max-width: calc(60% - 2rem);
+        // flex: 0 1 60%;
+        // max-width: calc(60% - 2rem);
 
         background: @white;
       }
@@ -76,6 +77,7 @@
   }
 
   &-right {
+    height: fit-content;
     width: 21.25rem;
     flex: 0 0 21.25rem;
     background: @white;
