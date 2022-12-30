@@ -1,8 +1,7 @@
 <div class="all">
   <div class="left">
     <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="drop">
-      {{ selectedCompany === "" ? "Chọn công ty " : selectedCompany }}
-
+      {{ selectedCompany === "" ? "Chọn công ty" : selectedCompany }}
       <span nz-icon nzType="down"></span>
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">

@@ -332,6 +332,7 @@ export class NewsStatisComponent implements OnInit {
   ngOnInit(): void {}
   snapStatus(id: Number, status: String) {
     this.services.updateStatus(id.toString(), status).subscribe();
-    this.select('Tất cả');
+    // this.select('Tất cả');
+    window.location.reload();
   }
 }
