@@ -39,7 +39,7 @@ export class CompetenceFramesEntryComponent
   public list: Recruit[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
-
+  loadDing = true;
   filterList: string[] = [];
   searchKeywords: string[] = [];
 
@@ -83,7 +83,11 @@ export class CompetenceFramesEntryComponent
     homepage.showLogo = false;
     this.service
       .getListRecruit()
-      .subscribe((data) => (this.listLength = data.data.length));
+      .subscribe(
+        (data) => (
+          (this.listLength = data.data.length), (this.loadDing = false)
+        )
+      );
     this.getPageList(this.currentPage);
     // this.getPageList(this.currentPage);
     if (

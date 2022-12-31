@@ -274,6 +274,36 @@ export class NewsScholarshipEntryComponent
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(comFrame.title)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.codeCategory)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.shortContent)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.quantity)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.level)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.major)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.location)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.introduction)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.requirement)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.benefit)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.contact)
                   .includes(lowerFilterKeyword)
                 //   ||
                 // comFrame.competences.some((competence: string) =>
@@ -294,6 +324,60 @@ export class NewsScholarshipEntryComponent
                 this.service
                   .toLowerCaseNonAccentVietnamese(
                     comFrame.shortContent,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.codeCategory,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.quantity,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.level,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.major,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.location,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.introduction,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.requirement,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.benefit,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.contact,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword)

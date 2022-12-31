@@ -33,7 +33,7 @@ export class CompanysEntryComponent
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
-  // loadDing = true;
+  loadDing = true;
   public list: Company[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -82,7 +82,9 @@ export class CompanysEntryComponent
     homepage.showLogo = false;
     this.service
       .getListCompany()
-      .subscribe((res) => (this.listLength = res.data.length));
+      .subscribe(
+        (res) => ((this.listLength = res.data.length), (this.loadDing = false))
+      );
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
