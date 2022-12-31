@@ -34,6 +34,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { QuillModule } from 'ngx-quill';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 @NgModule({
   declarations: [
     NewsEventEntryComponent,
@@ -73,6 +75,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzAvatarModule,
     QuillModule.forRoot(),
     NzDropDownModule,
+    NzSpinModule,
+    NzAlertModule,
   ],
 })
 export class NewsEventModule {}
