@@ -118,7 +118,6 @@ export class CompanyFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/companys']);
     this.competenceFrameCom.isDetailShown = false;
-    setTimeout(this.loadPage, 1000);
   }
   public save() {
     if (this.currentComFrame.name != '') {
@@ -129,6 +128,7 @@ export class CompanyFormComponent {
         // this.service.update(this.currentComFrame);
         this.message.success('Chỉnh sửa thành công');
         this.cancel();
+        setTimeout(this.loadPage, 1000);
       } else {
         this.currentComFrame.code = this.removeVietnameseTones(
           this.currentComFrame.name
@@ -168,6 +168,7 @@ export class CompanyFormComponent {
   handleCancel(): void {
     this.isVisible = false;
     this.cancel();
+    setTimeout(this.loadPage, 1000);
   }
   removeVietnameseTones(str: string) {
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');

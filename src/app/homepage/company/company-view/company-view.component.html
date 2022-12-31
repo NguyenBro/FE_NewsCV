@@ -61,14 +61,16 @@
           <div class="logo"><img [src]="comFrame?.logo" class="imglogo" /></div>
           <div>
             <div class="flex flex-row gap-4">
-              <div class="whitespace-nowrap font-bold">Địa chỉ:</div>
+              <div class="whitespace-nowrap font-bold self-center">
+                Địa chỉ:
+              </div>
               <quill-view-html
                 [content]="(comFrameInfo$ | async)?.address || ''"
                 theme="snow"
               ></quill-view-html>
             </div>
             <div class="flex flex-row gap-4">
-              <div class="whitespace-nowrap font-bold">Email:</div>
+              <div class="whitespace-nowrap font-bold self-center">Email:</div>
               <quill-view-html
                 [content]="(comFrameInfo$ | async)?.email || ''"
                 theme="snow"

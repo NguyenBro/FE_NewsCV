@@ -251,6 +251,30 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(comFrame.title)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.codeCategory)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.shortContent)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.location)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.introduction)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.information)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.subject)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.prize)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(comFrame.contact)
                   .includes(lowerFilterKeyword)
                 //   ||
                 // comFrame.competences.some((competence: string) =>
@@ -270,7 +294,49 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
+                    comFrame.codeCategory,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
                     comFrame.shortContent,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.location,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.introduction,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.information,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.subject,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.prize,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    comFrame.contact,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword)

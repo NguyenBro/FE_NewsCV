@@ -33,7 +33,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { QuillModule } from 'ngx-quill';
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { QuillModule } from 'ngx-quill';
     NzUploadModule,
     NzDropDownModule,
     NzDatePickerModule,
-
+    NzSpinModule,
+    NzAlertModule,
     QuillModule.forRoot(),
   ],
 })
