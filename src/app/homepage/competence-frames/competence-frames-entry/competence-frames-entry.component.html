@@ -53,9 +53,8 @@
   <ng-template #topBody>
     <div class="text-xl text-primary-1 font-bold">Thông tin tuyển dụng</div>
     <div *ngIf="loadDing" class="pt-80 pl-96">
-      <nz-spin nzTip="Loading...">
+      <nz-spin nzTip="Loading..." class="w-96">
         <nz-alert
-          class="pl-24"
           nzType="info"
           nzMessage="Đang load dữ liệu"
           nzDescription="Xin vui lòng đợi"
