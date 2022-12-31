@@ -83,11 +83,7 @@ export class CompetenceFramesEntryComponent
     homepage.showLogo = false;
     this.service
       .getListRecruit()
-      .subscribe(
-        (data) => (
-          (this.listLength = data.data.length), (this.loadDing = false)
-        )
-      );
+      .subscribe((data) => (this.listLength = data.data.length));
     this.getPageList(this.currentPage);
     // this.getPageList(this.currentPage);
     if (
@@ -135,6 +131,7 @@ export class CompetenceFramesEntryComponent
     this.listOfSearches$.next(event);
   }
   isSearchCompetence(competence: Recruit, searches: string[]): boolean {
+    this.loadDing = false;
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>
@@ -304,6 +301,51 @@ export class CompetenceFramesEntryComponent
                 // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(Recruit.title)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.codeCategory)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.shortContent)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.companyCode)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.experience)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.salary)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.location)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.major)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.position)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.language)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.level)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.introduction)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.description)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.requirement)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.treatment)
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(Recruit.contact)
                   .includes(lowerFilterKeyword)
                 //   ||
                 // Recruit.competences.some((competence: string) =>
@@ -323,7 +365,91 @@ export class CompetenceFramesEntryComponent
                   .includes(lowerFilterKeyword) ||
                 this.service
                   .toLowerCaseNonAccentVietnamese(
+                    Recruit.codeCategory,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.shortContent,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.companyCode,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.experience,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.salary,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.position,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.major,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.location,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.language,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.level,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.introduction,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
                     Recruit.description,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.requirement,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.treatment,
+                    lowerFilterKeyword
+                  )
+                  .includes(lowerFilterKeyword) ||
+                this.service
+                  .toLowerCaseNonAccentVietnamese(
+                    Recruit.contact,
                     lowerFilterKeyword
                   )
                   .includes(lowerFilterKeyword)

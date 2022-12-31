@@ -39,7 +39,7 @@ export class NewsEventEntryComponent
   public list: event[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
-
+  loadDing = true;
   filterList: string[] = [];
   searchKeywords: string[] = [];
 
@@ -109,6 +109,7 @@ export class NewsEventEntryComponent
     this.listOfSearches$.next(event);
   }
   isSearchCompetence(competence: event, searches: string[]): boolean {
+    this.loadDing = false;
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>

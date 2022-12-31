@@ -40,7 +40,7 @@ export class NewsScholarshipEntryComponent
   public list: scholarship[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
-
+  loadDing = true;
   filterList: string[] = [];
   searchKeywords: string[] = [];
 
@@ -130,6 +130,7 @@ export class NewsScholarshipEntryComponent
     this.listOfSearches$.next(event);
   }
   isSearchCompetence(competence: scholarship, searches: string[]): boolean {
+    this.loadDing = false;
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>

@@ -82,9 +82,7 @@ export class CompanysEntryComponent
     homepage.showLogo = false;
     this.service
       .getListCompany()
-      .subscribe(
-        (res) => ((this.listLength = res.data.length), (this.loadDing = false))
-      );
+      .subscribe((res) => (this.listLength = res.data.length));
     this.getPageList(this.currentPage);
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -126,6 +124,7 @@ export class CompanysEntryComponent
     this.listOfSearches$.next(event);
   }
   isSearchCompetence(competence: Company, searches: string[]): boolean {
+    this.loadDing = false;
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>

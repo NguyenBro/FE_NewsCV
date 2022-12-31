@@ -61,6 +61,16 @@
     <div class="text-xl text-primary-1 font-bold">
       Danh sách thông tin cuộc thi
     </div>
+    <div *ngIf="loadDing" class="pt-80 pl-80">
+      <nz-spin nzTip="Loading...">
+        <nz-alert
+          class="pl-24"
+          nzType="info"
+          nzMessage="Đang load dữ liệu"
+          nzDescription="Xin vui lòng đợi"
+        ></nz-alert>
+      </nz-spin>
+    </div>
   </ng-template>
   <ng-template #competenceFrameList>
     <div class="h-full">

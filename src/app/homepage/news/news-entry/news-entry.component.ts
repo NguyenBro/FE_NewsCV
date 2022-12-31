@@ -36,7 +36,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   public list: competion[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
-
+  loadDing = true;
   filterList: string[] = [];
   searchKeywords: string[] = [];
 
@@ -106,6 +106,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.listOfSearches$.next(event);
   }
   isSearchCompetence(competence: competion, searches: string[]): boolean {
+    this.loadDing = false;
     if (searches.length === 0) return true;
     return searches.every(
       (search) =>
