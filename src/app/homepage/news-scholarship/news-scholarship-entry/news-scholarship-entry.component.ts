@@ -33,6 +33,7 @@ export class NewsScholarshipEntryComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   showQt: boolean;
+  showUs: boolean;
   load = false;
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
@@ -96,6 +97,15 @@ export class NewsScholarshipEntryComponent
       this.showQt = true;
     } else {
       this.showQt = false;
+    }
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY' ||
+      localStorage.getItem('role') === 'USER'
+    ) {
+      this.showUs = true;
+    } else {
+      this.showUs = false;
     }
   }
   ngAfterViewInit() {

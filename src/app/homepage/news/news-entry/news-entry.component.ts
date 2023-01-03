@@ -32,6 +32,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
+  showUs: boolean;
   flex = false;
   public list: competion[] = [];
   isDetailShown = false;
@@ -91,6 +92,15 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showQt = true;
     } else {
       this.showQt = false;
+    }
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY' ||
+      localStorage.getItem('role') === 'USER'
+    ) {
+      this.showUs = true;
+    } else {
+      this.showUs = false;
     }
   }
   ngAfterViewInit() {
@@ -221,7 +231,6 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   createCompetenceFrame() {
-    console.log('create');
     this.service.conditionDup = false;
     this.router
       .navigate(['./homepage/news-competion'], { skipLocationChange: true })

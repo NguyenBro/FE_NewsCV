@@ -35,6 +35,7 @@ export class NewsEventEntryComponent
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
   showQt: boolean;
+  showUs: boolean;
   flex = false;
   public list: event[] = [];
   isDetailShown = false;
@@ -94,6 +95,15 @@ export class NewsEventEntryComponent
       this.showQt = true;
     } else {
       this.showQt = false;
+    }
+    if (
+      localStorage.getItem('role') === 'ADMIN' ||
+      localStorage.getItem('role') === 'COMPANY' ||
+      localStorage.getItem('role') === 'USER'
+    ) {
+      this.showUs = true;
+    } else {
+      this.showUs = false;
     }
   }
   ngAfterViewInit() {
