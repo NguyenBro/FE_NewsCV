@@ -192,7 +192,7 @@ export class ListedComponent implements OnInit {
             .getApplicationByUser(this.user.id.toString(), 'Done')
             .pipe(map((data) => data.data));
           this.listJobDapplice$ = combineLatest({
-            listOfCompetences: this.listJobW$,
+            listOfCompetences: this.listJobD$,
             pageIndex: this.pageIndex$,
             pageSize: this.pageSize$,
             searches: this.listOfSearches$,

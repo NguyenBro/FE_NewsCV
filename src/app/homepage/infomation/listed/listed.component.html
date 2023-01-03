@@ -217,12 +217,12 @@
             <div class="list-content">
               <div
                 class="interview-round"
-                *ngFor="let job of listJobDapplice$ | async"
+                *ngFor="let job1 of listJobDapplice$ | async"
               >
                 <div class="info2 round">
-                  {{ job.nameCompany }}
+                  {{ job1.nameCompany }}
                 </div>
-                <span class="info2 date">{{ job.position }}</span>
+                <span class="info2 date">{{ job1.position }}</span>
 
                 <!-- <span class="info interviewer">{{ job.cv }}</span> -->
                 <div class="info2">
@@ -231,13 +231,13 @@
                     <span
                       class="text-white"
                       nz-popover
-                      [nzPopoverContent]="job.timeApply"
+                      [nzPopoverContent]="job1.timeApply"
                       nzPopoverPlacement="topLeft"
-                      >{{ job.timeApply }}</span
+                      >{{ job1.timeApply }}</span
                     >
                   </div>
                 </div>
-                <a [href]="job.cv" target="_blank" class="info2 interviewer"
+                <a [href]="job1.cv" target="_blank" class="info2 interviewer"
                   >CV</a
                 >
               </div>
