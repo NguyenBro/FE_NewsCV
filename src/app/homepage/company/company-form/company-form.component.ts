@@ -146,7 +146,11 @@ export class CompanyFormComponent {
             this.user.background = this.currentComFrame.background;
             this.newsServices.addUser(this.user).subscribe((res) => {
               if (res.errorCode === null) {
-                this.isVisible = true;
+                this.cancel();
+                setTimeout(this.loadPage, 1000);
+                this.message.success('Thêm thành công');
+              } else {
+                this.message.error('Thêm thất bại');
               }
             });
           } else {

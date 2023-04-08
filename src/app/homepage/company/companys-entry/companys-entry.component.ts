@@ -85,8 +85,7 @@ export class CompanysEntryComponent
       .subscribe((res) => (this.listLength = res.data.length));
     this.getPageList(this.currentPage);
     if (
-      localStorage.getItem('role') === 'ADMIN' ||
-      localStorage.getItem('role') === 'COMPANY'
+      localStorage.getItem('role') === 'ADMIN' 
     ) {
       this.showQt = true;
     } else {
@@ -235,12 +234,10 @@ export class CompanysEntryComponent
     });
   }
   createCompetenceFrame() {
-    console.log('create');
     this.service.conditionDup = false;
     this.router
       .navigate(['./homepage/companys'], { skipLocationChange: true })
       .then(() => {
-        console.log('create1');
         this.router.navigate(['./homepage/companys/create']);
       });
 

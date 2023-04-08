@@ -32,6 +32,7 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
   public id = '';
   public listJobOfCompany$: Observable<Recruit[]> = new Observable<Recruit[]>();
   showQt: boolean;
+  showEdit=false;
   subscriptions = new Subscription();
   private listOfSearches$ = new BehaviorSubject<string[]>([]);
   private pageIndex$ = new BehaviorSubject(1);
@@ -50,6 +51,14 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
     }),
     tap((it) => {
       this.comFrame = it;
+      if(this.comFrame?.code!==undefined){
+        if(localStorage.getItem('email')?.indexOf(this.comFrame?.code)===-1){
+          this.showEdit=false;
+        }else{
+          this.showEdit=true;
+        }
+      }
+      
       (this.listJobOfCompany$ = this.service
         .setJobByCompany(this.comFrame?.code)
         .pipe(map((data) => data.data))),
@@ -80,13 +89,14 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef
   ) {
     if (
-      localStorage.getItem('role') === 'ADMIN' ||
-      localStorage.getItem('role') === 'COMPANY'
+      localStorage.getItem('role') === 'ADMIN' 
     ) {
       this.showQt = true;
     } else {
       this.showQt = false;
     }
+    
+    
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();

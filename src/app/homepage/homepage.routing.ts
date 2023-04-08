@@ -7,6 +7,7 @@ import { InfomationComponent } from './infomation/infomation.component';
 import { LoginComponent } from './login/login.component';
 
 import { PageComponent } from './page/page.component';
+import { PayMentComponent } from './pay-ment/pay-ment.component';
 import { ResignComponent } from './resign/resign.component';
 @NgModule({
   imports: [
@@ -30,6 +31,10 @@ import { ResignComponent } from './resign/resign.component';
           {
             path: 'create-news',
             component: CreateNewsComponent,
+          },
+          {
+            path: 'pay-ment',
+            component: PayMentComponent,
           },
           {
             path: 'infomation',

@@ -38,9 +38,7 @@ export class RecruitStatisComponent implements OnInit {
     private serviceCompany: CompanysService
   ) {
     this.showRight = false;
-    console.log('listCandidate2', this.listCom$);
     serviceCompany.getListCompany().subscribe((data) => {
-      console.log('serviceCompany', data.data[0].name);
       for (let i = 0; i < data.data.length; i++) {
         this.listNameCompany.push(data.data[i].name);
       }

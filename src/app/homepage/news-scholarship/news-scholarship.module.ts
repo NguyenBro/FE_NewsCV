@@ -36,6 +36,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { QuillModule } from 'ngx-quill';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 @NgModule({
   declarations: [
     NewsScholarshipEntryComponent,
@@ -77,6 +79,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzAlertModule,
     QuillModule.forRoot(),
     NzDropDownModule,
+    ScrollingModule,
+    NzSkeletonModule
   ],
 })
 export class NewsScholarshipModule {}

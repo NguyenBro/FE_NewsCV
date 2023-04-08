@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit {
       } else {
         localStorage.setItem('token', this.service.token);
         localStorage.setItem('email', this.user.email);
+        localStorage.setItem('id', this.user.id.toString());
+        localStorage.setItem('code', this.user.roleCodes.toString());
         this.service.getLoggedInUser(this.user.email).subscribe((user) => {
           this.service.userLogin = user.data;
         });

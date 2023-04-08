@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, mergeMap, Observable, tap } from 'rxjs';
 import { competion } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
@@ -36,11 +36,42 @@ export class NewsViewComponent implements OnInit {
       this.id = p['comFrameId'];
       return this.service.getCompetionInfo(p['comFrameId']);
     }),
-    tap((it) => (this.comFrame = it))
+    tap((it) => {this.comFrame = it;
+      this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+      this.listCom$ = combineLatest({
+        listOfCompetences: this.rawListCom$,
+        pageIndex: this.pageIndex$,
+        pageSize: this.pageSize$,
+        searches: this.listOfSearches$,
+        refresh: this.refreshBehavior$,
+      }).pipe(
+        map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+          listOfCompetences
+            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+        )
+      )
+  })
   );
-  x: Element | undefined;
-  // app: HTMLElement | null | undefined;
-  // app: HTMLElement | null | undefined;
+
+  private listOfSearches$ = new BehaviorSubject<string[]>([]);
+  private pageIndex$ = new BehaviorSubject(1);
+  private pageSize$ = new BehaviorSubject(15);
+  private refreshBehavior$ = this.service.getRefresh();
+  private rawListCom$: Observable<Comment[]> = this.servicenew
+  .getListComment(this.comFrame?.id.toString())
+  .pipe(map((data) => data.data));
+  public listCom$ = combineLatest({
+    listOfCompetences: this.rawListCom$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
 
   constructor(
     private message: NzMessageService,

@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { mergeMap, tap } from 'rxjs';
-import { competion, scholarship } from '../../model/news.model';
+import { BehaviorSubject, combineLatest, map, mergeMap, Observable, tap } from 'rxjs';
+import { Comment, competion, scholarship } from '../../model/news.model';
 import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-scholarship-entry.component';
 import { NewsScholarshipService } from '../services/news-scholarship.service';
 import { formatDistance } from 'date-fns';
 import { newsService } from '../../services/news.service';
+
 
 @Component({
   selector: 'app-news-view',
@@ -18,6 +19,7 @@ import { newsService } from '../../services/news.service';
 export class NewsScholarshipViewComponent implements OnInit {
   @ViewChild('app') app: HTMLElement | null | undefined;
   public comFrame: scholarship | undefined = new scholarship();
+  public currentComment: Comment = new Comment();
   public temp: HTMLElement | undefined;
   public listComment = new Array<String>();
   public commentTemp = new String();
@@ -30,20 +32,54 @@ export class NewsScholarshipViewComponent implements OnInit {
     avatar: this.servicenew.userLogin.avatar,
   };
   inputValue = '';
-
+  initLoading = true;
+  loadingMore = false;
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
         this.cancel();
       }
       this.id = p['comFrameId'];
+      
       return this.service.getScholarshipInfo(p['comFrameId']);
     }),
-    tap((it) => (this.comFrame = it))
+    tap((it) => {this.comFrame = it;
+      this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+      this.listCom$ = combineLatest({
+        listOfCompetences: this.rawListCom$,
+        pageIndex: this.pageIndex$,
+        pageSize: this.pageSize$,
+        searches: this.listOfSearches$,
+        refresh: this.refreshBehavior$,
+      }).pipe(
+        map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+          listOfCompetences
+            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+        )
+      )
+  })
   );
-  x: Element | undefined;
-  // app: HTMLElement | null | undefined;
-  // app: HTMLElement | null | undefined;
+
+  private listOfSearches$ = new BehaviorSubject<string[]>([]);
+  private pageIndex$ = new BehaviorSubject(1);
+  private pageSize$ = new BehaviorSubject(15);
+  private refreshBehavior$ = this.service.getRefresh();
+  private rawListCom$: Observable<Comment[]> = this.servicenew
+  .getListComment(this.comFrame?.id.toString())
+  .pipe(map((data) => data.data));
+  public listCom$ = combineLatest({
+    listOfCompetences: this.rawListCom$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
+
 
   constructor(
     private message: NzMessageService,
@@ -63,30 +99,30 @@ export class NewsScholarshipViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
+    
   }
 
   ngOnInit(): void {
     this.comFrame = this.service.scholarship;
   }
+  loadPage() {
+    window.location.reload();
+  }
   handleSubmit(): void {
-    this.submitting = true;
-    const content = this.inputValue;
-    this.inputValue = '';
-    setTimeout(() => {
-      this.submitting = false;
-      this.data = [
-        ...this.data,
-        {
-          ...this.user,
-          content,
-          datetime: new Date(),
-          displayTime: formatDistance(new Date(), new Date()),
-        },
-      ].map((e) => ({
-        ...e,
-        displayTime: formatDistance(new Date(), e.datetime),
-      }));
-    }, 800);
+        /*this.currentComment.content = 'hoc-bong';
+        this.currentComment.codeNews = 'Waiting';
+        this.currentComment.userId = Number(this.user);
+        this.servicenew
+          .addComment(this.currentComment)
+          .subscribe((Res) => {
+            if (Res.errorCode === null) {
+              this.cancel();
+              setTimeout(this.loadPage, 1000);
+              this.message.success('Thêm thành công');
+            } else {
+              this.message.error('Thêm thất bại');
+            }
+          });*/
   }
   public create() {
     this.service.conditionDup = false;
@@ -145,4 +181,8 @@ export class NewsScholarshipViewComponent implements OnInit {
     this.commentTemp = new String();
     console.log('enter', this.listComment);
   }
+  edit(item: any): void {
+    
+  }
+
 }

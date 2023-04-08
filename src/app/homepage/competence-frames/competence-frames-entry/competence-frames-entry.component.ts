@@ -270,12 +270,10 @@ export class CompetenceFramesEntryComponent
     });
   }
   createCompetenceFrame() {
-    console.log('create');
     this.service.conditionDup = false;
     this.router
       .navigate(['./homepage/competence-frames'], { skipLocationChange: true })
       .then(() => {
-        console.log('create1');
         this.router.navigate(['./homepage/competence-frames/create']);
       });
 
