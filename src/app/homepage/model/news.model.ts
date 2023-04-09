@@ -486,7 +486,7 @@ export class Candidate {
 }
 export class Comment {
   id: Number;
-  Time: string;
+  time: string;
   content: string;
   urlImage: string;
   status: string;
@@ -499,7 +499,7 @@ export class Comment {
   constructor(clone?: Comment) {
     if (clone) {
       this.id = clone.id;
-      this.Time = clone.Time;
+      this.time = clone.time;
       this.content = clone.content;
       this.urlImage = clone.urlImage;
       this.status = clone.status;
@@ -511,7 +511,7 @@ export class Comment {
       this.codeNews = clone.codeNews;
     } else {
       this.id = 0;
-      this.Time = '';
+      this.time = "";
       this.content = '';
       this.urlImage = '';
       this.status = '';

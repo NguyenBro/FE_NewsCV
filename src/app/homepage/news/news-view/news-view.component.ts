@@ -57,7 +57,7 @@ export class NewsViewComponent implements OnInit {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-  private rawListCom$: Observable<Comment[]> = this.servicenew
+   private rawListCom$: Observable<Comment[]> = this.servicenew
   .getListComment(this.comFrame?.id.toString())
   .pipe(map((data) => data.data));
   public listCom$ = combineLatest({

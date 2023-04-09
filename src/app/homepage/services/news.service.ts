@@ -178,6 +178,7 @@ export class newsService {
       { headers: headers }
     );
   }
+
   // login(newUser: user): Observable<user> {
   //   return this.http.post<user>(`${this.urlPath + '/api/v1/login'}`, newUser);
   // }

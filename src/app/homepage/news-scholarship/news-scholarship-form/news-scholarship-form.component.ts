@@ -71,7 +71,7 @@ export class NewsScholarshipFormComponent {
       .subscribe((user) => {
         if (user.errorCode === null) {
           this.user = user.data;
-          console.log('user1131', this.user);
+
         }
       });
   }

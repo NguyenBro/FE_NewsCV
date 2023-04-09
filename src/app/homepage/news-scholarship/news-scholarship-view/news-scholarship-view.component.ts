@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, mergeMap, Observable, tap } from 'rxjs';
-import { Comment, competion, scholarship } from '../../model/news.model';
+import { Comment, competion, scholarship, user } from '../../model/news.model';
 import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-scholarship-entry.component';
 import { NewsScholarshipService } from '../services/news-scholarship.service';
 import { formatDistance } from 'date-fns';
@@ -23,14 +23,11 @@ export class NewsScholarshipViewComponent implements OnInit {
   public temp: HTMLElement | undefined;
   public listComment = new Array<String>();
   public commentTemp = new String();
+  user: user = new user();
   public id = '';
   showQt: boolean;
   data: any[] = [];
   submitting = false;
-  user = {
-    author: this.servicenew.userLogin.name,
-    avatar: this.servicenew.userLogin.avatar,
-  };
   inputValue = '';
   initLoading = true;
   loadingMore = false;
@@ -43,7 +40,8 @@ export class NewsScholarshipViewComponent implements OnInit {
       
       return this.service.getScholarshipInfo(p['comFrameId']);
     }),
-    tap((it) => {this.comFrame = it;
+    tap((it) => {
+      this.comFrame = it;
       this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
       this.listCom$ = combineLatest({
         listOfCompetences: this.rawListCom$,
@@ -57,6 +55,12 @@ export class NewsScholarshipViewComponent implements OnInit {
             .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
         )
       )
+     this.listCom$.subscribe((res)=>{
+        for (let index = 0; index < res.length; index++) {
+          console.log('commet time',res[index].time)
+        }
+      });
+
   })
   );
 
@@ -99,7 +103,13 @@ export class NewsScholarshipViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
-    
+    servicenew
+    .getLoggedInUser(localStorage.getItem('email') || '')
+    .subscribe((user) => {
+      if (user.errorCode === null) {
+        this.user = user.data;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -109,20 +119,23 @@ export class NewsScholarshipViewComponent implements OnInit {
     window.location.reload();
   }
   handleSubmit(): void {
-        /*this.currentComment.content = 'hoc-bong';
-        this.currentComment.codeNews = 'Waiting';
-        this.currentComment.userId = Number(this.user);
-        this.servicenew
-          .addComment(this.currentComment)
-          .subscribe((Res) => {
-            if (Res.errorCode === null) {
-              this.cancel();
-              setTimeout(this.loadPage, 1000);
-              this.message.success('Thêm thành công');
-            } else {
-              this.message.error('Thêm thất bại');
-            }
-          });*/
+    if(this.comFrame!=null){
+      this.currentComment.content = this.inputValue;
+      this.currentComment.codeNews = this.comFrame.code;
+      this.currentComment.userId = Number(this.user.id);
+      this.service
+        .insertCmt(this.currentComment)
+        .subscribe((Res) => {
+          if (Res.errorCode === null) {
+            this.cancel();
+            setTimeout(this.loadPage, 1000);
+            this.message.success('Thêm thành công');
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
+    }
+        
   }
   public create() {
     this.service.conditionDup = false;
