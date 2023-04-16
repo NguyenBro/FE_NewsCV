@@ -25,8 +25,9 @@ export class NewsScholarshipViewComponent implements OnInit {
   public commentTemp = new String();
   user: user = new user();
   public id = '';
-  showQt: boolean;
   data: any[] = [];
+  showEdit=false;
+  showQt: boolean;
   submitting = false;
   inputValue = '';
   initLoading = true;
@@ -42,8 +43,16 @@ export class NewsScholarshipViewComponent implements OnInit {
     }),
     tap((it) => {
       this.comFrame = it;
+      if(this.comFrame?.code!==undefined){
+        if(localStorage.getItem('id')!==this.comFrame?.userId.toString()){
+          this.showEdit=false;
+        }else{
+          this.showEdit=true;
+        }
+      }
+      this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((res)=>this.data=res.data));
       this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
-      this.listCom$ = combineLatest({
+      this.listComment$ = combineLatest({
         listOfCompetences: this.rawListCom$,
         pageIndex: this.pageIndex$,
         pageSize: this.pageSize$,
@@ -55,11 +64,6 @@ export class NewsScholarshipViewComponent implements OnInit {
             .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
         )
       )
-     this.listCom$.subscribe((res)=>{
-        for (let index = 0; index < res.length; index++) {
-          console.log('commet time',res[index].time)
-        }
-      });
 
   })
   );
@@ -71,7 +75,7 @@ export class NewsScholarshipViewComponent implements OnInit {
   private rawListCom$: Observable<Comment[]> = this.servicenew
   .getListComment(this.comFrame?.id.toString())
   .pipe(map((data) => data.data));
-  public listCom$ = combineLatest({
+  public listComment$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
     pageSize: this.pageSize$,
@@ -110,6 +114,7 @@ export class NewsScholarshipViewComponent implements OnInit {
         this.user = user.data;
       }
     });
+    this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((res)=>this.data=res.data));
   }
 
   ngOnInit(): void {
@@ -123,13 +128,27 @@ export class NewsScholarshipViewComponent implements OnInit {
       this.currentComment.content = this.inputValue;
       this.currentComment.codeNews = this.comFrame.code;
       this.currentComment.userId = Number(this.user.id);
-      this.service
-        .insertCmt(this.currentComment)
+      this.servicenew
+        .addComment(this.currentComment)
         .subscribe((Res) => {
           if (Res.errorCode === null) {
-            this.cancel();
-            setTimeout(this.loadPage, 1000);
-            this.message.success('Thêm thành công');
+            // this.cancel();
+            // setTimeout(this.loadPage, 1000);
+            this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+            this.listComment$ = combineLatest({
+              listOfCompetences: this.rawListCom$,
+              pageIndex: this.pageIndex$,
+              pageSize: this.pageSize$,
+              searches: this.listOfSearches$,
+              refresh: this.refreshBehavior$,
+            }).pipe(
+              map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+                listOfCompetences
+                  .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              )
+            )
+            this.inputValue='';
+            // this.message.success('Thêm thành công');
           } else {
             this.message.error('Thêm thất bại');
           }
@@ -146,7 +165,6 @@ export class NewsScholarshipViewComponent implements OnInit {
   }
   public cancel() {
     this.router.navigate(['./news-scholarship/']);
-
     console.log('flex-cancel', this.news.flex);
     this.news.cancelDetailShow();
   }

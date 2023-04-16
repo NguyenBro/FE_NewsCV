@@ -77,6 +77,19 @@ export class CompetenceFramesService {
       { headers: headers }
     );
   }
+  CheckAppli(userId:string, jobId?:string) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/application/get-application-by-user-and-by-job/'+userId+'/'+jobId}`,
+      '',
+      { headers: headers }
+    );
+  }
   updateJobNews(recruit: Recruit) {
     const token = localStorage.getItem('token');
     console.log('token', token);

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, combineLatest, map, mergeMap, Observable, tap } from 'rxjs';
-import { competion } from '../../model/news.model';
+import { competion,Comment, user } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
 import { NewsCompetionService } from '../services/news-competion.service';
@@ -22,12 +22,9 @@ export class NewsViewComponent implements OnInit {
   showQt: boolean;
   data: any[] = [];
   submitting = false;
-  user = {
-    author: this.servicenew.userLogin.name,
-    avatar: this.servicenew.userLogin.avatar,
-  };
+  user: user = new user();
   inputValue = '';
-
+  public currentComment: Comment = new Comment();
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -38,7 +35,7 @@ export class NewsViewComponent implements OnInit {
     }),
     tap((it) => {this.comFrame = it;
       this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
-      this.listCom$ = combineLatest({
+      this.listComment$ = combineLatest({
         listOfCompetences: this.rawListCom$,
         pageIndex: this.pageIndex$,
         pageSize: this.pageSize$,
@@ -60,7 +57,7 @@ export class NewsViewComponent implements OnInit {
    private rawListCom$: Observable<Comment[]> = this.servicenew
   .getListComment(this.comFrame?.id.toString())
   .pipe(map((data) => data.data));
-  public listCom$ = combineLatest({
+  public listComment$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
     pageSize: this.pageSize$,
@@ -91,30 +88,49 @@ export class NewsViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
+    servicenew
+    .getLoggedInUser(localStorage.getItem('email') || '')
+    .subscribe((user) => {
+      if (user.errorCode === null) {
+        this.user = user.data;
+      }
+    });
   }
 
   ngOnInit(): void {
     this.comFrame = this.service.competion;
   }
+  loadPage() {
+    window.location.reload();
+  }
   handleSubmit(): void {
-    this.submitting = true;
-    const content = this.inputValue;
-    this.inputValue = '';
-    setTimeout(() => {
-      this.submitting = false;
-      this.data = [
-        ...this.data,
-        {
-          ...this.user,
-          content,
-          datetime: new Date(),
-          displayTime: formatDistance(new Date(), new Date()),
-        },
-      ].map((e) => ({
-        ...e,
-        displayTime: formatDistance(new Date(), e.datetime),
-      }));
-    }, 800);
+    if(this.comFrame!=null){
+      this.currentComment.content = this.inputValue;
+      this.currentComment.codeNews = this.comFrame.code;
+      this.currentComment.userId = Number(this.user.id);
+      this.servicenew
+      .addComment(this.currentComment)
+        .subscribe((Res) => {
+          if (Res.errorCode === null) {
+            this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+            this.listComment$ = combineLatest({
+              listOfCompetences: this.rawListCom$,
+              pageIndex: this.pageIndex$,
+              pageSize: this.pageSize$,
+              searches: this.listOfSearches$,
+              refresh: this.refreshBehavior$,
+            }).pipe(
+              map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+                listOfCompetences
+                  .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              )
+            )
+            this.inputValue='';
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
+    }
   }
   public create() {
     this.service.conditionDup = false;
@@ -165,5 +181,8 @@ export class NewsViewComponent implements OnInit {
         id: this.comFrame?.id,
       },
     });
+  }
+  edit(item: any): void {
+    
   }
 }

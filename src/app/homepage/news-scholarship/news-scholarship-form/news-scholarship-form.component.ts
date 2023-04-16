@@ -87,6 +87,8 @@ export class NewsScholarshipFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-scholarship']);
     this.news.isDetailShown = false;
+    this.news.flex = false;
+    // this.news.cancelDetailShow();
   }
   loadPage() {
     window.location.reload();

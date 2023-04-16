@@ -25,7 +25,7 @@ export class CompetenceFrameViewComponent implements OnInit {
   public user: user = new user();
   showQt: boolean;
   showUs: boolean;
-  showCom: boolean;
+  showCom=false;
   public apply: Application = new Application();
   public quillEditor: any;
   public htmlContent =
@@ -59,7 +59,16 @@ export class CompetenceFrameViewComponent implements OnInit {
       this.id = p['comFrameId'];
       return this.service.getRecruitInfo(p['comFrameId']);
     }),
-    tap((it) => (this.comFrame = it))
+    tap((it) => {
+      this.comFrame = it;
+      if(this.comFrame?.code!==undefined){
+        if(localStorage.getItem('email')?.indexOf(this.comFrame?.companyCode)===-1){
+          this.showCom=false;
+        }else{
+          this.showCom=true;
+        }
+      }
+    })
   );
   urlPath = 'https://server-api.newscv.tech';
   constructor(
@@ -86,8 +95,7 @@ export class CompetenceFrameViewComponent implements OnInit {
         }
       });
     if (
-      localStorage.getItem('role') === 'ADMIN' ||
-      localStorage.getItem('role') === 'COMPANY'
+      localStorage.getItem('role') === 'ADMIN'
     ) {
       this.showQt = true;
     } else {
@@ -98,11 +106,7 @@ export class CompetenceFrameViewComponent implements OnInit {
     } else {
       this.showUs = false;
     }
-    if (localStorage.getItem('role') === 'COMPANY') {
-      this.showCom = true;
-    } else {
-      this.showCom = false;
-    }
+
   }
 
   ngOnInit(): void {
@@ -135,7 +139,19 @@ export class CompetenceFrameViewComponent implements OnInit {
     }
   }
   showModal(): void {
-    this.isVisible = true;
+    console.log('---------userid;',this.user.id);
+        console.log('---------recruitid;',this.comFrame?.id)
+    this.service.CheckAppli(this.user.id.toString(),this.comFrame?.id.toString()).subscribe((res)=>{
+      if(res.data!=null){
+        this.apply=res.data;
+        console.log('---------asdsadasfasf;',this.apply);
+        console.log('---------2222222222222222;',res.data)
+        this.isVisible = true;
+      }else{
+        this.isVisible = true;
+      }
+    });
+    
   }
   handleOk(): void {
     console.log('Button ok clicked!');

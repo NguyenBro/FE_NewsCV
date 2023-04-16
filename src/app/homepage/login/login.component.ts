@@ -13,6 +13,7 @@ import { newsService } from '../services/news.service';
 export class LoginComponent implements OnInit {
   public listgender = ['Nam', 'Nữ', 'Khác'];
   user: user = new user();
+  userTemp: user = new user();
   subjects: any;
   constructor(
     private service: newsService,
@@ -35,11 +36,12 @@ export class LoginComponent implements OnInit {
       } else {
         localStorage.setItem('token', this.service.token);
         localStorage.setItem('email', this.user.email);
-        localStorage.setItem('id', this.user.id.toString());
         localStorage.setItem('code', this.user.roleCodes.toString());
         this.service.getLoggedInUser(this.user.email).subscribe((user) => {
-          this.service.userLogin = user.data;
+          this.service.userLogin = user.data
         });
+        // localStorage.setItem('id',this.service.userLogin.id.toString());
+        // console.log('id của tau',localStorage.getItem('id'));
         this.service.getRoleByEmail(this.user.email).subscribe((role) => {
           localStorage.setItem('role', role.data);
           this.service.role = role.data;
