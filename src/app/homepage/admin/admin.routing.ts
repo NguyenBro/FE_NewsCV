@@ -6,6 +6,7 @@ import { RecruitStatisComponent } from './recruit-statis/recruit-statis.componen
 import { StatisticalComponent } from './statistical/statistical.component';
 import { NewsStatisComponent } from './news-statis/news-statis.component';
 import { JobStatisComponent } from './job-statis/job-statis.component';
+import { CompanyStatisComponent } from './company-statis/company-statis.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,10 @@ import { JobStatisComponent } from './job-statis/job-statis.component';
           {
             path: 'JobStatis',
             component: JobStatisComponent,
+          },
+          {
+            path: 'ComStatis',
+            component: CompanyStatisComponent,
           },
         ],
       },

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { competion, ResponseObject, scholarship } from '../../model/news.model';
+import { competion, ResponseObject, scholarship,Comment } from '../../model/news.model';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +60,17 @@ export class NewsScholarshipService {
     return this.http.post<ResponseObject>(
       `${this.urlPath + '/api/v1/scholarship-news'}`,
       scho,
+      { headers: headers }
+    );
+  }
+  insertCmt(comment: Comment) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/comment'}`,
+      comment,
       { headers: headers }
     );
   }

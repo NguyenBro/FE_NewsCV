@@ -484,3 +484,43 @@ export class Candidate {
     }
   }
 }
+export class Comment {
+  id: Number;
+  time: string;
+  content: string;
+  urlImage: string;
+  status: string;
+  userId: Number;
+  name: string;
+  avatar: string;
+  numLike: Number;
+  numDisLike: Number;
+  codeNews: String;
+  constructor(clone?: Comment) {
+    if (clone) {
+      this.id = clone.id;
+      this.time = clone.time;
+      this.content = clone.content;
+      this.urlImage = clone.urlImage;
+      this.status = clone.status;
+      this.userId = clone.userId;
+      this.name = clone.name;
+      this.avatar = clone.avatar;
+      this.numLike = clone.numLike;
+      this.numDisLike = clone.numDisLike;
+      this.codeNews = clone.codeNews;
+    } else {
+      this.id = 0;
+      this.time = "";
+      this.content = '';
+      this.urlImage = '';
+      this.status = '';
+      this.userId = 0;
+      this.name = '';
+      this.avatar = '';
+      this.numLike = 0;
+      this.numDisLike = 0;
+      this.codeNews='';
+    }
+  }
+}

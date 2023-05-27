@@ -62,6 +62,7 @@ export class HomepageComponent implements OnInit {
         if (user.errorCode === null) {
           this.user = user.data;
           console.log('user1131', this.user);
+          localStorage.setItem('id', this.user.id.toString());
           this.isShow = this.user.email === '' ? false : true;
         } else {
           localStorage.removeItem('token');
@@ -112,6 +113,7 @@ export class HomepageComponent implements OnInit {
         localStorage.removeItem('email');
         localStorage.removeItem('cv');
         localStorage.removeItem('searchKeyword');
+        localStorage.removeItem('id');
         localStorage.removeItem('role'); //cần chỉnh
         this.router.navigate(['./homepage/login']);
         setTimeout(this.loadPage, 1000);

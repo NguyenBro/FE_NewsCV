@@ -14,7 +14,7 @@
 
     <button
       button
-      *ngIf="showQt"
+      *ngIf="showEdit"
       class="button-primary"
       (click)="update()"
       nz-popover
@@ -101,62 +101,25 @@
         </app-section>
         <app-section title="Bình luận">
           <div container>
-            <!-- <div section-container class="m-0 pb-4 flex flex-col gap-4">
-              <div *ngFor="let cmt of listComment" class="m-0 flex gap-4">
-                <img src="/assets/images/avatar-female.svg" class="avata" />
-                <textarea
-                  nz-input
-                  placeholder="Nhập mô tả"
-                  [value]="cmt"
-                  style="
-                    border-color: #bfbfbf;
-                    resize: none;
-                    border-radius: 8px;
-                    font-weight: 400;
-                    padding: 1rem;
-                    pointer-events: none;
-                  "
-                ></textarea>
-              </div>
-            </div>
-            <div section-container class="m-0 flex gap-4">
-              <img src="/assets/images/avatar-female.svg" class="avata" />
-              <textarea
-                nz-input
-                (keydown.enter)="comment()"
-                placeholder="Nhập mô tả"
-                [(ngModel)]="commentTemp"
-                style="
-                  border-color: #bfbfbf;
-                  resize: none;
-                  border-radius: 8px;
-                  font-weight: 400;
-                  padding: 1rem;
-                "
-              ></textarea>
-            </div> -->
             <div section-container class="m-0">
-              <nz-list
-                *ngIf="data.length"
-                [nzDataSource]="data"
-                [nzRenderItem]="item"
-                [nzItemLayout]="'horizontal'"
-              >
-                <ng-template #item let-item>
-                  <nz-comment
-                    [nzAuthor]="item.author"
-                    [nzDatetime]="item.displayTime"
-                  >
-                    <nz-avatar
-                      nz-comment-avatar
-                      nzIcon="user"
-                      [nzSrc]="item.avatar"
-                    ></nz-avatar>
-                    <nz-comment-content>
-                      <p>{{ item.content }}</p>
-                    </nz-comment-content>
-                  </nz-comment>
-                </ng-template>
+              <nz-list class="demo-loadmore-list" >
+                <nz-list-item *ngFor="let item of listComment$ | async">
+                  <ng-container >
+                    <nz-list-item-meta
+                      [nzAvatar]="item.avatar"
+                      [nzDescription]="item.name +' - '+ item.time[0]+ item.time[1]+ item.time[2]+ item.time[3]+ item.time[4]+ item.time[5]+ item.time[6]+ item.time[7]+ item.time[8]+ item.time[9]"
+                    >
+                      <nz-list-item-meta-title>
+                        <p>{{ item.content }}</p>
+                      </nz-list-item-meta-title>
+                    </nz-list-item-meta>
+                    <ul nz-list-item-actions>
+                      <nz-list-item-action><a (click)="edit(item)">chỉnh sửa</a></nz-list-item-action>
+                      <nz-list-item-action><a (click)="edit(item)">xoá</a></nz-list-item-action>
+                    </ul>
+                  </ng-container>
+                </nz-list-item>
+
               </nz-list>
               <nz-comment>
                 <nz-avatar
@@ -164,6 +127,7 @@
                   nzIcon="user"
                   [nzSrc]="user.avatar"
                 ></nz-avatar>
+                
                 <nz-comment-content>
                   <nz-form-item>
                     <textarea
@@ -180,7 +144,7 @@
                       [disabled]="!inputValue"
                       (click)="handleSubmit()"
                     >
-                      Add Comment
+                      Thêm bình luận
                     </button>
                   </nz-form-item>
                 </nz-comment-content>

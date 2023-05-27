@@ -110,6 +110,7 @@ export class NewsEventFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-event']);
     this.news.isDetailShown = false;
+    this.news.flex = false;
   }
   loadPage() {
     window.location.reload();

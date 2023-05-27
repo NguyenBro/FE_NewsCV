@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { stringify } from 'querystring';
 import { catchError, Observable, of, tap } from 'rxjs';
+
 import {
   competion,
   event,
@@ -9,6 +10,7 @@ import {
   ResponseObject,
   scholarship,
   user,
+  Comment
 } from '../model/news.model';
 
 @Injectable({
@@ -162,6 +164,23 @@ export class newsService {
       { headers: headers }
     );
   }
+  getListComment(id?:string) {
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/comment/get-by-news/'+id}`,''
+    );
+  }
+  addComment(comment: Comment) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/comment'}`,
+      comment,
+      { headers: headers }
+    );
+  }
+
   // login(newUser: user): Observable<user> {
   //   return this.http.post<user>(`${this.urlPath + '/api/v1/login'}`, newUser);
   // }

@@ -71,7 +71,7 @@ export class NewsScholarshipFormComponent {
       .subscribe((user) => {
         if (user.errorCode === null) {
           this.user = user.data;
-          console.log('user1131', this.user);
+
         }
       });
   }
@@ -87,6 +87,8 @@ export class NewsScholarshipFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-scholarship']);
     this.news.isDetailShown = false;
+    this.news.flex = false;
+    // this.news.cancelDetailShow();
   }
   loadPage() {
     window.location.reload();

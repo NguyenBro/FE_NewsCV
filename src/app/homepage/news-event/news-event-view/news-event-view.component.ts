@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { mergeMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, map, mergeMap, tap } from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
-import { event } from '../../model/news.model';
+import { event, user,Comment } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { NewsEventEntryComponent } from '../news-event-entry/news-event-entry.component';
 import { NewsEventService } from '../services/news-event.service';
@@ -20,15 +20,12 @@ export class NewsEventViewComponent implements OnInit {
   public comFrame: event | undefined = new event();
   public temp: HTMLElement | undefined;
   public id = '';
+  public currentComment: Comment = new Comment();
   showQt: boolean;
   data: any[] = [];
   submitting = false;
-  user = {
-    author: this.servicenew.userLogin.name,
-    avatar: this.servicenew.userLogin.avatar,
-  };
   inputValue = '';
-
+  user: user = new user();
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -37,11 +34,42 @@ export class NewsEventViewComponent implements OnInit {
       this.id = p['comFrameId'];
       return this.service.getEventInfo(p['comFrameId']);
     }),
-    tap((it) => (this.comFrame = it))
+    tap((it) => {
+      this.comFrame = it;
+      this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+      this.listComment$ = combineLatest({
+        listOfCompetences: this.rawListCom$,
+        pageIndex: this.pageIndex$,
+        pageSize: this.pageSize$,
+        searches: this.listOfSearches$,
+        refresh: this.refreshBehavior$,
+      }).pipe(
+        map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+          listOfCompetences
+            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+        )
+      )
+    })
   );
-  x: Element | undefined;
-  // app: HTMLElement | null | undefined;
-  // app: HTMLElement | null | undefined;
+  private listOfSearches$ = new BehaviorSubject<string[]>([]);
+  private pageIndex$ = new BehaviorSubject(1);
+  private pageSize$ = new BehaviorSubject(15);
+  private refreshBehavior$ = this.service.getRefresh();
+  private rawListCom$: Observable<Comment[]> = this.servicenew
+  .getListComment(this.comFrame?.id.toString())
+  .pipe(map((data) => data.data));
+  public listComment$ = combineLatest({
+    listOfCompetences: this.rawListCom$,
+    pageIndex: this.pageIndex$,
+    pageSize: this.pageSize$,
+    searches: this.listOfSearches$,
+    refresh: this.refreshBehavior$,
+  }).pipe(
+    map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+      listOfCompetences
+        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+    )
+  );
 
   constructor(
     private message: NzMessageService,
@@ -61,30 +89,49 @@ export class NewsEventViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
+    servicenew
+    .getLoggedInUser(localStorage.getItem('email') || '')
+    .subscribe((user) => {
+      if (user.errorCode === null) {
+        this.user = user.data;
+      }
+    });
   }
 
   ngOnInit(): void {
     this.comFrame = this.service.event;
   }
+  loadPage() {
+    window.location.reload();
+  }
   handleSubmit(): void {
-    this.submitting = true;
-    const content = this.inputValue;
-    this.inputValue = '';
-    setTimeout(() => {
-      this.submitting = false;
-      this.data = [
-        ...this.data,
-        {
-          ...this.user,
-          content,
-          datetime: new Date(),
-          displayTime: formatDistance(new Date(), new Date()),
-        },
-      ].map((e) => ({
-        ...e,
-        displayTime: formatDistance(new Date(), e.datetime),
-      }));
-    }, 800);
+    if(this.comFrame!=null){
+      this.currentComment.content = this.inputValue;
+      this.currentComment.codeNews = this.comFrame.code;
+      this.currentComment.userId = Number(this.user.id);
+      this.servicenew
+      .addComment(this.currentComment)
+        .subscribe((Res) => {
+          if (Res.errorCode === null) {
+            this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+            this.listComment$ = combineLatest({
+              listOfCompetences: this.rawListCom$,
+              pageIndex: this.pageIndex$,
+              pageSize: this.pageSize$,
+              searches: this.listOfSearches$,
+              refresh: this.refreshBehavior$,
+            }).pipe(
+              map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+                listOfCompetences
+                  .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+              )
+            )
+            this.inputValue='';
+          } else {
+            this.message.error('Thêm thất bại');
+          }
+        });
+    }
   }
   public create() {
     this.service.conditionDup = false;
@@ -136,5 +183,8 @@ export class NewsEventViewComponent implements OnInit {
         id: this.comFrame?.id,
       },
     });
+  }
+  edit(item: any): void {
+    
   }
 }

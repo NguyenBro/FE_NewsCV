@@ -87,6 +87,7 @@ export class NewsFormComponent {
   public cancel() {
     this.router.navigate(['./homepage/news-competion']);
     this.news.isDetailShown = false;
+    this.news.flex = false;
   }
   loadPage() {
     window.location.reload();

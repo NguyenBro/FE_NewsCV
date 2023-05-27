@@ -24,7 +24,7 @@
     >
       <span nz-icon nzType="svg:edit"></span>
     </button>
-    <button
+    <!-- <button
       button
       *ngIf="showCom"
       class="button-primary"
@@ -35,7 +35,7 @@
       nzPopoverOverlayClassName="customPopOver"
     >
       <span nz-icon nzType="svg:copy-alt"></span>
-    </button>
+    </button> -->
     <button
       button
       *ngIf="showQt"
@@ -128,7 +128,7 @@
             ></quill-view-html>
           </div>
         </app-section>
-        <app-section title="" [collapsible]="false">
+        <app-section title="Ứng tuyển" [collapsible]="false">
           <div section-container class="">
             <div class="buttonlg" (click)="showModal()" *ngIf="showUs">
               Ứng Tuyển
