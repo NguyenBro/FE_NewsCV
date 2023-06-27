@@ -137,9 +137,45 @@ body {
     }
   }
 }
-button, [type='button'], [type='reset'], [type='submit'] {
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
   background-color: #bfbfbf;
 }
 .ant-switch-checked {
   background: #1890ff !important;
+}
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover {
+  color: white !important;
+}
+.ant-menu-item-selected {
+  color: white !important;
+  background-color: @secondary-2 !important;
+}
+// .ant-menu-item a {
+//   color: white;
+// }
+// .ant-menu-item p {
+//   color: white;
+// }
+.ant-menu-item a:hover {
+  color: white;
+}
+.ant-menu-item p:hover {
+  color: white;
+}
+.ant-menu-submenu-selected {
+  color: white !important;
+  background-color: @secondary-2 !important;
+}
+.ant-menu-submenu-active,
+.ant-menu-submenu-title:hover {
+  color: white !important;
+}
+.ant-menu-vertical.ant-menu-sub .ant-menu-item {
+  left: 0;
+  border-right: 0;
+  margin: 0;
 }

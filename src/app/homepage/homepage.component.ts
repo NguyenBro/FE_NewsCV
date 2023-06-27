@@ -93,6 +93,9 @@ export class HomepageComponent implements OnInit {
   company() {
     this.router.navigate(['./homepage/companys']);
   }
+  findAppli() {
+    this.router.navigate(['./homepage/AutoFindAppli']);
+  }
   admin() {
     if (localStorage.getItem('role') === 'ADMIN') {
       this.router.navigate(['./homepage/administration/Statistical']);

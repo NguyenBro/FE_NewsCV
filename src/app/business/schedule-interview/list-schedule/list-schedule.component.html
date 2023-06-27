@@ -1,0 +1,75 @@
+<!-- <nz-calendar (ngModel)="(date)" [nzFullscreen]="false">
+  <ul *nzDateCell="let date" class="events">
+    <ng-container
+      [ngSwitch]="
+        date.getDate().toString() +
+        (date.getMonth() + 1).toString() +
+        date.getFullYear().toString()
+      "
+      *ngFor="let item of listDataMap"
+    >
+      <ng-container *ngSwitchCase="item">
+        <li
+          style="background-color: #45f3eaba; padding: 0.25rem 0.5rem"
+          (click)="selectChange(date)"
+        >
+          <nz-badge nzStatus="success" nzText="Xem lịch"></nz-badge>
+        </li>
+      </ng-container>
+    </ng-container>
+  </ul>
+  <ng-container *nzMonthCell="let month">
+    <div *ngIf="getMonthData(month) as monthData" class="notes-month">
+      <nz-badge nzStatus="success" nzText="Có lịch"></nz-badge>
+    </div>
+  </ng-container>
+</nz-calendar> -->
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Lịch phỏng vấn ngày {{
+    date.getDate().toString() +
+      '/' +
+      (date.getMonth() + 1).toString() +
+      '/' +
+      date.getFullYear().toString()
+  }}"
+  (nzOnCancel)="handleCancel()"
+>
+  <div *nzModalContent class="flex flex-col gap-4">
+    <div>Tên Ứng viên: {{ modalIntervSche.name }}</div>
+    <div>Email: {{ modalIntervSche.email }}</div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleCancel()">Đóng</button>
+  </div>
+</nz-modal>
+
+<nz-calendar>
+  <ul *nzDateCell="let date" class="events">
+    <ng-container
+      [ngSwitch]="
+        date.getDate().toString() +
+        (date.getMonth() + 1).toString() +
+        date.getFullYear().toString()
+      "
+      *ngFor="let item of listDataMap"
+    >
+      <ng-container *ngSwitchCase="item">
+        <h5 nz-typography nzType="success">Có lịch</h5>
+        <div (click)="selectChange(date)">
+          <nz-badge nzStatus="success" nzText="Xem lịch"></nz-badge>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ul>
+  <ng-container *nzMonthCell="let month">
+    <h5
+      nz-typography
+      nzType="success"
+      *ngIf="getMonthData(month) as monthData"
+      class="notes-month"
+    >
+      <nz-badge nzStatus="success" nzText="Có lịch"></nz-badge>
+    </h5>
+  </ng-container>
+</nz-calendar>

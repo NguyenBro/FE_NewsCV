@@ -85,13 +85,21 @@
 
           <span>5.0./5.0 - 10 recommended</span>
         </div>
-        <container-element [ngSwitch]="true"></container-element>
-        <nz-switch
-          (ngModelChange)="ChangeSwitch()"
-          [(ngModel)]="switchValue"
-          [nzCheckedChildren]="checkedTemplate"
-          [nzUnCheckedChildren]="unCheckedTemplate"
-        ></nz-switch>
+        <div *ngIf="autoAppli">
+          <div class="h-line"></div>
+          <!-- <container-element [ngSwitch]="true"></container-element> -->
+          <div class="nameAutoJob">{{ AutoJob.status === "Off" ? "Đang tắt tự động tìm kiếm việc làm " : "Đang mở tự động tìm kiếm việc làm" }}</div>
+          <div style="display: flex; gap: 1rem">
+            <nz-switch
+              style="width: fit-content;"
+              (ngModelChange)="ChangeSwitch()"
+              [(ngModel)]="switchValue"
+              [nzCheckedChildren]="checkedTemplate"
+              [nzUnCheckedChildren]="unCheckedTemplate"
+            ></nz-switch>
+            <button *ngIf="switchValue" style="background-color: #1890ff !important; width: fit-content;" (click)="editCv()" nz-button nzType="primary">Chỉnh sửa CV</button>
+          </div>
+        </div>
         <ng-template #checkedTemplate><span nz-icon nzType="check"></span></ng-template>
         <ng-template #unCheckedTemplate><span nz-icon nzType="close"></span></ng-template>
         <nz-modal
@@ -105,7 +113,7 @@
             <input
               placeholder="Nhập tên của bạn"
               class="input"
-
+              [(ngModel)]="AutoJob.fullName"
             />
           </div>
 
@@ -114,7 +122,7 @@
             <input
               placeholder="Email"
               class="input"
-
+              [(ngModel)]="AutoJob.email"
             />
           </div>
           <div class="flex items-center">
@@ -122,7 +130,7 @@
             <input
               placeholder="Số điện thoại"
               class="input"
-
+              [(ngModel)]="AutoJob.phone"
             />
           </div>
           <div class="items-center">
@@ -131,12 +139,12 @@
               <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="changeAllChecked()">Check All</label></div>
             </div>
             
-            <nz-checkbox-wrapper style="width: 100%;display: flex;">
-              <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="DEV">DEV</label></div>
-              <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="Tester">Tester</label></div>
-              <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="QA">QA</label></div>
-              <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="Manager">Manager</label></div>
-              <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="Expert">Expert</label></div>
+            <nz-checkbox-wrapper style="width: 100%;display: flex;" (nzOnChange)="CheckSpecialize($event)">
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Dev" [(ngModel)]="DEV">DEV</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Tester" [(ngModel)]="Tester">Tester</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="QA" [(ngModel)]="QA">QA</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Manager" [(ngModel)]="Manager">Manager</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Expert" [(ngModel)]="Expert">Expert</label></div>
             </nz-checkbox-wrapper>
           </div>
           <div class="flex items-center">
@@ -144,43 +152,50 @@
             <input
               placeholder="Nhập ngôn ngữ"
               class="input"
+              [(ngModel)]="AutoJob.language"
             />
           </div>
           <div class="items-center">
             <p class="namecard">Ví trí: </p>
-            <nz-checkbox-wrapper style="width: 100%;display: flex;" >
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Intern">Intern</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Fresher">Fresher</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Junior">Junior</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Mid-level">Mid-level</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Senior">Senior</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Leader">Leader</label></div>
+            <nz-checkbox-wrapper style="width: 100%;display: flex;" (nzOnChange)="CheckPosition($event)">
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Intern" [(ngModel)]="Intern">Intern</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Fresher" [(ngModel)]="Fresher">Fresher</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Junior" [(ngModel)]="Junior">Junior</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Midlevel" [(ngModel)]="Midlevel">Mid-level</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Senior" [(ngModel)]="Senior">Senior</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Leader" [(ngModel)]="Leader">Leader</label></div>
             </nz-checkbox-wrapper>
           </div>
           <div class="items-center">
             <p class="namecard">Kinh nghiệm: </p>
-            <nz-checkbox-wrapper style="width: 100%;display: flex;" >
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Không có">Không có</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Dưới 1 năm">Dưới 1 năm</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="1-2 năm">1-2 năm</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="2-5 năm">2-5 năm</label></div>
-                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Trên 5 năm">Trên 5 năm</label></div>
+            <nz-checkbox-wrapper style="width: 100%;display: flex;" (nzOnChange)="CheckExperience($event)">
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Không có" [(ngModel)]="NoEx">Không có</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Dưới 1 năm" [(ngModel)]="OneEx">Dưới 1 năm</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="1-2 năm" [(ngModel)]="TwoEx">1-2 năm</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="2-5 năm" [(ngModel)]="FiveEx">2-5 năm</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Trên 5 năm" [(ngModel)]="OvFiveEx">Trên 5 năm</label></div>
             </nz-checkbox-wrapper>
           </div>
           <div class="flex items-center">
             <p class="namecard">Chọn CV của bạn:</p>
-            <input
-              (change)="chooseCv($event)"
-              placeholder="Upload CV"
-              type="file"
-            />
+            <input (change)="chooseCv($event)" type="file" name="file" id="file" class="inputfile"/>
+            <label for="file">{{ AutoJob.cv === null||AutoJob.cv === "" ? "Choose a file " : "1 file selected" }}</label>
+            <a *ngIf="AutoJob.cv" [href]="AutoJob.cv" target="_blank" class="info date">
+              <pdf-viewer
+                [src]="AutoJob.cv"
+                [original-size]="false"
+                [show-all]="false"
+                [zoom]="1"
+                style="width: 15vh; height: 23vh"
+              ></pdf-viewer>
+            </a>
           </div>
           <div>
-            <p class="namecard">Địa chỉ thường trú của bạn</p>
+            <p class="namecard">Địa điểm</p>
             <textarea
               nz-input
-              placeholder="Nhập địa chỉ"
-
+              placeholder="Nhập địa diểm"
+              [(ngModel)]="AutoJob.location"
               style="
                 border-color: #bfbfbf;
                 resize: none;
@@ -200,13 +215,133 @@
             nz-button
             style="background-color: #1890ff !important;color: white;"
             nzType="primary"
-            (click)="handleOk1()"
+            (click)="handleOk()"
             [nzLoading]="isConfirmLoading"
           >
             Gửi
           </button>
         </div>
-      </nz-modal>
+        </nz-modal>
+        <nz-modal
+        [(nzVisible)]="isVisible1"
+        nzTitle="Nhập thông tin ứng tuyển của bạn"
+        (nzOnCancel)="handleCancel1()"
+      >
+        <div *nzModalContent class="flex flex-col gap-4">
+          <div class="flex items-center">
+            <p class="namecard">Họ tên:</p>
+            <input
+              placeholder="Nhập tên của bạn"
+              class="input"
+              [(ngModel)]="AutoJob.fullName"
+            />
+          </div>
+
+          <div class="flex items-center">
+            <p class="namecard">Email:</p>
+            <input
+              placeholder="Email"
+              class="input"
+              [(ngModel)]="AutoJob.email"
+            />
+          </div>
+          <div class="flex items-center">
+            <p class="namecard">Số điện thoại:</p>
+            <input
+              placeholder="Số điện thoại"
+              class="input"
+              [(ngModel)]="AutoJob.phone"
+            />
+          </div>
+          <div class="items-center">
+            <div style="display: flex;">
+              <p class="namecard">Lĩnh vực: </p>
+              <div nz-row nzSpan="8"><label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="changeAllChecked()">Check All</label></div>
+            </div>
+            
+            <nz-checkbox-wrapper style="width: 100%;display: flex;" (nzOnChange)="CheckSpecialize($event)">
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Dev" [(ngModel)]="DEV">DEV</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Tester" [(ngModel)]="Tester">Tester</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="QA" [(ngModel)]="QA">QA</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Manager" [(ngModel)]="Manager">Manager</label></div>
+              <div nz-row nzSpan="8"><label nz-checkbox nzValue="Expert" [(ngModel)]="Expert">Expert</label></div>
+            </nz-checkbox-wrapper>
+          </div>
+          <div class="flex items-center">
+            <p class="namecard">Ngôn ngữ:</p>
+            <input
+              placeholder="Nhập ngôn ngữ"
+              class="input"
+              [(ngModel)]="AutoJob.language"
+            />
+          </div>
+          <div class="items-center">
+            <p class="namecard">Ví trí: </p>
+            <nz-checkbox-wrapper style="width: 100%;display: flex;" (nzOnChange)="CheckPosition($event)">
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Intern" [(ngModel)]="Intern">Intern</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Fresher" [(ngModel)]="Fresher">Fresher</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Junior" [(ngModel)]="Junior">Junior</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Midlevel" [(ngModel)]="Midlevel">Mid-level</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Senior" [(ngModel)]="Senior">Senior</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Leader" [(ngModel)]="Leader">Leader</label></div>
+            </nz-checkbox-wrapper>
+          </div>
+          <div class="items-center">
+            <p class="namecard">Kinh nghiệm: </p>
+            <nz-checkbox-wrapper style="width: 100%;display: flex;" (nzOnChange)="CheckExperience($event)">
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Không có" [(ngModel)]="NoEx">Không có</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Dưới 1 năm" [(ngModel)]="OneEx">Dưới 1 năm</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="1-2 năm" [(ngModel)]="TwoEx">1-2 năm</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="2-5 năm" [(ngModel)]="FiveEx">2-5 năm</label></div>
+                <div nz-row nzSpan="8"><label nz-checkbox nzValue="Trên 5 năm" [(ngModel)]="OvFiveEx">Trên 5 năm</label></div>
+            </nz-checkbox-wrapper>
+          </div>
+          <div class="flex items-center">
+            <p class="namecard">Chọn CV của bạn:</p>
+            <input (change)="chooseCv($event)" type="file" name="file" id="file" class="inputfile"/>
+            <label for="file">{{ AutoJob.cv === null||AutoJob.cv === "" ? "Choose a file " : "1 file selected" }}</label>
+            <a *ngIf="AutoJob.cv" [href]="AutoJob.cv" target="_blank" class="info date">
+              <pdf-viewer
+                [src]="AutoJob.cv"
+                [original-size]="false"
+                [show-all]="false"
+                [zoom]="1"
+                style="width: 15vh; height: 23vh"
+              ></pdf-viewer>
+            </a>
+          </div>
+          <div>
+            <p class="namecard">Địa điểm</p>
+            <textarea
+              nz-input
+              placeholder="Nhập địa diểm"
+              [(ngModel)]="AutoJob.location"
+              style="
+                border-color: #bfbfbf;
+                resize: none;
+                border-radius: 8px;
+                font-weight: 400;
+                padding: 1rem;
+                width: 100%;
+              "
+            ></textarea>
+          </div>
+        </div>
+        <div *nzModalFooter>
+          <button nz-button style="background-color: #1890ff !important;color: white;" nzType="default" (click)="handleCancel1()">
+            Huỷ
+          </button>
+          <button
+            nz-button
+            style="background-color: #1890ff !important;color: white;"
+            nzType="primary"
+            (click)="handleOk()"
+            [nzLoading]="isConfirmLoading"
+          >
+            Gửi
+          </button>
+        </div>
+        </nz-modal>
       </div>
 
       <div class="h-line"></div>

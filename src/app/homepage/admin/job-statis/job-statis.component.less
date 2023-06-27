@@ -5,8 +5,9 @@
   padding: 3rem;
   display: flex;
   gap: 1rem;
+  flex-direction: column;
   .left {
-    flex: 1 0 50%;
+    flex: 1 0 30%;
     .drop {
       padding: 0.5rem;
       border: 1px solid @primary-3;
@@ -52,7 +53,7 @@
     }
   }
   .right {
-    flex: 1 0 50%;
+    flex: 1 0 70%;
     .list {
       font-size: 15px;
       font-weight: 500;
@@ -84,4 +85,7 @@
       }
     }
   }
+}
+.selected {
+  background-color: @primary-3 !important;
 }

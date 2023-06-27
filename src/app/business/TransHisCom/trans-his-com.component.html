@@ -1,0 +1,105 @@
+<nz-tabset nzCentered>
+  <nz-tab nzTitle="Lịch sử giao dịch">
+    <nz-table
+      #rowSelectionTable
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="listOfDisplayData"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+      <thead>
+        <tr>
+          <th nzCustomFilter>
+            Thời gian
+            <nz-filter-trigger
+              [(nzVisible)]="visible"
+              [nzActive]="searchValue.length > 0"
+              [nzDropdownMenu]="menu"
+            >
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger>
+          </th>
+          <th>Giá tiền</th>
+          <th>Phương thức thanh toán</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data">
+          <td>{{ data.time }}</td>
+          <td>{{ data.money }}$</td>
+          <td>{{ data.payment }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input
+            type="text"
+            nz-input
+            placeholder="Search name"
+            [(ngModel)]="searchValue"
+          />
+          <button
+            nz-button
+            nzSize="small"
+            nzType="primary"
+            (click)="search()"
+            class="search-button"
+          >
+            Search
+          </button>
+          <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+  </nz-tab>
+  <nz-tab nzTitle="Các gói đã mua">
+    <div class="table-operations">
+      <button nz-button (click)="all()">Tất cả</button>
+      <button nz-button (click)="expiryDate()">Còn hạn</button>
+    </div>
+    <nz-table
+      #rowSelectionTable1
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="listOfDisplaySubHis"
+      (nzCurrentPageDataChange)="onCurrentPageSubChange($event)"
+    >
+      <thead>
+        <tr>
+          <th nzCustomFilter>
+            Gói đăng ký
+            <!-- <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger> -->
+          </th>
+          <th>Mã thanh toán</th>
+          <th>Thời gian bắt đầu</th>
+          <th>Thời gian Kết thúc</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let data of rowSelectionTable1.data"
+          class="hovertr"
+          [ngClass]="data.endTime < day ? 'expiry' : ''"
+        >
+          <td>{{ data.subscription }}</td>
+          <td>{{ data.payment }}</td>
+          <td>{{ data.startTime }}</td>
+          <td>{{ data.endTime }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu> -->
+  </nz-tab>
+</nz-tabset>

@@ -5,7 +5,7 @@
       <span nz-icon nzType="down"></span>
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul nz-menu style="max-height: 150px;overflow-y: auto;">
+      <ul nz-menu style="max-height: 150px; overflow-y: auto">
         <li
           nz-menu-item
           *ngFor="let item of listNameCompany"
@@ -28,29 +28,106 @@
         ></nz-alert>
       </nz-spin>
     </div>
-    <div *ngFor="let candidate of listCom$ | async" class="list">
-      <div
-        *ngIf="!load"
-        class="item"
-        (click)="onSelected(candidate)"
-        [class.selected]="candidate === selectedJob"
-      >
-        <div class="divimage">
-          <img class="image" [src]="candidate.image" />
-        </div>
-        <div class="content">
-          <div>vị trí: {{ candidate.position }}</div>
-          <div>Số hồ sơ ứng tuyển: {{ candidate.numberCandidate }}</div>
-          <div>
-            Thời hạn: {{ candidate.startTime }} đến {{ candidate.endTime }}
-          </div>
-        </div>
-      </div>
-    </div>
+    <nz-table
+      #rowSelectionTable
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="(listCom$ | async) ?? []"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+      <thead>
+        <tr>
+          <th>Vị trí</th>
+          <th>Số hồ sơ ứng tuyển</th>
+          <th>Thời hạn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let data of rowSelectionTable.data"
+          class=""
+          (click)="onSelected(data)"
+          [class.selected]="data === selectedJob"
+        >
+          <td>{{ data.position }}</td>
+          <td>{{ data.numberCandidate }}</td>
+          <td>{{ data.startTime }} đến {{ data.endTime }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
   </div>
   <div class="right" *ngIf="showRight">
     <div>Danh sách ứng viên</div>
-    <div *ngFor="let apply of listApply" class="list">
+    <nz-table
+      #rowSelectionTable1
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="listApply"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+      <thead>
+        <tr>
+          <th>CV</th>
+          <th>Tên</th>
+          <th>Số điện thoại</th>
+          <th>Email</th>
+          <th>Giới thiệu</th>
+          <th>Trạng thái</th>
+          <th>Thời gian ứng tuyển</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let apply of rowSelectionTable1.data">
+          <td>
+            <a [href]="apply.cv" target="_blank" class="info date">
+              <pdf-viewer
+                [src]="apply.cv"
+                [original-size]="false"
+                [show-all]="false"
+                [zoom]="1"
+                style="width: 15vh; height: 23vh"
+              ></pdf-viewer>
+            </a>
+          </td>
+          <td>{{ apply.fullName }}</td>
+          <td>{{ apply.phone }}</td>
+          <td>{{ apply.email }}</td>
+          <td>{{ apply.intro }}</td>
+          <td>{{ apply.status }}</td>
+          <td>{{ apply.applyTime }}</td>
+          <td>
+            <button
+              nz-button
+              nzType="primary"
+              class="but"
+              (click)="snapStatus(apply.id, 'Cancel')"
+              *ngIf="apply.status === 'Done'"
+            >
+              Huỷ
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              class="but"
+              (click)="snapStatus(apply.id, 'Done')"
+              *ngIf="apply.status === 'Waiting'"
+            >
+              Duyệt
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              class="but"
+              *ngIf="apply.status === 'Cancel'"
+            >
+              Đã hủy
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <!-- <div *ngFor="let apply of listApply" class="list">
       <div class="item">
         <a [href]="apply.cv" target="_blank" class="info date">
           <pdf-viewer
@@ -96,6 +173,6 @@
           Đã hủy
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

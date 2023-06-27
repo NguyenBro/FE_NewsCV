@@ -23,6 +23,7 @@ import {
 } from 'rxjs';
 import { Recruit } from '../../model/news.model';
 import { HomepageComponent } from '../../homepage.component';
+import { BusinessService } from 'src/app/business/business.service';
 
 @Component({
   selector: 'app-competence-frames-entry',
@@ -34,8 +35,9 @@ export class CompetenceFramesEntryComponent
 {
   @ViewChild('competenceFrameList', { static: true })
   competenceFrameList!: ElementRef<HTMLElement>;
+  visible = false;
   showQt: boolean;
-  showcreate: boolean;
+  showcreate = false;
   public list: Recruit[] = [];
   isDetailShown = false;
   selectedCompetenceFrame = '';
@@ -48,7 +50,7 @@ export class CompetenceFramesEntryComponent
   order = 0;
 
   paginationAmount = 9;
-
+  array: string[] = [];
   subscriptions = new Subscription();
   private listOfSearches$ = new BehaviorSubject<string[]>([]);
   private pageIndex$ = new BehaviorSubject(1);
@@ -77,10 +79,18 @@ export class CompetenceFramesEntryComponent
     private service: CompetenceFramesService,
     private modal: NzModalService,
     private homepage: HomepageComponent,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private serviceBuss: BusinessService
   ) {
     homepage.select = 'recruit';
     homepage.showLogo = false;
+    //load quảng cáo
+    service.getAllAdvert().subscribe((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        this.array.push(res.data[i].image);
+      }
+      this.visible = true;
+    });
     this.service
       .getListRecruit()
       .subscribe((data) => (this.listLength = data.data.length));
@@ -95,13 +105,33 @@ export class CompetenceFramesEntryComponent
       this.showQt = false;
     }
     if (localStorage.getItem('role') === 'COMPANY') {
-      this.showcreate = true;
+      this.serviceBuss
+        .checkExpSubByCom(
+          localStorage
+            .getItem('email')
+            ?.slice(0, localStorage.getItem('email')?.indexOf('@')) || '',
+          'recruitment'
+        )
+        .subscribe((res) => {
+          if (res.data === true) {
+            this.showcreate = true;
+          } else {
+            this.showcreate = false;
+          }
+        });
     } else {
       this.showcreate = false;
     }
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
+  }
+  handleOk(): void {
+    this.visible = false;
+  }
+
+  handleCancel(): void {
+    this.visible = false;
   }
   loadData() {
     this.rawListCom$ = this.service

@@ -2,9 +2,11 @@
 @import "/src/app/shared/styles/generate-style.less";
 .all {
   width: 84vw;
+  height: 76vh;
   padding: 3rem;
   display: flex;
   gap: 1rem;
+  flex-direction: column;
   .left {
     flex: 1 0 50%;
     .drop {
@@ -84,4 +86,7 @@
       }
     }
   }
+}
+.selected {
+  background-color: @primary-3 !important;
 }

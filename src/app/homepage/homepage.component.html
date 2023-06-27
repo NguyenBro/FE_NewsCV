@@ -58,6 +58,14 @@
         Công ty
       </button>
       <button
+        *ngIf="showQt"
+        class="bar-item"
+        (click)="findAppli()"
+        [ngClass]="select === 'autojob' ? 'select' : ''"
+      >
+        Tìm kiếm ứng viên
+      </button>
+      <button
         class="bar-item"
         (click)="admin()"
         *ngIf="showQt"

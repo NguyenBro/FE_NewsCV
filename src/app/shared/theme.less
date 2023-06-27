@@ -1,0 +1,134 @@
+// @import '../../../../node_modules/ng-zorro-antd/style/default.less';
+@import "/node_modules/ng-zorro-antd/style/color/colorPalette.less";
+
+// Color palette
+//Neutral
+@neutral-black: #313232;
+@neutral-grey-1: #555555;
+@neutral-grey-2: #979ca8;
+@neutral-grey-3: #d1dae6;
+@neutral-grey-4: #ebf2fb;
+@neutral-grey-5: #f7f9fc;
+@neutral-white: #ffffff;
+
+// Tertiary
+@tertiary-purple-1: #efeefc;
+@tertiary-blue-1: #e5f5ff;
+@tertiary-green-1: #ddfff8;
+@tertiary-pink-1: #ffeef1;
+@tertiary-orange-1: #fff7e6;
+
+// Ant Design Theme Variables
+@primary-color: #6a5ae0;
+@success-color: #36cfc9;
+@warning-color: #ff9900;
+@error-color: #ff3658;
+@info-color: #007aff;
+
+@primary-color-100: hsl(247, 100%, 95%);
+@success-color-100: hsl(178, 100%, 95%);
+@warning-color-100: hsl(36, 100%, 95%);
+@error-color-100: hsl(350, 100%, 95%);
+@info-color-100: hsl(211, 100%, 95%);
+
+@font-size-base: 14px;
+
+@body-background: #fbfaff;
+
+@background-color-light: hsv(
+  0,
+  0,
+  98%
+); // background of header and selected item
+@background-color-base: hsv(0, 0, 96%); // Default grey background color
+
+// Disabled states
+@disabled-color: @neutral-grey-2;
+@disabled-bg: @neutral-grey-4;
+
+@font-family: "Nunito", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol", "Noto Color Emoji";
+
+@border-radius-base: 8px;
+
+@box-shadow-base: 0px 0px 16px rgba(0, 0, 0, 0.1);
+
+//  "colorPrimary": "#6a5ae0",
+//     "wireframe": false,
+//     "colorSuccess": "#36cfc9",
+//     "colorWarning": "#ff9900",
+//     "colorError": "#ff3658",
+//     "colorInfo": "#007aff",
+//     "fontSize": 14,
+//     "colorTextBase": "#313232",
+//     "sizeUnit": 4,
+//     "sizeStep": 4,
+//     "borderRadius": 8,
+//     "boxShadow": "0px 0px 16px rgba(0, 0, 0, 0.1)",
+//     "boxShadowSecondary": "0px 10px 20px rgba(0, 0, 0, 0.15)"
+
+// @btn-height-base: 28px;
+// @btn-height-lg: 32px;
+// @btn-line-height: 1;
+@btn-padding-horizontal-base: 12px;
+
+// Button
+
+// @btn-primary-color: @primary-color;
+@btn-primary-hover-color: color(~`colorPalette("@{primary-color}", 4) `);
+@btn-secondary-color: color(~`colorPalette("@{primary-color}", 2) `);
+@btn-secondary-hover-color: color(~`colorPalette("@{primary-color}", 3) `);
+
+@menu-inline-toplevel-item-height: 48px;
+@menu-item-height: 48px;
+@menu-item-group-height: 48px;
+
+// @menu-item-active-bg: @primary-color;
+// @menu-highlight-color: @primary-color;
+@ppx-menu-hover-bg: color(~`colorPalette("@{primary-color}", 2) `);
+
+@menu-icon-size: 24px;
+@menu-icon-margin-right: 12px;
+@menu-item-font-size: 16px;
+
+// @upload-actions-color: orange;
+//Progress
+@progress-default-color: @primary-color;
+
+// purple color
+
+@purple-2: #95a4fc;
+@purple-3: #c6c7f8;
+
+@blue-2: #96c7fe;
+@blue-3: #6bb8ff;
+
+// Tertiary
+@tertiary-purple-1: #efeefc;
+@tertiary-blue-1: #e5f5ff;
+@tertiary-green-1: #ddfff8;
+@tertiary-pink-1: #ffeef1;
+@tertiary-orange-1: #fff7e6;
+
+.state() {
+  &.warning {
+    --base-color: @warning-color;
+    --base-color-100: @warning-color-100;
+  }
+  &.error {
+    --base-color: @error-color;
+    --base-color-100: @error-color-100;
+  }
+  &.default {
+    --base-color: @primary-color;
+    --base-color-100: @primary-color-100;
+  }
+  &.info {
+    --base-color: @info-color;
+    --base-color-100: @info-color-100;
+  }
+  &.success {
+    --base-color: @success-color;
+    --base-color-100: @success-color-100;
+  }
+}

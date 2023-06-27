@@ -1,0 +1,40 @@
+<div class="page">
+  <div class="page-content">
+    <div
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
+      <h2 nz-typography style="font-family: sans-serif">Bạn đã chọn</h2>
+      <a
+        style="font-family: sans-serif; text-decoration: underline"
+        (click)="Packages()"
+        >Thay đổi gói</a
+      >
+    </div>
+    <div class="card">
+      <h3 nz-typography style="font-family: sans-serif">
+        {{ infoPack?.name || "" }}
+      </h3>
+      <div style="font-family: sans-serif; text-align: start">
+        <div>Đăng ký với giá chỉ {{ infoPack?.price || "" }}$</div>
+        <div>{{ infoPack?.description || "" }}</div>
+      </div>
+    </div>
+    <h5
+      nz-typography
+      style="font-family: sans-serif; text-align: start; padding: 1rem 0"
+    >
+      Trả trước một lần, không tự động gia hạn.
+    </h5>
+    <nz-collapse>
+      <nz-collapse-panel
+        [nzHeader]="infoPack?.duration + ' tháng' || ''"
+        [nzActive]="false"
+        (click)="click()"
+      >
+        <p style="font-family: sans-serif; margin: 0">
+          <a [href]="link" target="_blank">Thanh toán bằng paypal.</a>
+        </p>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </div>
+</div>

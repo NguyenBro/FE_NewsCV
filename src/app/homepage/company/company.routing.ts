@@ -18,13 +18,13 @@ import { CompanysEntryComponent } from './companys-entry/companys-entry.componen
             path: 'create',
             component: CompanyFormComponent,
           },
+
           {
             path: ':comFrameId',
             children: [
               {
                 path: '',
                 component: CompanyViewComponent,
-                // component: CompanyDetailComponent,
               },
               {
                 path: 'edit',
@@ -38,4 +38,4 @@ import { CompanysEntryComponent } from './companys-entry/companys-entry.componen
   ],
   exports: [RouterModule],
 })
-export class CompetenceFrameRoutingModule {}
+export class CompanyRoutingModule {}

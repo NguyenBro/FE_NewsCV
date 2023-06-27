@@ -511,7 +511,7 @@ export class Comment {
       this.codeNews = clone.codeNews;
     } else {
       this.id = 0;
-      this.time = "";
+      this.time = '';
       this.content = '';
       this.urlImage = '';
       this.status = '';
@@ -520,7 +520,175 @@ export class Comment {
       this.avatar = '';
       this.numLike = 0;
       this.numDisLike = 0;
-      this.codeNews='';
+      this.codeNews = '';
+    }
+  }
+}
+export class AutoJob {
+  userId: Number;
+  status: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  specialize: string;
+  language: string;
+  position: string;
+  experience: string;
+  location: string;
+  cv: String;
+  constructor(clone?: AutoJob) {
+    if (clone) {
+      this.userId = clone.userId;
+      this.status = clone.status;
+      this.fullName = clone.fullName;
+      this.phone = clone.phone;
+      this.email = clone.email;
+      this.specialize = clone.specialize;
+      this.language = clone.language;
+      this.position = clone.position;
+      this.experience = clone.experience;
+      this.location = clone.location;
+      this.cv = clone.cv;
+    } else {
+      this.userId = 0;
+      this.status = '';
+      this.fullName = '';
+      this.phone = '';
+      this.email = '';
+      this.specialize = '';
+      this.language = '';
+      this.position = '';
+      this.experience = '';
+      this.location = '';
+      this.cv = 'aaa';
+    }
+  }
+}
+export class Subscription {
+  code: string;
+  name: string;
+  description: string;
+  price: Number;
+  duration: string;
+  promotion: Number;
+  type: string;
+  constructor(clone?: Subscription) {
+    if (clone) {
+      this.code = clone.code;
+      this.name = clone.name;
+      this.description = clone.description;
+      this.price = clone.price;
+      this.duration = clone.duration;
+      this.promotion = clone.promotion;
+      this.type = clone.type;
+    } else {
+      this.code = '';
+      this.name = '';
+      this.description = '';
+      this.price = 0;
+      this.duration = '';
+      this.promotion = 0;
+      this.type = '';
+    }
+  }
+}
+export class TransHis {
+  id: string;
+  company: string;
+  money: Number;
+  time: string;
+  payment: string;
+  constructor(clone?: TransHis) {
+    if (clone) {
+      this.id = clone.id;
+      this.company = clone.company;
+      this.money = clone.money;
+      this.time = clone.time;
+      this.payment = clone.payment;
+    } else {
+      this.id = '';
+      this.company = '';
+      this.money = 0;
+      this.time = '';
+      this.payment = '';
+    }
+  }
+}
+export class SubHis {
+  id: Number;
+  subscription: string;
+  company: string;
+  payment: string;
+  startTime: string;
+  endTime: string;
+  constructor(clone?: SubHis) {
+    if (clone) {
+      this.id = clone.id;
+      this.subscription = clone.subscription;
+      this.company = clone.company;
+      this.payment = clone.payment;
+      this.startTime = clone.startTime;
+      this.endTime = clone.endTime;
+    } else {
+      this.id = 0;
+      this.subscription = '';
+      this.company = '';
+      this.payment = '';
+      this.startTime = '';
+      this.endTime = '';
+    }
+  }
+}
+export class Advertisement {
+  id: Number;
+  company: string;
+  image: string;
+  description: string;
+  constructor(clone?: Advertisement) {
+    if (clone) {
+      this.id = clone.id;
+      this.company = clone.company;
+      this.image = clone.image;
+      this.description = clone.description;
+    } else {
+      this.id = 0;
+      this.company = '';
+      this.image = '';
+      this.description = '';
+    }
+  }
+}
+export class ScheduleInterview {
+  id: Number;
+  company: string;
+  name: string;
+  email: string;
+  schedule: string;
+  location: string;
+  contact: string;
+  note: string;
+  status: string;
+  constructor(clone?: ScheduleInterview) {
+    if (clone) {
+      this.id = clone.id;
+      this.company = clone.company;
+      this.name = clone.name;
+      this.email = clone.email;
+      this.schedule = clone.schedule;
+      this.location = clone.location;
+      this.contact = clone.contact;
+      this.note = clone.note;
+      this.status = clone.status;
+    } else {
+      this.id = 0;
+      this.company = '';
+      this.name = '';
+      this.email = '';
+      this.schedule = '';
+      this.location = '';
+      this.contact = '';
+      this.note = '';
+      this.status = '';
     }
   }
 }

@@ -28,7 +28,72 @@
         ></nz-alert>
       </nz-spin>
     </div>
-    <div *ngFor="let candidate of listCom$ | async" class="list">
+    <nz-table
+      #rowSelectionTable
+      nzShowPagination
+      nzShowSizeChanger
+      [nzData]="(listCom$ | async) ?? []"
+      (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+      <thead>
+        <tr>
+          <th>Poster</th>
+          <th>Thể loại</th>
+          <th>Trạng thái</th>
+          <th nzWidth="100">Link</th>
+          <th>Chi tiết</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data">
+          <td>
+            <img class="image" [src]="data.thumbnail" />
+          </td>
+          <td>{{ data.codeCategory }}</td>
+          <td>{{ data.status }}</td>
+          <td>
+            <a [href]="data.link">{{ data.link }}</a>
+          </td>
+          <td style="text-wrap: nowrap">
+            <div>Lượt thích: {{ data.numLike }}</div>
+            <div>Lượt xem: {{ data.numView }}</div>
+            <div>Lượt không thích: {{ data.numDisLike }}</div>
+            <div>Lượt chia sẻ: {{ data.numShare }}</div>
+            <div>Lượt Lưu: {{ data.numSave }}</div>
+          </td>
+          <td>
+            <button
+              nz-button
+              nzType="primary"
+              class="but"
+              (click)="snapStatus(data.id, 'Cancel')"
+              *ngIf="data.status === 'Done'"
+            >
+              Huỷ
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              class="but"
+              (click)="snapStatus(data.id, 'Done')"
+              *ngIf="data.status === 'Waiting'"
+            >
+              Duyệt
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              class="but"
+              *ngIf="data.status === 'Cancel'"
+            >
+              Đã hủy
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <!-- <div *ngFor="let candidate of listCom$ | async" class="list">
       <div *ngIf="!load" class="item">
         <div class="itemcon">
           <div class="divimage">
@@ -83,6 +148,6 @@
           Đã hủy
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

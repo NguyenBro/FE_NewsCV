@@ -1,0 +1,14 @@
+<div style="background: rgb(86 75 147);padding:30px;display: grid;
+grid-template-columns: auto auto auto;
+grid-template-rows: auto auto;
+grid-gap: 1rem;">
+    <div  *ngFor="let sub of listSub">
+        <nz-card nzHoverable nzTitle="{{sub.name}}">
+            <div style="display: flex;align-items: center;"><span nz-icon nzType="check" nzTheme="outline"></span><p>{{sub.description}}</p></div>
+            <div style="display: flex;align-items: center;"><span nz-icon nzType="check" nzTheme="outline"></span><p>Giá: {{sub.price}}$</p></div>
+            <div style="display: flex;align-items: center;"><span nz-icon nzType="check" nzTheme="outline"></span><p>Thời hạn: {{sub.duration}} tháng</p></div>
+            <button nz-button nzType="primary" (click)="SignPack(sub.code)">Bắt đầu</button>
+        </nz-card>
+    </div>
+  </div>
+

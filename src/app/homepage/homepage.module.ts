@@ -31,6 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ResignComponent,
     HomepageComponent,
     CreateNewsComponent,
-
   ],
   imports: [
     CommonModule,
@@ -65,6 +65,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FormsModule,
     NzDatePickerModule,
     QuillModule.forRoot(),
+    NzCarouselModule,
   ],
 })
 export class HomepageModule {}

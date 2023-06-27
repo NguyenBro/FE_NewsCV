@@ -1,0 +1,141 @@
+@import '../../theme.less';
+
+:host {
+  display: block;
+}
+
+@radius: 1000px;
+@secondary-primary-color: color(~`colorPalette('@{primary-color}', 1) `);
+@secondary-success-color: color(~`colorPalette('@{success-color}', 1) `);
+@secondary-warning-color: color(~`colorPalette('@{warning-color}', 1) `);
+@secondary-info-color: color(~`colorPalette('@{info-color}', 1) `);
+@secondary-error-color: color(~`colorPalette('@{error-color}', 1) `);
+
+.ant-tag {
+  padding: 0 !important;
+  background: none;
+  border: none !important;
+  display: table;
+  border-radius: @radius;
+  margin-right: 0px !important;
+}
+
+.badges-label {
+  color: @neutral-white;
+}
+
+// //=============color ========== //
+.general,
+.success,
+.failure,
+.information,
+.alert {
+  border: none !important;
+  border-radius: @radius;
+}
+
+.general-primary {
+  background: @primary-color;
+}
+
+.success-primary {
+  background: @success-color;
+}
+
+.failure-primary {
+  background: @error-color;
+}
+
+.information-primary {
+  background: @info-color;
+}
+
+.alert-primary {
+  background: @warning-color;
+}
+
+//=====default-general===//
+
+.tertiary-general .badges-label {
+  color: @primary-color !important;
+}
+
+.tertiary-success .badges-label {
+  color: @success-color !important;
+}
+
+.tertiary-failure .badges-label {
+  color: @error-color !important;
+}
+
+.tertiary-information .badges-label {
+  color: @info-color !important;
+}
+
+.tertiary-alert .badges-label {
+  color: @warning-color !important;
+}
+
+//=============color 2 ========== //
+.general-secondary {
+  background: @secondary-primary-color;
+
+  .badges-label {
+    color: @primary-color;
+  }
+}
+
+.success-secondary {
+  background: @secondary-success-color;
+
+  .badges-label {
+    color: @success-color;
+  }
+}
+
+.failure-secondary {
+  background: @secondary-error-color;
+
+  .badges-label {
+    color: @error-color;
+  }
+}
+
+.information-secondary {
+  background: @secondary-info-color;
+
+  .badges-label {
+    color: @info-color;
+  }
+}
+
+.alert-secondary {
+  background: @secondary-warning-color;
+
+  .badges-label {
+    color: @warning-color;
+  }
+}
+
+.badges-content {
+  display: flex;
+  padding: 0 8px;
+}
+
+.badges-icon {
+  display: flex;
+  height: 20px;
+  justify-content: center;
+  width: 8px;
+}
+
+.badges-label {
+  display: flex;
+  padding: 0px;
+}
+.icon-text{
+  padding-left: 6px;
+}
+.badges-contain-icon {
+  width: 4px;
+}

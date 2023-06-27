@@ -1,0 +1,57 @@
+<div class="text-center mt-4">
+  <h2 nz-typography style="color: rgb(59, 93, 241)">
+    Thư mời phỏng vấn với công ty {{ intervSche.company }}
+  </h2>
+  <p class="mt-2 text-lg leading-8 text-gray-600">
+    Chọn thời gian phỏng vấn phù hợp với bạn.
+  </p>
+  <nz-radio-group [(ngModel)]="radioValue" class="w-full">
+    <ul role="list" class="divide-y divide-gray-200">
+      <li class="flex justify-center gap-x-6 py-5" *ngFor="let item of listDay">
+        <div class="flex gap-x-4">
+          <img
+            class="h-12 w-12 flex-none rounded-full bg-gray-50"
+            src="https://storage.googleapis.com/newscv-3595e.appspot.com/ce8bc946-c416-47e1-8843-d5137b91d09djpg"
+            alt=""
+          />
+          <div class="min-w-0 flex-auto">
+            <p class="text-sm font-semibold leading-6 text-gray-900">
+              <label
+                nz-radio
+                nzValue="{{ item.time }}-{{ item.day }}"
+                (click)="selectDate(item.time, item.day)"
+                >Ngày {{ item.day }}</label
+              >
+            </p>
+          </div>
+        </div>
+        <div class="hidden sm:flex sm:flex-col sm:items-end">
+          <p class="text-sm leading-6 text-gray-900">
+            Có mặt lúc {{ item.time }}
+          </p>
+          <p class="mt-1 text-xs leading-5 text-gray-500">Tới sớm 15 phút</p>
+        </div>
+      </li>
+    </ul>
+  </nz-radio-group>
+  <p class="mt-6 text-lg leading-8 text-gray-600">
+    Sau khi chọn thời gian phỏng vấn và nhấn gửi, vui lòng đợi email lịch phỏng
+    vấn chính thức gửi đến cho bạn.
+  </p>
+  <div class="mt-10 flex items-center justify-center gap-x-6">
+    <button
+      href="#"
+      (click)="updateInterviewSchedule('Yes')"
+      class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    >
+      Gửi
+    </button>
+    <button
+      class="text-sm font-semibold leading-6 text-gray-900"
+      style="background: transparent"
+      (click)="updateInterviewSchedule('No')"
+    >
+      Huỷ phỏng vấn <span aria-hidden="true">→</span>
+    </button>
+  </div>
+</div>

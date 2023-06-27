@@ -47,6 +47,17 @@ export class CompetenceFramesService {
       { headers: headers }
     );
   }
+  getAllAdvert() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/advertisement/get-all'}`,
+      { headers: headers }
+    );
+  }
   async initListPool() {
     await this.getListRecruit().subscribe((res) => {
       this.listRecruit = res.data;
@@ -77,7 +88,7 @@ export class CompetenceFramesService {
       { headers: headers }
     );
   }
-  CheckAppli(userId:string, jobId?:string) {
+  CheckAppli(userId: string, jobId?: string) {
     const token = localStorage.getItem('token');
     console.log('token', token);
 
@@ -85,7 +96,13 @@ export class CompetenceFramesService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/application/get-application-by-user-and-by-job/'+userId+'/'+jobId}`,
+      `${
+        this.urlPath +
+        '/api/v1/application/get-application-by-user-and-by-job/' +
+        userId +
+        '/' +
+        jobId
+      }`,
       '',
       { headers: headers }
     );

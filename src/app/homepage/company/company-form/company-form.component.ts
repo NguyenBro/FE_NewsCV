@@ -15,7 +15,7 @@ import { ComFrame } from '../../model/competence-frames.model';
 import { CompanysService } from '../services/companys.service';
 import { Company, ResponseObject, user } from '../../model/news.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { newsService } from '../../services/news.service';
 
 @Component({
@@ -24,6 +24,7 @@ import { newsService } from '../../services/news.service';
   styleUrls: ['./company-form.component.less'],
 })
 export class CompanyFormComponent {
+  fileList: NzUploadFile[] = [];
   isVisible = false;
   user: user = new user();
   public isEmptyName = false;
@@ -61,6 +62,10 @@ export class CompanyFormComponent {
       this.message.error(`${info.file.name} file upload failed.`);
     }
   }
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    return false;
+  };
   showModal(): void {
     this.isVisibleModal = true;
   }

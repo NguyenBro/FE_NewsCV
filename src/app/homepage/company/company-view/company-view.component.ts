@@ -17,7 +17,6 @@ import {
   Subscription,
   tap,
 } from 'rxjs';
-import { ComFrame } from '../../model/competence-frames.model';
 import { Company, Recruit } from '../../model/news.model';
 import { CompanysEntryComponent } from '../companys-entry/companys-entry.component';
 import { CompanysService } from '../services/companys.service';
@@ -111,7 +110,7 @@ export class CompanyViewComponent implements OnInit, AfterViewInit {
     this.router.navigate(['./companys/' + this.id + '/edit']);
   }
   public cancel() {
-    this.router.navigate(['./companys']);
+    this.router.navigate(['./homepage/companys']);
     this.competenceFrameCom.cancelDetailShow();
   }
   public delete() {

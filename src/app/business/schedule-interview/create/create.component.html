@@ -1,0 +1,148 @@
+<div style="text-align: -webkit-center; padding-top: 2rem">
+  <h1 nz-typography style="color: orange">Tạo cuộc phỏng vấn</h1>
+  <form nz-form [formGroup]="validateForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired
+        >Tên ứng viên</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập tên ứng viên!"
+      >
+        <input
+          nz-input
+          id="name"
+          formControlName="name"
+          placeholder="Họ và tên"
+          [(ngModel)]="intervSche.name"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
+        >E-mail ứng viên</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập E-mail của ứng viên!"
+      >
+        <input
+          nz-input
+          formControlName="email"
+          id="email"
+          placeholder="E-mail"
+          [(ngModel)]="intervSche.email"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="location" nzRequired
+        >Đỉa chỉ phỏng vấn</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập địa chỉ phỏng vấn!"
+      >
+        <input
+          nz-input
+          id="location"
+          formControlName="location"
+          placeholder="Điạ chỉ phỏng vấn"
+          [(ngModel)]="intervSche.location"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contact" nzRequired
+        >Liên hệ</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập liên hệ!"
+      >
+        <input
+          nz-input
+          id="contact"
+          formControlName="contact"
+          placeholder="Liên hệ"
+          [(ngModel)]="intervSche.contact"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="time"
+        >Thời gian phỏng vấn</nz-form-label
+      >
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng chọn thời giam phỏng vấn!"
+      >
+        <div
+          style="
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            justify-content: space-between;
+          "
+        >
+          <div
+            style="display: flex; flex-direction: column; gap: 0.5rem"
+            formArrayName="schedules"
+          >
+            <ng-container
+              *ngFor="let schedule of schedules.controls; index as idx"
+            >
+              <div class="flex gap-2 items-center">
+                <nz-date-picker
+                  nzShowTime
+                  nzFormat="yyyy-MM-dd HH:mm:ss"
+                  [formControlName]="idx"
+                  (nzOnOk)="onOk($event)"
+                  id="time"
+                ></nz-date-picker>
+                <button
+                  nz-button
+                  nzType="default"
+                  nzDanger
+                  nzShape="circle"
+                  (click)="cancel(idx)"
+                  style="min-width: 0; height: 16px; width: 16px"
+                >
+                  <span nz-icon nzType="close" style="font-size: 10px"></span>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+          <div style="display: flex; gap: 0.25rem">
+            <button nz-button nzType="default" (click)="addDate()">Thêm</button>
+          </div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="note">Ghi chú</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input
+          nz-input
+          id="note"
+          formControlName="note"
+          placeholder="Ghi chú"
+          [(ngModel)]="intervSche.note"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <button nz-button nzType="primary" (click)="submitForm()">Tạo</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+<div>
+  {{ this.validateForm.value | json }}
+</div>

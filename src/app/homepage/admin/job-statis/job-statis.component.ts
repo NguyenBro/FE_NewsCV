@@ -9,6 +9,8 @@ import {
 import { Application, Candidate, user } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { AdminService } from '../services/admin.service';
+import { Data } from '@angular/router';
+import { NzI18nService, vi_VN } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: 'app-job-statis',
@@ -16,6 +18,11 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./job-statis.component.less'],
 })
 export class JobStatisComponent implements OnInit {
+  indeterminate = false;
+  listOfCurrentPageData: readonly Data[] = [];
+  setOfCheckedId = new Set<number>();
+  checked = false;
+
   load = false;
   selectedCompany = '';
   listApply: Application[] = [];
@@ -31,11 +38,18 @@ export class JobStatisComponent implements OnInit {
     Candidate[]
   >();
   public listCom$: Observable<Candidate[]> = new Observable<Candidate[]>();
+  // listApply: Observable<Application[]> = new Observable<Application[]>();
   constructor(
     private services: AdminService,
-    private serviceNews: newsService
+    private serviceNews: newsService,
+    private i18n: NzI18nService
   ) {
+    this.switchLanguage();
     this.loadUser();
+  }
+
+  switchLanguage() {
+    this.i18n.setLocale(vi_VN);
   }
   async loadUser() {
     this.serviceNews
@@ -97,7 +111,7 @@ export class JobStatisComponent implements OnInit {
     this.load = false;
   }
   onSelected(can: Candidate) {
-    this.showRight = true;
+    this.showRight = false;
     this.selectedJob = can;
     this.listApply = [];
     this.services
@@ -107,11 +121,27 @@ export class JobStatisComponent implements OnInit {
         for (let i = 0; i < apply.data.length; i++) {
           this.listApply.push(apply.data[i]);
         }
+        this.showRight = true;
         console.log('listNameCompany', this.listApply);
       });
   }
   snapStatus(id: Number, status: String) {
     this.services.updateStatusAppli(id.toString(), status).subscribe();
     this.select(this.selectedCompany);
+  }
+  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+    this.refreshCheckedStatus();
+  }
+  refreshCheckedStatus(): void {
+    const listOfEnabledData = this.listOfCurrentPageData.filter(
+      ({ disabled }) => !disabled
+    );
+    this.checked = listOfEnabledData.every(({ id }) =>
+      this.setOfCheckedId.has(id)
+    );
+    this.indeterminate =
+      listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
+      !this.checked;
   }
 }

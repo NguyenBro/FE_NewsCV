@@ -36,6 +36,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { QuillModule } from 'ngx-quill';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 @NgModule({
   declarations: [
     CompetenceFramesEntryComponent,
@@ -76,6 +78,8 @@ import { QuillModule } from 'ngx-quill';
     NzSpinModule,
     NzAlertModule,
     QuillModule.forRoot(),
+    NzDrawerModule,
+    NzCarouselModule,
   ],
 })
 export class CompetenceFrameModule {}

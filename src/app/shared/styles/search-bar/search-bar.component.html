@@ -14,7 +14,7 @@
         *ngFor="let search of listOfSearches; index as idx"
       >
         <div style="white-space: nowrap">{{ search }}</div>
-        <button (click)="onClose(idx)">
+        <button (click)="onClose(idx)" class="bg-transparent">
           <span nz-icon nzType="svg:cross-small" class="ml-1"></span>
         </button>
       </div>

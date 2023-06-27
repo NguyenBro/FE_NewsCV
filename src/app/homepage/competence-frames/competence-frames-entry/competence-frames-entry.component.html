@@ -1,4 +1,39 @@
 <div class="all">
+  <!-- <nz-drawer
+    [nzClosable]="true"
+    [nzVisible]="visible"
+    nzPlacement="right"
+    nzTitle="Basic Drawer"
+    (nzOnClose)="close()"
+    [nzWidth]="720"
+  >
+    <ng-container *nzDrawerContent>
+      <nz-carousel nzAutoPlay style="align-self: center">
+        <div nz-carousel-content *ngFor="let index of array">
+          <img [src]="index" style="width: 100%" />
+        </div>
+      </nz-carousel>
+    </ng-container>
+  </nz-drawer> -->
+  <nz-modal
+    [(nzVisible)]="visible"
+    (nzOnCancel)="handleCancel()"
+    nzTitle="Có thể bạn quan tâm"
+    [nzCancelText]="null"
+    [nzOkText]="null"
+    [nzWidth]="900"
+  >
+    <ng-container *nzModalContent>
+      <nz-carousel
+        nzAutoPlay
+        style="align-self: center; background-color: rgb(43, 23, 226)"
+      >
+        <div nz-carousel-content *ngFor="let index of array">
+          <img [src]="index" style="width: 100%" />
+        </div>
+      </nz-carousel>
+    </ng-container>
+  </nz-modal>
   <ng-template #leftHeader>
     <div class="list-tag">
       <app-search-bar (listOfSearchesChange)="onListOfSearchesChange($event)">
@@ -114,7 +149,7 @@
             </div>
             <button
               *ngIf="showQt"
-              class="text-lg px-2 mr-3 absolute right-0 top-3"
+              class="text-lg px-2 mr-3 absolute right-0 top-3 bg-transparent"
               (click)="deleteCompetenceFrame(test.code, test.title, $event)"
             >
               <span nz-icon nzType="svg:trash"> </span>

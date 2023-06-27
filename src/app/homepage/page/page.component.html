@@ -9,7 +9,12 @@
       <br />
       <!-- <button class="left-bnt" (click)="create()">Đăng bài</button> -->
     </div>
-    <div class="right"></div>
+
+    <nz-carousel nzAutoPlay style="align-self: center">
+      <div nz-carousel-content *ngFor="let index of array">
+        <img [src]="index" style="width: 100%" />
+      </div>
+    </nz-carousel>
   </div>
   <!-- <div class="page-body1">
     <div class="title">Bài xem nhiều nhất trong tháng</div>
@@ -51,27 +56,27 @@
     </div>
     <div class="right item">
       <div class="titfood">CONNECT</div>
-      <div>
+      <div class="icon-web">
         <div nz-icon nzType="svg:facebook" eIconSize="2rem"></div>
         Facebook
       </div>
-      <div>
+      <div class="icon-web">
         <div nz-icon nzType="svg:instagram" eIconSize="2rem"></div>
         Instagram
       </div>
-      <div>
+      <div class="icon-web">
         <div nz-icon nzType="svg:linkedin" eIconSize="2rem"></div>
         LinkedIn
       </div>
-      <div>
+      <div class="icon-web">
         <div nz-icon nzType="svg:twitter" eIconSize="2rem"></div>
         Twitter
       </div>
-      <div>
+      <div class="icon-web">
         <div nz-icon nzType="svg:reddit" eIconSize="2rem"></div>
         Reddit
       </div>
-      <div>
+      <div class="icon-web">
         <div nz-icon nzType="svg:github" eIconSize="1.25rem"></div>
         GitHub
       </div>

@@ -1,0 +1,99 @@
+<ng-container [ngSwitch]="typeModal">
+  <ng-container *ngSwitchDefault>
+    <nz-modal
+      [(nzVisible)]="isVisible"
+      (nzVisibleChange)="isVisibleChange.emit($event)"
+      [nzTitle]="title"
+      [nzClosable]="false"
+      (nzOnCancel)="cancelClose()"
+      [nzMaskClosable]="false"
+      [nzWrapClassName]="
+        isFooter ? 'ppx-modal-component' : 'ppx-modal-component no-footer'
+      "
+    >
+      <ng-container *nzModalContent>
+        <ng-content select="[content]"></ng-content>
+      </ng-container>
+      <ng-container *nzModalFooter>
+        <ng-content *ngIf="isFooter" select="[footer]"></ng-content>
+      </ng-container>
+    </nz-modal>
+    <ng-template #title>
+      <div class="title-top">
+        <div class="title-top-center">
+          <ppx-icon [iconName]="iconModal" [size]="64"></ppx-icon>
+        </div>
+      </div>
+      <div class="title-center">
+        <div class="title-top-left">
+          <ppx-badges
+            [state]="state"
+            type="primary"
+            contain="text"
+            *ngIf="state"
+          >
+            {{ statusText }}
+          </ppx-badges>
+        </div>
+        <div class="title-top-right">
+          <ng-content select="[button-top]"></ng-content>
+          <ppx-icon
+            (click)="onClose()"
+            iconName="cross-circle"
+            color="#ffff"
+            [size]="24"
+          ></ppx-icon>
+        </div>
+      </div>
+      <div class="title-bottom">
+        <div class="title-bottom-label1">{{ titleModal }}</div>
+        <div class="title-bottom-label2">{{ labelModal }}</div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <nz-modal
+      [(nzVisible)]="isVisible"
+      (nzVisibleChange)="isVisibleChange.emit($event)"
+      [nzTitle]="title"
+      [nzClosable]="false"
+      (nzOnCancel)="cancelClose()"
+      [nzMaskClosable]="false"
+      [nzWrapClassName]="
+        size === 'small'
+          ? 'ppx-small-card-modal-component'
+          : 'ppx-card-modal-component'
+      "
+    >
+      <ng-container *nzModalContent>
+        <ng-content select="[content-card]"></ng-content>
+      </ng-container>
+      <div *nzModalFooter class="card-modal-footer">
+        <div *ngIf="size !== 'small'" class="text-card-modal-footer">
+          <div class="text-content-card-modal-footer">
+            {{ postScriptModal }}
+          </div>
+        </div>
+        <div *ngIf="size !== 'small'" class="image-card-modal-footer">
+          <ppx-icon [iconName]="'Feature-Thinking'" [size]="56"></ppx-icon>
+        </div>
+      </div>
+    </nz-modal>
+  </ng-container>
+  <ng-template #title>
+    <div class="card-title-center">
+      <div class="card-title-top-left">
+        <ng-container *ngTemplateOutlet="actionLeft"> </ng-container>
+      </div>
+      <div class="card-title-top-right">
+        <ng-container *ngTemplateOutlet="actionRight"> </ng-container>
+        <ppx-icon
+          (click)="onClose()"
+          iconName="cross-small"
+          color="#6A5AE0"
+          [size]="16"
+        ></ppx-icon>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>

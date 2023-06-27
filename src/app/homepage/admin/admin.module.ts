@@ -15,6 +15,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NzTableModule } from 'ng-zorro-antd/table';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -35,6 +36,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     NzAlertModule,
     NzButtonModule,
     PdfViewerModule,
+    NzTableModule,
   ],
 })
 export class AdminModule {}

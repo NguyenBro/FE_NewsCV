@@ -1,0 +1,44 @@
+<nz-tag 
+  [ngClass]="[
+    this.type !== 'tertiary'
+      ? this.state === 'general'
+        ? this.state + ' ' + this.state + '-' + this.type
+        : this.state === 'success'
+        ? this.state + ' ' + this.state + '-' + this.type
+        : this.state === 'failure'
+        ? this.state + ' ' + this.state + '-' + this.type
+        : this.state === 'information'
+        ? this.state + ' ' + this.state + '-' + this.type
+        : this.state === 'alert'
+        ? this.state + ' ' + this.state + '-' + this.type
+        : ''
+      : this.type + '-' + this.state,
+  ]"
+>
+  <div  class="badges-content" >
+    <div *ngIf=" contain==='icon' || contain==='icon-text'" class="badges-icon" [ngClass]="[ 'badges-contain' +'-'+this.contain ]">
+      <ppx-icon
+        iconName="{{iconName}}"
+        [color]="
+          this.type === 'primary'
+            ? '#ffff'
+            : this.state === 'general'
+            ? '#6A5AE0'
+            : this.state === 'success'
+            ? '#36CFC9'
+            : this.state === 'failure'
+            ? '#FF3658'
+            : this.state === 'information'
+            ? '#007AFF'
+            : this.state === 'alert'
+            ? '#FF9900'
+            : ''
+        "
+        [size]="12"
+      ></ppx-icon>
+    </div>
+    <div *ngIf=" contain==='text' || contain==='icon-text'" [ngClass]="[ 'badges-label' +' '+this.contain ]">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</nz-tag>

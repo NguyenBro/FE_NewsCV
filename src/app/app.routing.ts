@@ -27,6 +27,11 @@ const routes: Routes = [];
         //   },
         // ],
       },
+      {
+        path: 'Business',
+        loadChildren: () =>
+          import('./business/business.module').then((m) => m.BusinessModule),
+      },
     ]),
   ],
   exports: [RouterModule],

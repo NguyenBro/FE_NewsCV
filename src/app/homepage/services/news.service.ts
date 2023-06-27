@@ -10,7 +10,7 @@ import {
   ResponseObject,
   scholarship,
   user,
-  Comment
+  Comment,
 } from '../model/news.model';
 
 @Injectable({
@@ -114,7 +114,6 @@ export class newsService {
     return this.http.get<ResponseObject>(`${this.urlPath + '/api/v1/logout'}`);
   }
   createOtpMail(user: user) {
-    console.log('mail-2');
     return this.http.post<ResponseObject>(
       `${this.urlPath + '/client/create'}`,
       user
@@ -164,9 +163,11 @@ export class newsService {
       { headers: headers }
     );
   }
-  getListComment(id?:string) {
+
+  getListComment(id?: string) {
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/comment/get-by-news/'+id}`,''
+      `${this.urlPath + '/api/v1/comment/get-by-news/' + id}`,
+      ''
     );
   }
   addComment(comment: Comment) {
@@ -336,5 +337,16 @@ export class newsService {
       value = value.replace(/\u02C6|\u0306|\u031B/g, ''); // Â, Ê, Ă, Ơ, Ư
       return value;
     }
+  }
+  getAllAdvert() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<ResponseObject>(
+      `${this.urlPath + '/api/v1/advertisement/get-all'}`,
+      { headers: headers }
+    );
   }
 }

@@ -25,7 +25,7 @@ import { SearchBarModule } from 'src/app/shared/styles/search-bar/search-bar.mod
 import { SectionModule } from 'src/app/shared/styles/section/section.module';
 import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyViewComponent } from './company-view/company-view.component';
-import { CompetenceFrameRoutingModule } from './company.routing';
+import { CompanyRoutingModule } from './company.routing';
 import { CompanysEntryComponent } from './companys-entry/companys-entry.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -43,7 +43,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     SearchBarModule,
     FooterModule,
     ContainerLayoutModule,
-    CompetenceFrameRoutingModule,
+    CompanyRoutingModule,
     NzLayoutModule,
     NzModalModule,
     PdfViewerModule,

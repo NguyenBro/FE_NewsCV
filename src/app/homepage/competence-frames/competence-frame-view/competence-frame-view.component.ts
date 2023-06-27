@@ -25,16 +25,12 @@ export class CompetenceFrameViewComponent implements OnInit {
   public user: user = new user();
   showQt: boolean;
   showUs: boolean;
-  showCom=false;
+  showCom = false;
   public apply: Application = new Application();
   public quillEditor: any;
-  public htmlContent =
-    '<h3><strong>This is a title</strong></h3><br><p>This is a title Gastropub chillwave lumbersexual umami lyft. Poke austin direct trade, marfa raclette letterpress actually. Chartreuse sriracha pinterest twee lo-fi try-hard. Meditation banh mi kitsch, prism organic hot chicken literally heirloom occupy af semiotics food truck. Aesthetic asymmetrical gluten-free, health goth shaman meh lumbersexual bespoke kinfolk helvetica vaporware fashion axe freegan. Pour-over hammock succulents disrupt chartreuse raw denim. Brunch aesthetic fanny pack subway tile everyday carry green juice neutra beard cray small batch poke yuccie plaid pork belly. Blue bottle 8-bit flexitarian hashtag. Scenester marfa yuccie snackwave edison bulb. VHS blog pickled scenester venmo hashtag lo-fi.</p>';
   imageObj: File | undefined;
   isVisible = false;
   isConfirmLoading = false;
-  img =
-    'https://firebasestorage.googleapis.com/v0/b/newscv-3595e.appspot.com/o/cf76fb34-a0ec-45f2-9dcd-2e333754b0d1png?alt=media';
   private quillConfig: any = {
     bold: false,
     italic: false,
@@ -61,11 +57,14 @@ export class CompetenceFrameViewComponent implements OnInit {
     }),
     tap((it) => {
       this.comFrame = it;
-      if(this.comFrame?.code!==undefined){
-        if(localStorage.getItem('email')?.indexOf(this.comFrame?.companyCode)===-1){
-          this.showCom=false;
-        }else{
-          this.showCom=true;
+      if (this.comFrame?.code !== undefined) {
+        if (
+          localStorage.getItem('email')?.indexOf(this.comFrame?.companyCode) ===
+          -1
+        ) {
+          this.showCom = false;
+        } else {
+          this.showCom = true;
         }
       }
     })
@@ -94,9 +93,7 @@ export class CompetenceFrameViewComponent implements OnInit {
           localStorage.removeItem('role');
         }
       });
-    if (
-      localStorage.getItem('role') === 'ADMIN'
-    ) {
+    if (localStorage.getItem('role') === 'ADMIN') {
       this.showQt = true;
     } else {
       this.showQt = false;
@@ -106,7 +103,6 @@ export class CompetenceFrameViewComponent implements OnInit {
     } else {
       this.showUs = false;
     }
-
   }
 
   ngOnInit(): void {
@@ -139,19 +135,16 @@ export class CompetenceFrameViewComponent implements OnInit {
     }
   }
   showModal(): void {
-    console.log('---------userid;',this.user.id);
-        console.log('---------recruitid;',this.comFrame?.id)
-    this.service.CheckAppli(this.user.id.toString(),this.comFrame?.id.toString()).subscribe((res)=>{
-      if(res.data!=null){
-        this.apply=res.data;
-        console.log('---------asdsadasfasf;',this.apply);
-        console.log('---------2222222222222222;',res.data)
-        this.isVisible = true;
-      }else{
-        this.isVisible = true;
-      }
-    });
-    
+    this.service
+      .CheckAppli(this.user.id.toString(), this.comFrame?.id.toString())
+      .subscribe((res) => {
+        if (res.data != null) {
+          this.apply = res.data;
+          this.isVisible = true;
+        } else {
+          this.isVisible = true;
+        }
+      });
   }
   handleOk(): void {
     console.log('Button ok clicked!');
@@ -180,8 +173,6 @@ export class CompetenceFrameViewComponent implements OnInit {
     this.quillConfig = this.quillEditor.getFormat(value.range);
   }
   public fql(name: string, value?: string): void {
-    console.log('this.htmlContent', this.htmlContent);
-
     if (value === undefined) {
       this.quillConfig[name] = !this.quillConfig[name];
       this.quillEditor.format(name, this.quillConfig[name]);

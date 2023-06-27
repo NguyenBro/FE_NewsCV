@@ -1,0 +1,174 @@
+<!-- <div class="layout" [ngClass]="{ 'layout-minimized': isDetailShown }">
+  <div class="layout-header"> -->
+<div class="all">
+  <ng-template #leftHeader>
+    <div class="list-tag">
+      <app-search-bar (listOfSearchesChange)="onListOfSearchesChange($event)">
+      </app-search-bar>
+
+      <div
+        class="header-left-item"
+        *ngFor="let keyword of searchKeywords"
+        (click)="addFilter(keyword)"
+      >
+        <button
+          class="button-secondary"
+          style="width: fit-content; padding: 0 0.5rem"
+        >
+          {{ keyword }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #rightHeader>
+    <div class="list-button">
+      <app-button-dropdown>
+        <button button class="button-secondary" [disabled]="isDetailShown">
+          <span nz-icon nzType="svg:apps-sort"></span>
+        </button>
+        <div dropdownContent>
+          <div [ngClass]="{ active: order === 1 }" (click)="setOrder(1)">
+            A → Z
+          </div>
+          <div [ngClass]="{ active: order === -1 }" (click)="setOrder(-1)">
+            Z → A
+          </div>
+          <div [ngClass]="{ active: order === 0 }" (click)="setOrder(0)">
+            Tắt
+          </div>
+        </div>
+      </app-button-dropdown>
+
+      <button
+        *ngIf="showQt"
+        class="button-secondary"
+        (click)="createCompetenceFrame()"
+      >
+        <span nz-icon nzType="svg:plus-small"> </span>
+      </button>
+    </div>
+  </ng-template>
+  <!-- </div> -->
+
+  <!-- <div class="layout-body"> -->
+  <ng-template #topBody>
+    <div class="text-xl text-primary-1 font-bold">Danh sách các ứng viên</div>
+    <div *ngIf="loadDing" class="pt-80 pl-96">
+      <nz-spin nzTip="Loading..." class="w-96">
+        <nz-alert
+          nzType="info"
+          nzMessage="Đang load dữ liệu"
+          nzDescription="Xin vui lòng đợi"
+        ></nz-alert>
+      </nz-spin>
+    </div>
+  </ng-template>
+  <ng-template #competenceFrameList>
+    <div class="h-full">
+      <!-- *ngIf="!loadDing" -->
+      <div class="site-showList">
+        <!-- <div class="site-showList">  -->
+        <div
+          class="layout-grid"
+          [ngClass]="
+            isDetailShown ? 'grid-cols-1' : 'md:grid-cols-3 grid-cols-1'
+          "
+        >
+          <div
+            class="card rounded-lg bg-white relative h-fit"
+            [ngClass]="
+              test.userId.toString() === selectedCompetenceFrame ? 'active' : ''
+            "
+            *ngFor="let test of listCom$ | async"
+            (click)="
+              selectCompetenceFrame(test.userId.toString(), test, cardRef)
+            "
+            #cardRef
+          >
+            <div
+              class="font-bold bg-secondary-5 rounded-t-lg p-4 flex items-center background"
+            >
+              <span>{{ test.specialize }}</span>
+            </div>
+            <div class="divimage flex">
+              <!-- <img class="image" [src]="test.cv" /> -->
+              <div *ngIf="test.cv" target="_blank" class="info date">
+                <pdf-viewer
+                  [src]="test.cv"
+                  [original-size]="false"
+                  [show-all]="false"
+                  [zoom]="1"
+                  style="width: 15vh; height: 23vh"
+                ></pdf-viewer>
+              </div>
+              <div class="body p-4">
+                <div style="text-align-last: left">
+                  <div class="tag mr-2 mb-2">Họ tên: {{ test.fullName }}</div>
+                  <div class="tag mr-2 mb-2">
+                    Số điện thoại: {{ test.phone }}
+                  </div>
+                  <div class="tag mr-2 mb-2">Email: {{ test.email }}</div>
+                </div>
+              </div>
+            </div>
+            <button
+              *ngIf="showQt"
+              class="text-lg px-2 mr-3 absolute right-0 top-3 bg-transparent"
+              (click)="
+                deleteCompetenceFrame(
+                  test.userId.toString(),
+                  test.specialize,
+                  $event
+                )
+              "
+            >
+              <span nz-icon nzType="svg:trash"> </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <app-footer
+        [customClassName]="
+          'z-50 ' +
+          (isDetailShown ? 'left-0 right-0 ' : '-left-8 -right-8 px-8')
+        "
+        [leftCornerTemplate]="leftFooter"
+        [pageIndex]="paginationAmount"
+        [pageSize]="15"
+        (pageIndexChange)="onPageIndexChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        [total]="listLength"
+        [simple]="isDetailShown"
+      ></app-footer>
+    </div>
+  </ng-template>
+  <!-- </div> -->
+
+  <!-- <div class="layout-body-left-footer"> -->
+  <ng-template #leftFooter>
+    <div *ngIf="!isDetailShown">Tổng số công ty : {{ listLength }}</div>
+  </ng-template>
+
+  <ng-template #sideBar>
+    <router-outlet
+      (activate)="onActivate()"
+      (deactivate)="onDeactivate()"
+    ></router-outlet>
+  </ng-template>
+  <!-- </div>
+      </div> -->
+
+  <app-container-layout
+    [rightHeader]="rightHeader"
+    [leftHeader]="leftHeader"
+    [topBody]="topBody"
+    [rightBody]="sideBar"
+    [leftBody]="competenceFrameList"
+    [showTopBody]="true"
+    [showSideBar]="isDetailShown"
+  >
+  </app-container-layout>
+</div>

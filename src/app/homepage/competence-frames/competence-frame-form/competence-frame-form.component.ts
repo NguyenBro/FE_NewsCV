@@ -1,24 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-
-import {
-  CdkDragDrop,
-  CdkDragEnter,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map, mergeMap, tap } from 'rxjs';
 import { CompetenceFramesEntryComponent } from '../competence-frames-entry/competence-frames-entry.component';
 import { CompetenceFramesService } from '../services/competence-frames.service';
-import { ComFrame } from '../../model/competence-frames.model';
 import { Recruit, ResponseObject, user } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
-import { Editor } from 'ngx-editor';
-import { getISOWeek } from 'date-fns';
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
 
 @Component({
@@ -27,7 +17,6 @@ import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
   styleUrls: ['./competence-frame-form.component.less'],
 })
 export class CompetenceFrameFormComponent {
-  editor: Editor = new Editor();
   isEnglish = false;
   user: user = new user();
   selectedCategory = '';

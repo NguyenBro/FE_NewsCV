@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { PageComponent } from './page/page.component';
 import { PayMentComponent } from './pay-ment/pay-ment.component';
 import { ResignComponent } from './resign/resign.component';
+
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -35,6 +36,13 @@ import { ResignComponent } from './resign/resign.component';
           {
             path: 'pay-ment',
             component: PayMentComponent,
+          },
+          {
+            path: 'AutoFindAppli',
+            loadChildren: () =>
+              import('./auto-find-appli/auto-find-appli.module').then(
+                (m) => m.AutoFindAppliModule
+              ),
           },
           {
             path: 'infomation',
@@ -79,13 +87,7 @@ import { ResignComponent } from './resign/resign.component';
             loadChildren: () =>
               import('./company/companys.module').then((m) => m.CompanysModule),
           },
-          // {
-          //   path: 'companys',
-          //   loadChildren: () =>
-          //     import('./competence-frames copy/company.module').then(
-          //       (m) => m.CompanyModule
-          //     ),
-          // },
+
         ],
       },
     ]),

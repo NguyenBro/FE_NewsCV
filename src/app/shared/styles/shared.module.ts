@@ -24,6 +24,7 @@ import { SectionComponent } from './section/section.component';
 import { SubSectionComponent } from './sub-section/sub-section.component';
 import { ContainerLayoutWModule } from './container-layout-w/container-layout-w.module';
 import { ContainerLayoutWComponent } from './container-layout-w/container-layout-w.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 @NgModule({
   declarations: [DropdownComponent],
   imports: [
@@ -40,6 +41,9 @@ import { ContainerLayoutWComponent } from './container-layout-w/container-layout
     SearchBarModule,
     SectionModule,
     SubSectionModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   exports: [
     NzMessageModule,

@@ -7,6 +7,8 @@ import {
   Subscription,
 } from 'rxjs';
 import { AdminService } from '../services/admin.service';
+import { Data } from '@angular/router';
+import { NzI18nService, vi_VN } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: 'app-news-statis',
@@ -14,6 +16,11 @@ import { AdminService } from '../services/admin.service';
   styleUrls: ['./news-statis.component.less'],
 })
 export class NewsStatisComponent implements OnInit {
+  indeterminate = false;
+  listOfCurrentPageData: readonly Data[] = [];
+  setOfCheckedId = new Set<number>();
+  checked = false;
+  //
   load = true;
   selectedStatus = '';
   listNameStatus = ['Đã duyệt', 'Đã huỷ', 'Đang xử lý', 'Tất cả'];
@@ -38,7 +45,8 @@ export class NewsStatisComponent implements OnInit {
         .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
     )
   );
-  constructor(private services: AdminService) {
+  constructor(private services: AdminService, private i18n: NzI18nService) {
+    this.i18n.setLocale(vi_VN);
     console.log('listCandidate2', this.listCom$);
     this.select('Tất cả');
   }
@@ -334,5 +342,20 @@ export class NewsStatisComponent implements OnInit {
     this.services.updateStatus(id.toString(), status).subscribe();
     // this.select('Tất cả');
     window.location.reload();
+  }
+  onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
+    this.listOfCurrentPageData = listOfCurrentPageData;
+    this.refreshCheckedStatus();
+  }
+  refreshCheckedStatus(): void {
+    const listOfEnabledData = this.listOfCurrentPageData.filter(
+      ({ disabled }) => !disabled
+    );
+    this.checked = listOfEnabledData.every(({ id }) =>
+      this.setOfCheckedId.has(id)
+    );
+    this.indeterminate =
+      listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
+      !this.checked;
   }
 }

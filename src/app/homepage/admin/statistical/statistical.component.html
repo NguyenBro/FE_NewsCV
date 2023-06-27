@@ -1,15 +1,5 @@
 <div class="body">
-  <div *ngIf="load" class="pt-24">
-    <nz-spin nzTip="Loading...">
-      <nz-alert
-        class="pl-24"
-        nzType="info"
-        nzMessage="Đang load dữ liệu"
-        nzDescription="Xin vui lòng đợi"
-      ></nz-alert>
-    </nz-spin>
-  </div>
-  <div class="bodytop" *ngIf="!load">
+  <!-- <div class="bodytop" *ngIf="!load">
     <div class="bodytop-item">
       <div class="news">
         <span class="font-semibold text-4xl">Tin tức</span>
@@ -30,6 +20,55 @@
         <div class="font-semibold text-4xl">Công ty</div>
         <div>Số lượng công ty tham gia: {{ lengthCompany }}</div>
       </div>
+    </div>
+  </div> -->
+  <div class="bg-slate-800 py-24 sm:py-32 h-full">
+    <div *ngIf="load" class="pt-24">
+      <nz-spin nzTip="Loading...">
+        <nz-alert
+          class="pl-24"
+          nzType="info"
+          nzMessage="Đang load dữ liệu"
+          nzDescription="Xin vui lòng đợi"
+        ></nz-alert>
+      </nz-spin>
+    </div>
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
+        <div class="mx-auto flex max-w-xs flex-col gap-y-4">
+          <dt class="text-base leading-7 text-gray-400">
+            <div>Số lượng tin tức: {{ lengthNews }}</div>
+            <div>Số lượng sự kiện: {{ lengthEvent }}</div>
+            <div>Số lượng cuộc thi: {{ lengthCompetion }}</div>
+            <div>Số lượng học bổng: {{ lengthScholarship }}</div>
+          </dt>
+          <dd
+            class="order-first text-3xl font-semibold tracking-tight text-white sm:text-5xl"
+          >
+            Tin tức
+          </dd>
+        </div>
+        <div class="mx-auto flex max-w-xs flex-col gap-y-4">
+          <dt class="text-base leading-7 text-gray-400">
+            <div>Số lượng tin tuyển dụng: {{ lengthJob }}</div>
+          </dt>
+          <dd
+            class="order-first text-3xl font-semibold tracking-tight text-white sm:text-5xl"
+          >
+            Tuyển dụng
+          </dd>
+        </div>
+        <div class="mx-auto flex max-w-xs flex-col gap-y-4">
+          <dt class="text-base leading-7 text-gray-400">
+            Số lượng công ty tham gia: {{ lengthCompany }}
+          </dt>
+          <dd
+            class="order-first text-3xl font-semibold tracking-tight text-white sm:text-5xl"
+          >
+            <div>Công ty</div>
+          </dd>
+        </div>
+      </dl>
     </div>
   </div>
 </div>

@@ -1,0 +1,310 @@
+@import "/src/app/shared/styles/variables.less";
+
+.tag {
+  font-size: 0.875rem;
+
+  background: @light;
+  border-radius: 0.5rem;
+
+  padding: 0.25rem 0.75rem;
+}
+.tag1 {
+  text-align: -webkit-center;
+  font-size: 1.25rem;
+  padding: 0;
+}
+// .layout {
+//   background: @light;
+//   display: flex;
+//   flex-direction: column;
+//   height: 100vh;
+
+//   .layout-header {
+//     background: white;
+//     flex: 0 0 5.375rem;
+//     padding: 0 2rem;
+
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     align-items: center;
+
+//     .header-left {
+//       display: flex;
+//       height: 38px;
+//       gap: 1rem;
+
+//       flex: 0 0 80%;
+//       width: 80%;
+
+//       &-item {
+//         flex: 0 1 auto;
+//         min-width: 3rem;
+//         max-width: calc(100% * (7 / 60));
+
+//         &.search-bar {
+//           flex: 0 0 calc(100% * (5 / 12));
+//           width: calc(100% * (5 / 12));
+//           max-width: unset;
+//         }
+
+//         .button-secondary {
+//           overflow: hidden;
+//           white-space: nowrap;
+//           text-overflow: ellipsis;
+//           width: 100%;
+//         }
+//       }
+//     }
+
+//     .header-right {
+//       display: flex;
+//       height: 38px;
+//       gap: 1rem;
+//       justify-content: flex-end;
+
+//       .button-secondary {
+//         padding: 0;
+//         width: 38px;
+//         position: relative;
+//         display: inline-block;
+//       }
+//       .button-secondary .tooltiptext {
+//         visibility: hidden;
+//         width: 10rem;
+//         background-color: black;
+//         color: #fff;
+//         text-align: center;
+//         border-radius: 6px;
+//         padding: 5px 0;
+
+//         /* Position the tooltip */
+//         position: absolute;
+//         z-index: 1;
+//         top: -5px;
+//         right: 105%;
+//       }
+
+//       .button-secondary:hover .tooltiptext {
+//         visibility: visible;
+//       }
+//     }
+//   }
+
+//   .layout-body {
+//     flex: 1 1 auto;
+//     overflow: hidden;
+//     display: flex;
+
+//     &-left {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: space-between;
+//       height: 100%;
+//       flex: 0 0 100%;
+//       transition: 500ms;
+
+//       &-content {
+//         padding: 2rem 1rem 2rem 2rem;
+//         overflow: overlay;
+//         max-width: 100vw;
+//       }
+
+//       &-footer {
+//         background: white;
+//         flex: 0 0 5.375rem;
+//         display: flex;
+//         gap: 25.5rem;
+//         .total {
+//           align-self: center;
+//           padding-left: 2rem;
+//         }
+//         .pagination {
+//           display: flex;
+//           align-items: center;
+//           justify-content: center;
+//           height: 100%;
+
+//           &-amount {
+//             margin-left: 1rem;
+//           }
+//         }
+//       }
+//     }
+
+//     &-right {
+//       flex: 0 0 calc(200% / 3);
+//       height: 100%;
+//     }
+//   }
+
+//   &.layout-minimized {
+//     .competence-frame-list {
+//       grid-template-columns: repeat(1, minmax(0, 1fr));
+
+//       @media (min-width: 768px) {
+//         grid-template-columns: repeat(1, minmax(0, 1fr));
+//       }
+
+//       @media (min-width: 1280px) {
+//         grid-template-columns: repeat(1, minmax(0, 1fr));
+//       }
+//     }
+
+//     .layout-body-left {
+//       flex: 0 0 calc(100% / 3);
+//       width: calc(100% / 3);
+//     }
+
+//     .layout-body-left-footer {
+//       width: calc(100% - 3rem);
+//       margin: 0 1rem 0 2rem;
+//     }
+//   }
+// }
+
+// .competence-frame-list {
+//   display: grid;
+//   gap: 2rem;
+//   grid-template-columns: repeat(1, minmax(0, 1fr));
+
+//   @media (min-width: 768px) {
+//     grid-template-columns: repeat(2, minmax(0, 1fr));
+//   }
+
+//   @media (min-width: 1280px) {
+//     grid-template-columns: repeat(3, minmax(0, 1fr));
+//   }
+// }
+
+// .filter-bar {
+//   display: flex;
+//   flex-direction: row;
+//   margin-bottom: 1rem;
+//   justify-content: space-between;
+//   align-items: center;
+//   gap: 1rem;
+
+//   &-tags {
+//     display: flex;
+//     flex-direction: row;
+//     gap: 0.5rem;
+
+//     flex: 1 1 auto;
+//     overflow: scroll;
+
+//     .filter-tag {
+//       border: 1px solid @primary-1;
+//       color: @primary-1;
+//       background-color: @secondary-5;
+//       border-radius: @border-radius-1;
+//       padding: 0.5rem 0.5rem 0.5rem 1rem;
+//       margin-right: 0.5rem;
+//       height: 38px;
+
+//       display: flex;
+//       flex-direction: row;
+//       align-items: center;
+//       gap: 0.5rem;
+
+//       .text-style-bold(8);
+
+//       white-space: nowrap;
+
+//       &:last-child {
+//         margin-right: 0;
+//       }
+
+//       &-remove {
+//         position: relative;
+//         display: inline-block;
+//         cursor: pointer;
+//       }
+//       &-remove .tooltiptext {
+//         visibility: hidden;
+//         width: 120px;
+//         background-color: black;
+//         color: #fff;
+//         text-align: center;
+//         border-radius: 6px;
+//         padding: 5px 0;
+
+//         /* Position the tooltip */
+//         position: absolute;
+//         z-index: 1;
+//       }
+
+//       &-remove:hover .tooltiptext {
+//         visibility: visible;
+//       }
+//     }
+
+//     &::-webkit-scrollbar {
+//       display: none;
+//     }
+//   }
+
+//   &-buttons {
+//     display: flex;
+//     flex-direction: row;
+//     gap: 0.5rem;
+//     flex: 0 0 auto;
+//   }
+// }
+
+.card {
+  cursor: pointer;
+  border: 1px solid @light;
+  button {
+    display: none;
+  }
+  &:hover,
+  &.active {
+    border-color: @primary-1;
+    box-shadow: 0px 0px 10px #8fc5f8;
+  }
+  &:hover button {
+    display: block;
+    &:hover {
+      animation-name: dance;
+      animation-iteration-count: infinite;
+      animation-duration: 1s;
+    }
+  }
+  &.active {
+    button {
+      display: none !important;
+    }
+  }
+}
+@keyframes dance {
+  0% {
+    transform: rotate(0);
+  }
+  33.33% {
+    transform: rotate(30deg);
+  }
+  66.66% {
+    transform: rotate(-30deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.all {
+  // position: absolute;
+  height: 70vh;
+}
+.image {
+  // background-image: url("https://firebasestorage.googleapis.com/v0/b/newscv-3595e.appspot.com/o/cf76fb34-a0ec-45f2-9dcd-2e333754b0d1png?alt=media");
+  // width: 700px;
+  // height: 100px;
+  max-width: 20%;
+  height: auto;
+}
+.divimage {
+  text-align: -webkit-center;
+}
+.background {
+  background-color: @primary-1;
+}
