@@ -27,12 +27,15 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CreateNewsComponent } from './create-news/create-news.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
-
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 @NgModule({
   declarations: [
     PageComponent,
@@ -66,6 +69,11 @@ import { NzCarouselModule } from 'ng-zorro-antd/carousel';
     NzDatePickerModule,
     QuillModule.forRoot(),
     NzCarouselModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzSelectModule,
+    NzButtonModule,
+    NzCheckboxModule,
   ],
 })
 export class HomepageModule {}

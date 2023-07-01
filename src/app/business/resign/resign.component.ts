@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Otp, user } from 'src/app/homepage/model/news.model';
 import { newsService } from 'src/app/homepage/services/news.service';
-
 
 @Component({
   selector: 'app-resign',
@@ -18,20 +22,17 @@ export class ResignComponent implements OnInit {
   user: user = new user();
   otp: Otp = new Otp();
 
-
   validateForm!: UntypedFormGroup;
   captchaTooltipIcon: NzFormTooltipIcon = {
     type: 'info-circle',
-    theme: 'twotone'
+    theme: 'twotone',
   };
   constructor(
     private fb: UntypedFormBuilder,
     private service: newsService,
     private message: NzMessageService,
-    private router: Router,
-  ) {
-
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -43,20 +44,20 @@ export class ResignComponent implements OnInit {
       phoneNumber: [null, [Validators.required]],
       website: [null, [Validators.required]],
       captcha: [null, [Validators.required]],
-      agree: [false]
+      agree: [false],
     });
   }
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      this.user.name=this.validateForm.value['name'];
-      this.user.password=this.validateForm.value['password'];
-      this.user.phone=this.validateForm.value['phoneNumber'];
-      this.user.address=this.validateForm.value['website'];
+      this.user.name = this.validateForm.value['nickname'];
+      this.user.password = this.validateForm.value['password'];
+      this.user.phone = this.validateForm.value['phoneNumber'];
+      this.user.address = this.validateForm.value['website'];
       console.log('submit2', this.user);
       this.send();
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
+      Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -67,10 +68,14 @@ export class ResignComponent implements OnInit {
 
   updateConfirmValidator(): void {
     /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls['checkPassword'].updateValueAndValidity());
+    Promise.resolve().then(() =>
+      this.validateForm.controls['checkPassword'].updateValueAndValidity()
+    );
   }
 
-  confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
+  confirmationValidator = (
+    control: UntypedFormControl
+  ): { [s: string]: boolean } => {
     if (!control.value) {
       return { required: true };
     } else if (control.value !== this.validateForm.controls['password'].value) {
@@ -78,19 +83,18 @@ export class ResignComponent implements OnInit {
     }
     return {};
   };
-  
+
   getOTP() {
-    this.user.email=this.validateForm.value['email'];
-    if(this.user.email){
+    this.user.email = this.validateForm.value['email'];
+    if (this.user.email) {
       this.otp.email = this.user.email;
       this.service.createOtpMail(this.user).subscribe();
-    }else{
+    } else {
       this.message.error('Nhập Email để lấy mã OTP');
     }
-    
   }
   send() {
-    this.otp.otp=this.validateForm.value['captcha'];
+    this.otp.otp = this.validateForm.value['captcha'];
     this.service.checkOtp(this.otp).subscribe((res) => {
       this.subjects = res.data;
       if (this.subjects === null) {
@@ -100,16 +104,10 @@ export class ResignComponent implements OnInit {
         this.service.addUser(this.user).subscribe((abs) => {
           this.dk = abs.data;
           if (this.dk === '' || this.dk === null) {
-            this.message.error(
-              abs.message
-            );
+            this.message.error(abs.message);
           } else {
-            this.service.addUser(this.user).subscribe((res) => {
-              if (res.errorCode === null) {
-                this.message.success('Đăng ký thành công');
-                this.router.navigate(['./Business/Login']);
-              }
-            });
+            this.message.success('Đăng ký thành công');
+            this.router.navigate(['./Business/Login']);
           }
         });
       }

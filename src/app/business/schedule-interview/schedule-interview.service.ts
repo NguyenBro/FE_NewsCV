@@ -41,14 +41,8 @@ export class ScheduleInterviewService {
     );
   }
   getInterviewScheduleById(id?: string): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
     return this.http.get<ResponseObject>(
-      `${this.urlPath + '/api/v1/interview-schedule/get-by-id/' + id}`,
-      { headers: headers }
+      `${this.urlPath + '/api/v1/interview-schedule/get-by-id/' + id}`
     );
   }
   updateInterviewScheduleById(

@@ -5,14 +5,26 @@
     <button class="button">Tiếp tục với facebook</button>
     <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Đầu vào E-mail không hợp lệ!">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
+          >E-mail</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Đầu vào E-mail không hợp lệ!"
+        >
           <input nz-input formControlName="email" id="email" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mật khẩu</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập mật khẩu của bạn!">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired
+          >Mật khẩu</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập mật khẩu của bạn!"
+        >
           <input
             nz-input
             type="password"
@@ -23,11 +35,20 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Xác nhận mật khẩu</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired
+          >Xác nhận mật khẩu</nz-form-label
+        >
         <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
-          <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+          <input
+            nz-input
+            type="password"
+            formControlName="checkPassword"
+            id="checkPassword"
+          />
           <ng-template #errorTpl let-control>
-            <ng-container *ngIf="control.hasError('required')">Vui lòng xác nhận mật khẩu của bạn!</ng-container>
+            <ng-container *ngIf="control.hasError('required')"
+              >Vui lòng xác nhận mật khẩu của bạn!</ng-container
+            >
             <ng-container *ngIf="control.hasError('confirm')">
               Hai mật khẩu bạn nhập không nhất quán!
             </ng-container>
@@ -44,24 +65,41 @@
         >
           Tên công ty
         </nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập tên công ty của bạn!">
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập tên công ty của bạn!"
+        >
           <input nz-input id="nickname" formControlName="nickname" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Số điện thoại</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired
+          >Số điện thoại</nz-form-label
+        >
         <nz-form-control
           [nzSm]="14"
           [nzXs]="24"
           [nzValidateStatus]="validateForm.controls['phoneNumber']"
           nzErrorTip="Vui lòng nhập số điện thoại của bạn!"
-          style="width: fit-content;"
+          style="width: fit-content"
         >
           <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
             <ng-template #addOnBeforeTemplate>
-              <nz-select formControlName="phoneNumberPrefix" class="phone-select">
-                <nz-option style="width: fit-content;" nzLabel="+84" nzValue="+86"></nz-option>
-                <nz-option style="width: fit-content;" nzLabel="+86" nzValue="+87"></nz-option>
+              <nz-select
+                formControlName="phoneNumberPrefix"
+                class="phone-select"
+              >
+                <nz-option
+                  style="width: fit-content"
+                  nzLabel="+84"
+                  nzValue="+86"
+                ></nz-option>
+                <nz-option
+                  style="width: fit-content"
+                  nzLabel="+86"
+                  nzValue="+87"
+                ></nz-option>
               </nz-select>
             </ng-template>
             <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
@@ -69,9 +107,20 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired>Website Công ty</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Vui lòng nhập link công ty của bạn!">
-          <input nz-input id="website" formControlName="website" placeholder="website" />
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired
+          >Website Công ty</nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="14"
+          [nzXs]="24"
+          nzErrorTip="Vui lòng nhập link công ty của bạn!"
+        >
+          <input
+            nz-input
+            id="website"
+            formControlName="website"
+            placeholder="website"
+          />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -103,8 +152,8 @@
       <nz-form-item nz-row class="register-area">
         <nz-form-control [nzSpan]="14" [nzOffset]="6">
           <label nz-checkbox formControlName="agree">
-              Tôi đã đọc
-              <a>thoả thuận</a>
+            Tôi đã đọc
+            <a>thoả thuận</a>
           </label>
         </nz-form-control>
       </nz-form-item>
@@ -120,4 +169,3 @@
     </div>
   </div>
 </div>
-
