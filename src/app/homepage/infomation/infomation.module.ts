@@ -11,6 +11,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 @NgModule({
   declarations: [InfomationComponent, ListedComponent],
   imports: [
@@ -23,7 +25,9 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzSwitchModule,
     NzModalModule,
     NzButtonModule,
-    NzCheckboxModule
+    NzIconModule,
+    NzCheckboxModule,
+    NzUploadModule,
   ],
 })
 export class InfomationModule {}

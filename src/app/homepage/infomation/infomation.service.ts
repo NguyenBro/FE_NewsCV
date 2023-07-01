@@ -73,9 +73,8 @@ export class InfomationService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${
-        this.urlPath + '/api/v1/auto-job/get-by-id/' + id + '?status='}`,
-        '',
+      `${this.urlPath + '/api/v1/auto-job/get-by-id/' + id + '?status='}`,
+      '',
       { headers: headers }
     );
   }
@@ -87,13 +86,12 @@ export class InfomationService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${
-        this.urlPath + '/api/v1/auto-job/get-by-id/' + id + '?status=Off'}`,
-        '',
+      `${this.urlPath + '/api/v1/auto-job/get-by-id/' + id + '?status=Off'}`,
+      '',
       { headers: headers }
     );
   }
-  updateAutoJob(auto: AutoJob,id?: String) {
+  updateAutoJob(auto: AutoJob, id?: String) {
     const token = localStorage.getItem('token');
     console.log('token', token);
 
@@ -101,9 +99,24 @@ export class InfomationService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<ResponseObject>(
-      `${
-        this.urlPath + '/api/v1/auto-job/update/' + id}`,
-        auto,
+      `${this.urlPath + '/api/v1/auto-job/update/' + id}`,
+      auto,
+      { headers: headers }
+    );
+  }
+  uploadAvatar(image: string, id?: string) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<ResponseObject>(
+      `${this.urlPath + '/api/v1/user/' + id}`,
+      {
+        avatar: image,
+        roleCodes: ['user'],
+      },
       { headers: headers }
     );
   }
