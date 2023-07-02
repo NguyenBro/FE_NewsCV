@@ -58,8 +58,8 @@ export class CompetenceFramesService {
       { headers: headers }
     );
   }
-  async initListPool() {
-    await this.getListRecruit().subscribe((res) => {
+  initListPool() {
+    this.getListRecruit().subscribe((res) => {
       this.listRecruit = res.data;
     });
   }
@@ -69,9 +69,9 @@ export class CompetenceFramesService {
       `${this.urlPath + '/api/v1/job-news/get-all'}`
     );
   }
-  getCompanyByCode(code: string) {
+  getJobByCode(code: string) {
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/company/get-by-code/' + code}`,
+      `${this.urlPath + '/api/v1/job-news/get-by-code/' + code}`,
       ''
     );
   }
@@ -137,11 +137,22 @@ export class CompetenceFramesService {
     }
     return of(this.listCom.find((item) => item.id === id));
   }
-  public getRecruitInfo(id?: string): Observable<Recruit | undefined> {
+  public getRecruitInfo(id?: string): Observable<ResponseObject | undefined> {
+    if (!id) {
+      return of(new ResponseObject());
+    } else {
+      console.log('giá trị lisdttttttttt', this.listRecruit);
+      return this.getJobByCode(id);
+      // return of(this.listRecruit.find((item) => item.code === id));
+    }
+  }
+  public getRecruitInfo1(id?: string): Observable<Recruit | undefined> {
     if (!id) {
       return of(new Recruit());
+    } else {
+      console.log('giá trị lisdttttttttt', this.listRecruit);
+      return of(this.listRecruit.find((item) => item.code === id));
     }
-    return of(this.listRecruit.find((item) => item.code === id));
   }
   public getRandomId(): string {
     let text = '';

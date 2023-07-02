@@ -88,7 +88,6 @@ export class InfomationComponent implements OnInit {
   }
   ngOnInit(): void {}
   ChangeSwitch(): void {
-    console.log('this.switchValue::::::::', this.switchValue);
     if (this.switchValue === false) {
       this.isVisible = true;
       this.Ifservice.getByIdAutoJob(
@@ -189,7 +188,6 @@ export class InfomationComponent implements OnInit {
       this.Ifservice.offByIdAutoJob(
         localStorage.getItem('id')?.toString()
       ).subscribe();
-      console.log('đã thực thi');
     }
   }
   edit() {

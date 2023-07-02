@@ -47,28 +47,29 @@ export class CompetenceFrameViewComponent implements OnInit {
   public comFrame: Recruit | undefined = new Recruit();
   public id = '';
   public des = '';
-  public comFrameInfo$ = this.route.params.pipe(
-    mergeMap((p) => {
-      if (!this.service.isComFrameExist(p['comFrameId'])) {
-        this.cancel();
-      }
-      this.id = p['comFrameId'];
-      return this.service.getRecruitInfo(p['comFrameId']);
-    }),
-    tap((it) => {
-      this.comFrame = it;
-      if (this.comFrame?.code !== undefined) {
-        if (
-          localStorage.getItem('email')?.indexOf(this.comFrame?.companyCode) ===
-          -1
-        ) {
-          this.showCom = false;
-        } else {
-          this.showCom = true;
+  public comFrameInfo$ = this.route.params
+    .pipe(
+      mergeMap((p) => {
+        this.id = p['comFrameId'];
+        return this.service.getRecruitInfo(p['comFrameId']);
+      }),
+      tap((it) => {
+        this.comFrame = it?.data;
+        if (!this.comFrame) this.cancel();
+        if (this.comFrame?.code !== undefined) {
+          if (
+            localStorage
+              .getItem('email')
+              ?.indexOf(this.comFrame?.companyCode) === -1
+          ) {
+            this.showCom = false;
+          } else {
+            this.showCom = true;
+          }
         }
-      }
-    })
-  );
+      })
+    )
+    .subscribe();
   urlPath = 'https://server-api.newscv.tech';
   constructor(
     private message: NzMessageService,
@@ -106,8 +107,11 @@ export class CompetenceFrameViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.comFrame = this.service.recruit;
+    // this.comFrame = this.service.recruit;
     console.log('comFrame', this.comFrame);
+    // if (!this.service.isComFrameExist(this.comFrame.code)) {
+    //   this.cancel();
+    // }
   }
 
   chooseCv(event: any) {

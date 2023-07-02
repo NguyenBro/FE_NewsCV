@@ -49,7 +49,10 @@ export class CompetenceFrameFormComponent {
   public comFrame$ = this.route.params.pipe(
     map((p) => p['comFrameId']),
     mergeMap((p) => this.service.getRecruitInfo(p)),
-    tap((comFrame) => (this.Recruit = new Recruit(comFrame) || new Recruit()))
+    tap(
+      (comFrame) =>
+        (this.Recruit = new Recruit(comFrame?.data) || new Recruit())
+    )
   );
 
   urlPath = 'https://server-api.newscv.tech';

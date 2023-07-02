@@ -3,13 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, mergeMap, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  mergeMap,
+  Observable,
+  tap,
+} from 'rxjs';
 import { Comment, competion, scholarship, user } from '../../model/news.model';
 import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-scholarship-entry.component';
 import { NewsScholarshipService } from '../services/news-scholarship.service';
 import { formatDistance } from 'date-fns';
 import { newsService } from '../../services/news.service';
-
 
 @Component({
   selector: 'app-news-view',
@@ -26,32 +32,37 @@ export class NewsScholarshipViewComponent implements OnInit {
   user: user = new user();
   public id = '';
   data: any[] = [];
-  showEdit=false;
+  showEdit = false;
   showQt: boolean;
   submitting = false;
   inputValue = '';
   initLoading = true;
   loadingMore = false;
+  idUser = localStorage.getItem('id');
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
         this.cancel();
       }
       this.id = p['comFrameId'];
-      
+
       return this.service.getScholarshipInfo(p['comFrameId']);
     }),
     tap((it) => {
       this.comFrame = it;
-      if(this.comFrame?.code!==undefined){
-        if(localStorage.getItem('id')!==this.comFrame?.userId.toString()){
-          this.showEdit=false;
-        }else{
-          this.showEdit=true;
+      if (this.comFrame?.code !== undefined) {
+        if (localStorage.getItem('id') !== this.comFrame?.userId.toString()) {
+          this.showEdit = false;
+        } else {
+          this.showEdit = true;
         }
       }
-      this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((res)=>this.data=res.data));
-      this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+      this.servicenew
+        .getListComment(this.comFrame?.id.toString())
+        .pipe(map((res) => (this.data = res.data)));
+      this.rawListCom$ = this.servicenew
+        .getListComment(this.comFrame?.id.toString())
+        .pipe(map((data) => data.data));
       this.listComment$ = combineLatest({
         listOfCompetences: this.rawListCom$,
         pageIndex: this.pageIndex$,
@@ -60,12 +71,13 @@ export class NewsScholarshipViewComponent implements OnInit {
         refresh: this.refreshBehavior$,
       }).pipe(
         map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-          listOfCompetences
-            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          listOfCompetences.slice(
+            (pageIndex - 1) * pageSize,
+            pageIndex * pageSize
+          )
         )
-      )
-
-  })
+      );
+    })
   );
 
   private listOfSearches$ = new BehaviorSubject<string[]>([]);
@@ -73,8 +85,8 @@ export class NewsScholarshipViewComponent implements OnInit {
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
   private rawListCom$: Observable<Comment[]> = this.servicenew
-  .getListComment(this.comFrame?.id.toString())
-  .pipe(map((data) => data.data));
+    .getListComment(this.comFrame?.id.toString())
+    .pipe(map((data) => data.data));
   public listComment$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
@@ -83,11 +95,9 @@ export class NewsScholarshipViewComponent implements OnInit {
     refresh: this.refreshBehavior$,
   }).pipe(
     map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-      listOfCompetences
-        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      listOfCompetences.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
     )
   );
-
 
   constructor(
     private message: NzMessageService,
@@ -98,6 +108,8 @@ export class NewsScholarshipViewComponent implements OnInit {
     private modal: NzModalService,
     private servicenew: newsService
   ) {
+    this.idUser = localStorage.getItem('id');
+    console.log('99999999999', this.idUser);
     this.news.flex = true;
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -108,13 +120,15 @@ export class NewsScholarshipViewComponent implements OnInit {
       this.showQt = false;
     }
     servicenew
-    .getLoggedInUser(localStorage.getItem('email') || '')
-    .subscribe((user) => {
-      if (user.errorCode === null) {
-        this.user = user.data;
-      }
-    });
-    this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((res)=>this.data=res.data));
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+        }
+      });
+    this.servicenew
+      .getListComment(this.comFrame?.id.toString())
+      .pipe(map((res) => (this.data = res.data)));
   }
 
   ngOnInit(): void {
@@ -124,37 +138,38 @@ export class NewsScholarshipViewComponent implements OnInit {
     window.location.reload();
   }
   handleSubmit(): void {
-    if(this.comFrame!=null){
+    if (this.comFrame != null) {
       this.currentComment.content = this.inputValue;
       this.currentComment.codeNews = this.comFrame.code;
       this.currentComment.userId = Number(this.user.id);
-      this.servicenew
-        .addComment(this.currentComment)
-        .subscribe((Res) => {
-          if (Res.errorCode === null) {
-            // this.cancel();
-            // setTimeout(this.loadPage, 1000);
-            this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
-            this.listComment$ = combineLatest({
-              listOfCompetences: this.rawListCom$,
-              pageIndex: this.pageIndex$,
-              pageSize: this.pageSize$,
-              searches: this.listOfSearches$,
-              refresh: this.refreshBehavior$,
-            }).pipe(
-              map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-                listOfCompetences
-                  .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      this.servicenew.addComment(this.currentComment).subscribe((Res) => {
+        if (Res.errorCode === null) {
+          // this.cancel();
+          // setTimeout(this.loadPage, 1000);
+          this.rawListCom$ = this.servicenew
+            .getListComment(this.comFrame?.id.toString())
+            .pipe(map((data) => data.data));
+          this.listComment$ = combineLatest({
+            listOfCompetences: this.rawListCom$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences.slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize
               )
             )
-            this.inputValue='';
-            // this.message.success('Thêm thành công');
-          } else {
-            this.message.error('Thêm thất bại');
-          }
-        });
+          );
+          this.inputValue = '';
+          // this.message.success('Thêm thành công');
+        } else {
+          this.message.error('Thêm thất bại');
+        }
+      });
     }
-        
   }
   public create() {
     this.service.conditionDup = false;
@@ -212,8 +227,5 @@ export class NewsScholarshipViewComponent implements OnInit {
     this.commentTemp = new String();
     console.log('enter', this.listComment);
   }
-  edit(item: any): void {
-    
-  }
-
+  edit(item: any): void {}
 }

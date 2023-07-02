@@ -142,7 +142,7 @@ export class CompanysService {
     return text;
   }
 
-  public isComFrameExist(id: string) {
+  public isComFrameExist(id?: string) {
     return this.listCompany.find((item) => item.code === id) ? true : false;
   }
 

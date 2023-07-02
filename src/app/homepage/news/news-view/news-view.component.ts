@@ -3,8 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, combineLatest, map, mergeMap, Observable, tap } from 'rxjs';
-import { competion,Comment, user } from '../../model/news.model';
+import {
+  BehaviorSubject,
+  combineLatest,
+  map,
+  mergeMap,
+  Observable,
+  tap,
+} from 'rxjs';
+import { competion, Comment, user } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { NewsEntryComponent } from '../news-entry/news-entry.component';
 import { NewsCompetionService } from '../services/news-competion.service';
@@ -20,6 +27,7 @@ export class NewsViewComponent implements OnInit {
   public temp: HTMLElement | undefined;
   public id = '';
   showQt: boolean;
+  showCmt = false;
   data: any[] = [];
   submitting = false;
   user: user = new user();
@@ -33,8 +41,11 @@ export class NewsViewComponent implements OnInit {
       this.id = p['comFrameId'];
       return this.service.getCompetionInfo(p['comFrameId']);
     }),
-    tap((it) => {this.comFrame = it;
-      this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+    tap((it) => {
+      this.comFrame = it;
+      this.rawListCom$ = this.servicenew
+        .getListComment(this.comFrame?.id.toString())
+        .pipe(map((data) => data.data));
       this.listComment$ = combineLatest({
         listOfCompetences: this.rawListCom$,
         pageIndex: this.pageIndex$,
@@ -43,20 +54,22 @@ export class NewsViewComponent implements OnInit {
         refresh: this.refreshBehavior$,
       }).pipe(
         map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-          listOfCompetences
-            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          listOfCompetences.slice(
+            (pageIndex - 1) * pageSize,
+            pageIndex * pageSize
+          )
         )
-      )
-  })
+      );
+    })
   );
 
   private listOfSearches$ = new BehaviorSubject<string[]>([]);
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
-   private rawListCom$: Observable<Comment[]> = this.servicenew
-  .getListComment(this.comFrame?.id.toString())
-  .pipe(map((data) => data.data));
+  private rawListCom$: Observable<Comment[]> = this.servicenew
+    .getListComment(this.comFrame?.id.toString())
+    .pipe(map((data) => data.data));
   public listComment$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
@@ -65,8 +78,7 @@ export class NewsViewComponent implements OnInit {
     refresh: this.refreshBehavior$,
   }).pipe(
     map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-      listOfCompetences
-        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      listOfCompetences.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
     )
   );
 
@@ -89,12 +101,12 @@ export class NewsViewComponent implements OnInit {
       this.showQt = false;
     }
     servicenew
-    .getLoggedInUser(localStorage.getItem('email') || '')
-    .subscribe((user) => {
-      if (user.errorCode === null) {
-        this.user = user.data;
-      }
-    });
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -104,32 +116,34 @@ export class NewsViewComponent implements OnInit {
     window.location.reload();
   }
   handleSubmit(): void {
-    if(this.comFrame!=null){
+    if (this.comFrame != null) {
       this.currentComment.content = this.inputValue;
       this.currentComment.codeNews = this.comFrame.code;
       this.currentComment.userId = Number(this.user.id);
-      this.servicenew
-      .addComment(this.currentComment)
-        .subscribe((Res) => {
-          if (Res.errorCode === null) {
-            this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
-            this.listComment$ = combineLatest({
-              listOfCompetences: this.rawListCom$,
-              pageIndex: this.pageIndex$,
-              pageSize: this.pageSize$,
-              searches: this.listOfSearches$,
-              refresh: this.refreshBehavior$,
-            }).pipe(
-              map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-                listOfCompetences
-                  .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      this.servicenew.addComment(this.currentComment).subscribe((Res) => {
+        if (Res.errorCode === null) {
+          this.rawListCom$ = this.servicenew
+            .getListComment(this.comFrame?.id.toString())
+            .pipe(map((data) => data.data));
+          this.listComment$ = combineLatest({
+            listOfCompetences: this.rawListCom$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences.slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize
               )
             )
-            this.inputValue='';
-          } else {
-            this.message.error('Thêm thất bại');
-          }
-        });
+          );
+          this.inputValue = '';
+        } else {
+          this.message.error('Thêm thất bại');
+        }
+      });
     }
   }
   public create() {
@@ -182,7 +196,5 @@ export class NewsViewComponent implements OnInit {
       },
     });
   }
-  edit(item: any): void {
-    
-  }
+  edit(item: any): void {}
 }

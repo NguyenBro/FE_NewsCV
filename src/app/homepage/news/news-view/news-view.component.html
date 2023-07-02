@@ -110,24 +110,44 @@
         <app-section title="Bình luận">
           <div container>
             <div section-container class="m-0">
-              <nz-list class="demo-loadmore-list" >
+              <nz-list class="demo-loadmore-list">
                 <nz-list-item *ngFor="let item of listComment$ | async">
-                  <ng-container >
+                  <ng-container>
                     <nz-list-item-meta
                       [nzAvatar]="item.avatar"
-                      [nzDescription]="item.name +' - '+ item.time[0]+ item.time[1]+ item.time[2]+ item.time[3]+ item.time[4]+ item.time[5]+ item.time[6]+ item.time[7]+ item.time[8]+ item.time[9]"
+                      [nzDescription]="
+                        item.name +
+                        ' - ' +
+                        item.time[0] +
+                        item.time[1] +
+                        item.time[2] +
+                        item.time[3] +
+                        item.time[4] +
+                        item.time[5] +
+                        item.time[6] +
+                        item.time[7] +
+                        item.time[8] +
+                        item.time[9]
+                      "
                     >
                       <nz-list-item-meta-title>
                         <p>{{ item.content }}</p>
                       </nz-list-item-meta-title>
                     </nz-list-item-meta>
                     <ul nz-list-item-actions>
-                      <nz-list-item-action><a (click)="edit(item)">chỉnh sửa</a></nz-list-item-action>
-                      <nz-list-item-action><a (click)="edit(item)">xoá</a></nz-list-item-action>
+                      <nz-list-item-action
+                        ><a (click)="edit(item)" *ngIf="showQt"
+                          >chỉnh sửa</a
+                        ></nz-list-item-action
+                      >
+                      <nz-list-item-action
+                        ><a (click)="edit(item)" *ngIf="showQt"
+                          >xoá</a
+                        ></nz-list-item-action
+                      >
                     </ul>
                   </ng-container>
                 </nz-list-item>
-
               </nz-list>
               <nz-comment>
                 <nz-avatar
@@ -135,7 +155,7 @@
                   nzIcon="user"
                   [nzSrc]="user.avatar"
                 ></nz-avatar>
-                
+
                 <nz-comment-content>
                   <nz-form-item>
                     <textarea

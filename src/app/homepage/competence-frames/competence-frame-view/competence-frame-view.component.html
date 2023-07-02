@@ -49,9 +49,9 @@
       <span nz-icon nzType="svg:trash"> </span>
     </button>
     <div container-title>
-      <div>{{ (comFrameInfo$ | async)?.title }}</div>
+      <div>{{ comFrame?.title }}</div>
       <div class="font-normal">
-        {{ (comFrameInfo$ | async)?.shortContent }}
+        {{ comFrame?.shortContent }}
       </div>
     </div>
 
@@ -63,7 +63,7 @@
             <div section-container class="competence-tags">
               <!-- <div [innerHTML]="(comFrameInfo$ | async)?.description"></div> -->
               <quill-view-html
-                [content]="(comFrameInfo$ | async)?.description || ''"
+                [content]="comFrame?.description || ''"
                 theme="snow"
               ></quill-view-html>
             </div>
@@ -115,7 +115,7 @@
         <app-section title="Yêu cầu ứng viên" [collapsible]="false">
           <div section-container class="competence-tags">
             <quill-view-html
-              [content]="(comFrameInfo$ | async)?.requirement || ''"
+              [content]="comFrame?.requirement || ''"
               theme="snow"
             ></quill-view-html>
           </div>
@@ -124,7 +124,7 @@
         <app-section title="Quyền lợi" [collapsible]="false">
           <div section-container class="competence-tags">
             <quill-view-html
-              [content]="(comFrameInfo$ | async)?.treatment || ''"
+              [content]="comFrame?.treatment || ''"
               theme="snow"
             ></quill-view-html>
           </div>
@@ -138,8 +138,8 @@
             <nz-modal
               [(nzVisible)]="isVisible"
               nzTitle="Bạn đang ứng tuyển cho vị trí {{
-                (comFrameInfo$ | async)?.title
-              }} của công ty {{ (comFrameInfo$ | async)?.shortContent }}"
+                comFrame?.title
+              }} của công ty {{ comFrame?.shortContent }}"
               (nzOnCancel)="handleCancel()"
             >
               <div *nzModalContent class="flex flex-col gap-4">
