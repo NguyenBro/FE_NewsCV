@@ -69,13 +69,14 @@
           <td>{{ apply.intro }}</td>
           <td>{{ apply.status }}</td>
           <td>{{ apply.applyTime }}</td>
-          <td>
+          <td class="flex flex-col gap-2 h-[185px] justify-center">
             <button
               nz-button
               nzType="primary"
               class="but"
+              nzDanger
               (click)="snapStatus(apply.id, 'Cancel')"
-              *ngIf="apply.status === 'Done'"
+              *ngIf="apply.status === 'Waiting'"
             >
               Huỷ
             </button>
@@ -90,11 +91,25 @@
             </button>
             <button
               nz-button
+              class="but"
+              (click)="
+                createScheduleInterview(
+                  apply.id.toString(),
+                  apply.fullName,
+                  apply.email
+                )
+              "
+              *ngIf="apply.status === 'Done'"
+            >
+              Tạo cuộc phỏng vấn
+            </button>
+            <button
+              nz-button
               nzType="primary"
               class="but"
               *ngIf="apply.status === 'Cancel'"
             >
-              Đã hủy
+              Đã xử lý
             </button>
           </td>
         </tr>

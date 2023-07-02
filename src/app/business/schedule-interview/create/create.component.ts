@@ -13,6 +13,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ScheduleInterview } from 'src/app/homepage/model/news.model';
 import { ScheduleInterviewService } from '../schedule-interview.service';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { JobStatisComponent } from 'src/app/homepage/admin/job-statis/job-statis.component';
+import { AdminService } from 'src/app/homepage/admin/services/admin.service';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -28,9 +31,13 @@ export class CreateComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private i18n: NzI18nService,
     private message: NzMessageService,
-    private service: ScheduleInterviewService
+    private router: Router,
+    private service: ScheduleInterviewService,
+    private adService: AdminService
   ) {
     this.i18n.setLocale(this.isEnglish ? zh_CN : en_US);
+    this.intervSche.name = service.applicantName;
+    this.intervSche.email = service.applicantEmail;
   }
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -79,14 +86,23 @@ export class CreateComponent implements OnInit {
           moment(
             this.validateForm.value['schedules'][i],
             'dddd MMMM Do YYYY hh:mm:ss Z'
-          ).format('hh:mm-DMYYYY') +
+          ).format('hh:mm-DD/MM/YYYY') +
           ',';
       }
       this.intervSche.location = this.validateForm.value['location'];
       this.intervSche.contact = this.validateForm.value['contact'];
       this.intervSche.note = this.validateForm.value['note'];
       console.log('submit', this.intervSche);
-      this.service.addInterviewSchedule(this.intervSche).subscribe();
+      this.service.addInterviewSchedule(this.intervSche).subscribe((res) => {
+        console.log('resssssss', res);
+        if (res.errorCode === null) {
+          this.message.success('Tạo lịch phỏng vấn thành công');
+          this.snapStatus(this.service.applicantId, 'Cancel');
+          this.router.navigate(['./Business/Schedule-Interview/Schedules']);
+        } else {
+          this.message.error('Đã có lỗi xảy ra');
+        }
+      });
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -95,6 +111,14 @@ export class CreateComponent implements OnInit {
         }
       });
     }
+  }
+  snapStatus(id: string, status: String) {
+    this.adService.updateStatusAppli(id, status).subscribe((res) => {
+      console.log('téttttttt111111111111', res);
+      if (res.errorCode != null) {
+        this.message.error('Có lỗi xảy ra');
+      }
+    });
   }
   onChange(result: Date, idx: number): void {
     // this.intervSche.schedule[idx] = result.toDateString();

@@ -9,8 +9,10 @@ import {
 import { Application, Candidate, user } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { AdminService } from '../services/admin.service';
-import { Data } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { NzI18nService, vi_VN } from 'ng-zorro-antd/i18n';
+import { ScheduleInterviewService } from 'src/app/business/schedule-interview/schedule-interview.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-job-statis',
@@ -42,7 +44,10 @@ export class JobStatisComponent implements OnInit {
   constructor(
     private services: AdminService,
     private serviceNews: newsService,
-    private i18n: NzI18nService
+    private i18n: NzI18nService,
+    private router: Router,
+    private SIService: ScheduleInterviewService,
+    private message: NzMessageService
   ) {
     this.switchLanguage();
     this.loadUser();
@@ -117,17 +122,29 @@ export class JobStatisComponent implements OnInit {
     this.services
       .getDetailCandidateByJob(this.selectedJob.id)
       .subscribe((apply) => {
-        console.log('serviceCompany', apply.data);
         for (let i = 0; i < apply.data.length; i++) {
           this.listApply.push(apply.data[i]);
         }
         this.showRight = true;
-        console.log('listNameCompany', this.listApply);
       });
   }
   snapStatus(id: Number, status: String) {
-    this.services.updateStatusAppli(id.toString(), status).subscribe();
-    this.select(this.selectedCompany);
+    this.services.updateStatusAppli(id.toString(), status).subscribe((res) => {
+      if (res.errorCode === null) {
+        this.showRight = false;
+        this.listApply = [];
+        this.services
+          .getDetailCandidateByJob(this.selectedJob.id)
+          .subscribe((apply) => {
+            for (let i = 0; i < apply.data.length; i++) {
+              this.listApply.push(apply.data[i]);
+            }
+            this.showRight = true;
+          });
+      } else {
+        this.message.error('Có lỗi xảy ra');
+      }
+    });
   }
   onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
     this.listOfCurrentPageData = listOfCurrentPageData;
@@ -143,5 +160,11 @@ export class JobStatisComponent implements OnInit {
     this.indeterminate =
       listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
       !this.checked;
+  }
+  createScheduleInterview(id: string, name: string, email: string) {
+    this.SIService.applicantName = name;
+    this.SIService.applicantEmail = email;
+    this.SIService.applicantId = id;
+    this.router.navigate(['./Business/Schedule-Interview/Create-Schedule']);
   }
 }

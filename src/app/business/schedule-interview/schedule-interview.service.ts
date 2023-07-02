@@ -11,6 +11,9 @@ import {
 })
 export class ScheduleInterviewService {
   urlPath = 'https://server-api.newscv.tech';
+  applicantName = '';
+  applicantEmail = '';
+  applicantId = '';
   constructor(private http: HttpClient) {}
   addInterviewSchedule(model: ScheduleInterview): Observable<any> {
     const token = localStorage.getItem('token');

@@ -74,7 +74,6 @@
           <th>Giới thiệu</th>
           <th>Trạng thái</th>
           <th>Thời gian ứng tuyển</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -96,34 +95,6 @@
           <td>{{ apply.intro }}</td>
           <td>{{ apply.status }}</td>
           <td>{{ apply.applyTime }}</td>
-          <td>
-            <button
-              nz-button
-              nzType="primary"
-              class="but"
-              (click)="snapStatus(apply.id, 'Cancel')"
-              *ngIf="apply.status === 'Done'"
-            >
-              Huỷ
-            </button>
-            <button
-              nz-button
-              nzType="primary"
-              class="but"
-              (click)="snapStatus(apply.id, 'Done')"
-              *ngIf="apply.status === 'Waiting'"
-            >
-              Duyệt
-            </button>
-            <button
-              nz-button
-              nzType="primary"
-              class="but"
-              *ngIf="apply.status === 'Cancel'"
-            >
-              Đã hủy
-            </button>
-          </td>
         </tr>
       </tbody>
     </nz-table>
