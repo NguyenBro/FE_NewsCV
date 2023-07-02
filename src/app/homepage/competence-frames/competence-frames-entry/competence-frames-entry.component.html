@@ -24,10 +24,7 @@
     [nzWidth]="900"
   >
     <ng-container *nzModalContent>
-      <nz-carousel
-        nzAutoPlay
-        style="align-self: center; background-color: rgb(43, 23, 226)"
-      >
+      <nz-carousel nzAutoPlay>
         <div nz-carousel-content *ngFor="let index of array">
           <img [src]="index" style="width: 100%" />
         </div>
