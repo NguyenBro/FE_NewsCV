@@ -4,7 +4,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { ComFrame } from '../../model/competence-frames.model';
-import { competion, ResponseObject, scholarship,Comment } from '../../model/news.model';
+import {
+  competion,
+  ResponseObject,
+  scholarship,
+  Comment,
+} from '../../model/news.model';
 
 @Injectable({
   providedIn: 'root',

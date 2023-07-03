@@ -166,8 +166,30 @@ export class newsService {
 
   getListComment(id?: string) {
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/comment/get-by-news/' + id}`,
+      `${this.urlPath + '/api/v1/comment-enable/get-by-news/' + id}`,
       ''
+    );
+  }
+  updateCmt(id: string, content: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/comment/update-content/' + id}`,
+      { content: content },
+      { headers: headers }
+    );
+  }
+  disableCmt(id: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<ResponseObject>(
+      `${this.urlPath + '/api/v1/comment/update-disable/' + id}`,
+      '',
+      { headers: headers }
     );
   }
   addComment(comment: Comment) {

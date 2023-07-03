@@ -16,6 +16,7 @@ import { NewsScholarshipEntryComponent } from '../news-scholarship-entry/news-sc
 import { NewsScholarshipService } from '../services/news-scholarship.service';
 import { formatDistance } from 'date-fns';
 import { newsService } from '../../services/news.service';
+import { number } from 'echarts';
 
 @Component({
   selector: 'app-news-view',
@@ -35,10 +36,13 @@ export class NewsScholarshipViewComponent implements OnInit {
   showEdit = false;
   showQt: boolean;
   submitting = false;
+  submittingCmt = false;
   inputValue = '';
   initLoading = true;
   loadingMore = false;
   idUser = localStorage.getItem('id');
+  idEdit: Number = 0;
+  contentUpdate = '';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -138,6 +142,7 @@ export class NewsScholarshipViewComponent implements OnInit {
     window.location.reload();
   }
   handleSubmit(): void {
+    this.submitting = true;
     if (this.comFrame != null) {
       this.currentComment.content = this.inputValue;
       this.currentComment.codeNews = this.comFrame.code;
@@ -164,6 +169,7 @@ export class NewsScholarshipViewComponent implements OnInit {
             )
           );
           this.inputValue = '';
+          this.submitting = false;
           // this.message.success('Thêm thành công');
         } else {
           this.message.error('Thêm thất bại');
@@ -227,5 +233,68 @@ export class NewsScholarshipViewComponent implements OnInit {
     this.commentTemp = new String();
     console.log('enter', this.listComment);
   }
-  edit(item: any): void {}
+  edit(id: Number, content: string): void {
+    this.idEdit = id;
+    this.contentUpdate = content;
+  }
+  updateCmt(id: Number, content: string) {
+    this.submittingCmt = true;
+    this.servicenew.updateCmt(id.toString(), content).subscribe((res) => {
+      console.log('giá trị của update ', res);
+      if (res.errorCode === null) {
+        this.rawListCom$ = this.servicenew
+          .getListComment(this.comFrame?.id.toString())
+          .pipe(map((data) => data.data));
+        this.listComment$ = combineLatest({
+          listOfCompetences: this.rawListCom$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences.slice(
+              (pageIndex - 1) * pageSize,
+              pageIndex * pageSize
+            )
+          )
+        );
+        this.idEdit = 0;
+        this.submittingCmt = false;
+      } else {
+        this.message.error('Có lỗi xảy ra');
+      }
+    });
+  }
+  cancelUpdateCmt() {
+    this.idEdit = 0;
+    this.submittingCmt = false;
+  }
+  disableCmt(id: Number) {
+    this.servicenew.disableCmt(id.toString()).subscribe((res) => {
+      console.log('giá trị xoá bình luận', res);
+      if (res.errorCode === null) {
+        this.rawListCom$ = this.servicenew
+          .getListComment(this.comFrame?.id.toString())
+          .pipe(map((data) => data.data));
+        this.listComment$ = combineLatest({
+          listOfCompetences: this.rawListCom$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences.slice(
+              (pageIndex - 1) * pageSize,
+              pageIndex * pageSize
+            )
+          )
+        );
+        this.message.success('Đã xoá bình luận');
+      } else {
+        this.message.error('Có lỗi xảy ra');
+      }
+    });
+  }
 }
