@@ -131,17 +131,52 @@
                       "
                     >
                       <nz-list-item-meta-title>
-                        <p>{{ item.content }}</p>
+                        <p *ngIf="item.id !== idEdit">{{ item.content }}</p>
+                        <nz-comment-content *ngIf="item.id === idEdit">
+                          <nz-form-item>
+                            <textarea
+                              [(ngModel)]="contentUpdate"
+                              nz-input
+                              rows="4"
+                            ></textarea>
+                          </nz-form-item>
+                          <nz-form-item>
+                            <button
+                              nz-button
+                              [nzLoading]="submittingCmt"
+                              [disabled]="!item.content"
+                              (click)="updateCmt(item.id, contentUpdate)"
+                              style="margin-right: 1rem"
+                            >
+                              Cập nhật
+                            </button>
+                            <button
+                              nz-button
+                              [disabled]="!item.content"
+                              (click)="cancelUpdateCmt()"
+                              nzDanger="true"
+                            >
+                              Huỷ
+                            </button>
+                          </nz-form-item>
+                        </nz-comment-content>
                       </nz-list-item-meta-title>
                     </nz-list-item-meta>
                     <ul nz-list-item-actions>
                       <nz-list-item-action
-                        ><a (click)="edit(item)" *ngIf="showQt"
+                        ><a
+                          (click)="edit(item.id, item.content)"
+                          *ngIf="
+                            item.userId.toString() === idUser &&
+                            item.id !== idEdit
+                          "
                           >chỉnh sửa</a
-                        ></nz-list-item-action
-                      >
+                        >
+                      </nz-list-item-action>
                       <nz-list-item-action
-                        ><a (click)="edit(item)" *ngIf="showQt"
+                        ><a
+                          (click)="disableCmt(item.id)"
+                          *ngIf="item.userId.toString() === idUser"
                           >xoá</a
                         ></nz-list-item-action
                       >
@@ -149,7 +184,7 @@
                   </ng-container>
                 </nz-list-item>
               </nz-list>
-              <nz-comment>
+              <nz-comment *ngIf="idUser">
                 <nz-avatar
                   nz-comment-avatar
                   nzIcon="user"

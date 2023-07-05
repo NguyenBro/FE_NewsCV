@@ -3,9 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, Observable, combineLatest, map, mergeMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  map,
+  mergeMap,
+  tap,
+} from 'rxjs';
 import { ComFrame } from '../../model/competence-frames.model';
-import { event, user,Comment } from '../../model/news.model';
+import { event, user, Comment } from '../../model/news.model';
 import { newsService } from '../../services/news.service';
 import { NewsEventEntryComponent } from '../news-event-entry/news-event-entry.component';
 import { NewsEventService } from '../services/news-event.service';
@@ -26,6 +33,13 @@ export class NewsEventViewComponent implements OnInit {
   submitting = false;
   inputValue = '';
   user: user = new user();
+  //biến dành cho comment
+  idUser = localStorage.getItem('id');
+  idEdit: Number = 0;
+  submittingCmt = false;
+  public listComment = new Array<String>();
+  public commentTemp = new String();
+  contentUpdate = '';
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
       if (!this.service.isComFrameExist(p['comFrameId'])) {
@@ -36,7 +50,9 @@ export class NewsEventViewComponent implements OnInit {
     }),
     tap((it) => {
       this.comFrame = it;
-      this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
+      this.rawListCom$ = this.servicenew
+        .getListComment(this.comFrame?.id.toString())
+        .pipe(map((data) => data.data));
       this.listComment$ = combineLatest({
         listOfCompetences: this.rawListCom$,
         pageIndex: this.pageIndex$,
@@ -45,10 +61,12 @@ export class NewsEventViewComponent implements OnInit {
         refresh: this.refreshBehavior$,
       }).pipe(
         map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-          listOfCompetences
-            .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          listOfCompetences.slice(
+            (pageIndex - 1) * pageSize,
+            pageIndex * pageSize
+          )
         )
-      )
+      );
     })
   );
   private listOfSearches$ = new BehaviorSubject<string[]>([]);
@@ -56,8 +74,8 @@ export class NewsEventViewComponent implements OnInit {
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.service.getRefresh();
   private rawListCom$: Observable<Comment[]> = this.servicenew
-  .getListComment(this.comFrame?.id.toString())
-  .pipe(map((data) => data.data));
+    .getListComment(this.comFrame?.id.toString())
+    .pipe(map((data) => data.data));
   public listComment$ = combineLatest({
     listOfCompetences: this.rawListCom$,
     pageIndex: this.pageIndex$,
@@ -66,8 +84,7 @@ export class NewsEventViewComponent implements OnInit {
     refresh: this.refreshBehavior$,
   }).pipe(
     map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-      listOfCompetences
-        .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      listOfCompetences.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
     )
   );
 
@@ -80,6 +97,7 @@ export class NewsEventViewComponent implements OnInit {
     private modal: NzModalService,
     private servicenew: newsService
   ) {
+    this.idUser = localStorage.getItem('id');
     this.news.flex = true;
     if (
       localStorage.getItem('role') === 'ADMIN' ||
@@ -90,12 +108,12 @@ export class NewsEventViewComponent implements OnInit {
       this.showQt = false;
     }
     servicenew
-    .getLoggedInUser(localStorage.getItem('email') || '')
-    .subscribe((user) => {
-      if (user.errorCode === null) {
-        this.user = user.data;
-      }
-    });
+      .getLoggedInUser(localStorage.getItem('email') || '')
+      .subscribe((user) => {
+        if (user.errorCode === null) {
+          this.user = user.data;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -105,32 +123,36 @@ export class NewsEventViewComponent implements OnInit {
     window.location.reload();
   }
   handleSubmit(): void {
-    if(this.comFrame!=null){
+    this.submitting = true;
+    if (this.comFrame != null) {
       this.currentComment.content = this.inputValue;
       this.currentComment.codeNews = this.comFrame.code;
       this.currentComment.userId = Number(this.user.id);
-      this.servicenew
-      .addComment(this.currentComment)
-        .subscribe((Res) => {
-          if (Res.errorCode === null) {
-            this.rawListCom$=this.servicenew.getListComment(this.comFrame?.id.toString()).pipe(map((data)=>data.data));
-            this.listComment$ = combineLatest({
-              listOfCompetences: this.rawListCom$,
-              pageIndex: this.pageIndex$,
-              pageSize: this.pageSize$,
-              searches: this.listOfSearches$,
-              refresh: this.refreshBehavior$,
-            }).pipe(
-              map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-                listOfCompetences
-                  .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      this.servicenew.addComment(this.currentComment).subscribe((Res) => {
+        if (Res.errorCode === null) {
+          this.rawListCom$ = this.servicenew
+            .getListComment(this.comFrame?.id.toString())
+            .pipe(map((data) => data.data));
+          this.listComment$ = combineLatest({
+            listOfCompetences: this.rawListCom$,
+            pageIndex: this.pageIndex$,
+            pageSize: this.pageSize$,
+            searches: this.listOfSearches$,
+            refresh: this.refreshBehavior$,
+          }).pipe(
+            map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+              listOfCompetences.slice(
+                (pageIndex - 1) * pageSize,
+                pageIndex * pageSize
               )
             )
-            this.inputValue='';
-          } else {
-            this.message.error('Thêm thất bại');
-          }
-        });
+          );
+          this.inputValue = '';
+          this.submitting = false;
+        } else {
+          this.message.error('Thêm thất bại');
+        }
+      });
     }
   }
   public create() {
@@ -184,7 +206,73 @@ export class NewsEventViewComponent implements OnInit {
       },
     });
   }
-  edit(item: any): void {
-    
+  comment() {
+    this.listComment.push(this.commentTemp);
+    this.commentTemp = new String();
+    console.log('enter', this.listComment);
+  }
+  edit(id: Number, content: string): void {
+    this.idEdit = id;
+    this.contentUpdate = content;
+  }
+  updateCmt(id: Number, content: string) {
+    this.submittingCmt = true;
+    this.servicenew.updateCmt(id.toString(), content).subscribe((res) => {
+      console.log('giá trị của update ', res);
+      if (res.errorCode === null) {
+        this.rawListCom$ = this.servicenew
+          .getListComment(this.comFrame?.id.toString())
+          .pipe(map((data) => data.data));
+        this.listComment$ = combineLatest({
+          listOfCompetences: this.rawListCom$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences.slice(
+              (pageIndex - 1) * pageSize,
+              pageIndex * pageSize
+            )
+          )
+        );
+        this.idEdit = 0;
+        this.submittingCmt = false;
+      } else {
+        this.message.error('Có lỗi xảy ra');
+      }
+    });
+  }
+  cancelUpdateCmt() {
+    this.idEdit = 0;
+    this.submittingCmt = false;
+  }
+  disableCmt(id: Number) {
+    this.servicenew.disableCmt(id.toString()).subscribe((res) => {
+      console.log('giá trị xoá bình luận', res);
+      if (res.errorCode === null) {
+        this.rawListCom$ = this.servicenew
+          .getListComment(this.comFrame?.id.toString())
+          .pipe(map((data) => data.data));
+        this.listComment$ = combineLatest({
+          listOfCompetences: this.rawListCom$,
+          pageIndex: this.pageIndex$,
+          pageSize: this.pageSize$,
+          searches: this.listOfSearches$,
+          refresh: this.refreshBehavior$,
+        }).pipe(
+          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+            listOfCompetences.slice(
+              (pageIndex - 1) * pageSize,
+              pageIndex * pageSize
+            )
+          )
+        );
+        this.message.success('Đã xoá bình luận');
+      } else {
+        this.message.error('Có lỗi xảy ra');
+      }
+    });
   }
 }

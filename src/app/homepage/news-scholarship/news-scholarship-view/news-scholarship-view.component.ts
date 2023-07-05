@@ -113,7 +113,6 @@ export class NewsScholarshipViewComponent implements OnInit {
     private servicenew: newsService
   ) {
     this.idUser = localStorage.getItem('id');
-    console.log('99999999999', this.idUser);
     this.news.flex = true;
     if (
       localStorage.getItem('role') === 'ADMIN' ||
