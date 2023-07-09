@@ -49,10 +49,10 @@ export class CompetenceFrameFormComponent {
   public comFrame$ = this.route.params.pipe(
     map((p) => p['comFrameId']),
     mergeMap((p) => this.service.getRecruitInfo(p)),
-    tap(
-      (comFrame) =>
-        (this.Recruit = new Recruit(comFrame?.data) || new Recruit())
-    )
+    tap((comFrame) => {
+      this.Recruit = new Recruit(comFrame?.data) || new Recruit();
+      console.log('tin tuyển dụng------', this.Recruit);
+    })
   );
 
   urlPath = 'https://server-api.newscv.tech';
@@ -89,7 +89,7 @@ export class CompetenceFrameFormComponent {
   }
   selectCategory(item: { name: string; code: string }) {
     this.selectedCategory = item.name;
-    this.Recruit.codeCategory = item.name;
+    this.Recruit.codeCategory = item.code;
   }
   showModal(): void {
     this.isVisibleModal = true;
@@ -101,7 +101,7 @@ export class CompetenceFrameFormComponent {
   }
   public save() {
     if (this.Recruit.title != '') {
-      if (this.Recruit.title !== '' && this.Recruit.title !== undefined) {
+      if (this.Recruit.code !== '' && this.Recruit.code !== undefined) {
         this.service.updateJobNews(this.Recruit).subscribe((res) => {
           if (res.errorCode === null) {
             this.cancel();
@@ -116,9 +116,11 @@ export class CompetenceFrameFormComponent {
         this.Recruit.userId = Number(this.user.id);
         this.Recruit.status = 'Waiting';
         this.service.createJobNews(this.Recruit).subscribe((res) => {
+          console.log('lỗi đâyyy', res);
+          console.log('Giá triẻcruittttttttttt', this.Recruit);
           if (res.errorCode === null) {
             this.cancel();
-            setTimeout(this.loadPage, 1000);
+            // setTimeout(this.loadPage, 1000);
             this.message.success('Thêm thành công');
           } else {
             this.message.error('Thêm thất bại');
@@ -132,7 +134,7 @@ export class CompetenceFrameFormComponent {
       // ]);
       // this.cancel();
     } else if (this.Recruit.title === '') {
-      this.message.error('Vui lòng nhập tên bộ khung năng lực!', {
+      this.message.error('Vui lòng nhập tiêu đề tuyển dụng!', {
         nzDuration: 3000,
       });
     }

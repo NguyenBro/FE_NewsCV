@@ -9,6 +9,7 @@ import {
 import { AdminService } from '../services/admin.service';
 import { Data } from '@angular/router';
 import { NzI18nService, vi_VN } from 'ng-zorro-antd/i18n';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-news-statis',
@@ -29,6 +30,7 @@ export class NewsStatisComponent implements OnInit {
   private pageIndex$ = new BehaviorSubject(1);
   private pageSize$ = new BehaviorSubject(15);
   private refreshBehavior$ = this.services.getRefresh();
+  // private listNews1$ :Observable<any>=new Observable<any>
   private listNews$ = this.services
     .getInteractiveNews(this.services.typeNews)
     .pipe(map((data) => data.data));
@@ -45,9 +47,13 @@ export class NewsStatisComponent implements OnInit {
         .slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
     )
   );
-  constructor(private services: AdminService, private i18n: NzI18nService) {
+  listNewstemp: any = [];
+  constructor(
+    private services: AdminService,
+    private i18n: NzI18nService,
+    private message: NzMessageService
+  ) {
     this.i18n.setLocale(vi_VN);
-    console.log('listCandidate2', this.listCom$);
     this.select('Tất cả');
   }
   async select(item: String) {
@@ -55,293 +61,454 @@ export class NewsStatisComponent implements OnInit {
     if (item === 'Đã duyệt') {
       this.selectedStatus = 'Đã duyệt';
       if (this.services.typeNews === 'hoc-bong') {
-        this.listNews$ = this.services
-          .getScholarshipByStatus('Done')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getScholarshipByStatus('Done').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getScholarshipByStatus('Done')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else if (this.services.typeNews === 'cuoc-thi') {
-        this.listNews$ = this.services
-          .getCompitionByStatus('Done')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getCompitionByStatus('Done').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getCompitionByStatus('Done')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else if (this.services.typeNews === 'su-kien') {
-        this.listNews$ = this.services
-          .getEventByStatus('Done')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getEventByStatus('Done').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getEventByStatus('Done')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else {
-        this.listNews$ = this.services
-          .getJobByStatus('Done')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getJobByStatus('Done').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getJobByStatus('Done')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       }
     } else if (item === 'Đã huỷ') {
       this.selectedStatus = 'Đã huỷ';
       if (this.services.typeNews === 'hoc-bong') {
-        this.listNews$ = this.services
-          .getScholarshipByStatus('Cancel')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getScholarshipByStatus('Cancel').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getScholarshipByStatus('Cancel')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else if (this.services.typeNews === 'cuoc-thi') {
-        this.listNews$ = this.services
-          .getCompitionByStatus('Cancel')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getCompitionByStatus('Cancel').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getCompitionByStatus('Cancel')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else if (this.services.typeNews === 'su-kien') {
-        this.listNews$ = this.services
-          .getEventByStatus('Cancel')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getEventByStatus('Cancel').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getEventByStatus('Cancel')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else {
-        this.listNews$ = this.services
-          .getJobByStatus('Cancel')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getJobByStatus('Cancel').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getJobByStatus('Cancel')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       }
     } else if (item === 'Đang xử lý') {
       this.selectedStatus = 'Đang xử lý';
       if (this.services.typeNews === 'hoc-bong') {
-        this.listNews$ = this.services
-          .getScholarshipByStatus('Waiting')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getScholarshipByStatus('Waiting').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getScholarshipByStatus('Waiting')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else if (this.services.typeNews === 'cuoc-thi') {
-        this.listNews$ = this.services
-          .getCompitionByStatus('Waiting')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getCompitionByStatus('Waiting').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getCompitionByStatus('Waiting')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else if (this.services.typeNews === 'su-kien') {
-        this.listNews$ = this.services
-          .getEventByStatus('Waiting')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getEventByStatus('Waiting').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getEventByStatus('Waiting')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       } else {
-        this.listNews$ = this.services
-          .getJobByStatus('Waiting')
-          .pipe(map((data) => data.data));
-        this.listCom$ = combineLatest({
-          listOfCompetences: this.listNews$,
-          pageIndex: this.pageIndex$,
-          pageSize: this.pageSize$,
-          searches: this.listOfSearches$,
-          refresh: this.refreshBehavior$,
-        }).pipe(
-          map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-            listOfCompetences
-              // .filter((competence) => this.isSearchCompetence(competence, searches))
-              .slice(
-                (pageIndex - 1) * pageSize,
-                pageIndex * pageSize,
-                (this.load = false)
-              )
-          )
-        );
+        this.services.getJobByStatus('Waiting').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getJobByStatus('Waiting')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
       }
     } else {
       this.selectedStatus = 'Tất cả';
-      this.listNews$ = this.services
-        .getInteractiveNews(this.services.typeNews)
-        .pipe(map((data) => data.data));
-      this.listCom$ = await combineLatest({
-        listOfCompetences: this.listNews$,
-        pageIndex: this.pageIndex$,
-        pageSize: this.pageSize$,
-        searches: this.listOfSearches$,
-        refresh: this.refreshBehavior$,
-      }).pipe(
-        map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
-          listOfCompetences
-            // .filter((competence) => this.isSearchCompetence(competence, searches))
-            .slice(
-              (pageIndex - 1) * pageSize,
-              pageIndex * pageSize,
-              (this.load = false)
-            )
-        )
-      );
+      if (this.services.typeNews === 'hoc-bong') {
+        this.services.getScholarshipByStatus('').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getScholarshipByStatus('')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
+      } else if (this.services.typeNews === 'cuoc-thi') {
+        this.services.getCompitionByStatus('').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getCompitionByStatus('')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
+      } else if (this.services.typeNews === 'su-kien') {
+        this.services.getEventByStatus('').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getEventByStatus('')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
+      } else {
+        this.services.getJobByStatus('').subscribe((res) => {
+          console.log('giá trị mà dta đã chọn là', res);
+          this.listNewstemp = res.data;
+          this.load = false;
+        });
+        // this.listNews$ = this.services
+        //   .getJobByStatus('')
+        //   .pipe(map((data) => data.data));
+        // this.listCom$ = combineLatest({
+        //   listOfCompetences: this.listNews$,
+        //   pageIndex: this.pageIndex$,
+        //   pageSize: this.pageSize$,
+        //   searches: this.listOfSearches$,
+        //   refresh: this.refreshBehavior$,
+        // }).pipe(
+        //   map(({ listOfCompetences, pageIndex, pageSize, searches }) =>
+        //     listOfCompetences
+        //       // .filter((competence) => this.isSearchCompetence(competence, searches))
+        //       .slice(
+        //         (pageIndex - 1) * pageSize,
+        //         pageIndex * pageSize,
+        //         (this.load = false)
+        //       )
+        //   )
+        // );
+      }
     }
   }
   ngOnInit(): void {}
   snapStatus(id: Number, status: String) {
-    this.services.updateStatus(id.toString(), status).subscribe();
+    this.services.updateStatus(id.toString(), status).subscribe((res) => {
+      console.log('Giá trị sau khi duyệt', res);
+      if (res.errorCode === null) {
+        window.location.reload();
+        if (status === 'Waiting') {
+          this.message.success('Duyệt tin thành công');
+        } else {
+          this.message.success('Huỷ tin thành công');
+        }
+      } else {
+        if (status === 'Waiting') {
+          this.message.success('Duyệt tin thất bại');
+        } else {
+          this.message.success('Huỷ tin thất bại');
+        }
+      }
+    });
     // this.select('Tất cả');
-    window.location.reload();
+    // window.location.reload();
   }
   onCurrentPageDataChange(listOfCurrentPageData: readonly Data[]): void {
     this.listOfCurrentPageData = listOfCurrentPageData;

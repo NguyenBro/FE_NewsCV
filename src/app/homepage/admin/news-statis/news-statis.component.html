@@ -32,7 +32,7 @@
       #rowSelectionTable
       nzShowPagination
       nzShowSizeChanger
-      [nzData]="(listCom$ | async) ?? []"
+      [nzData]="listNewstemp ?? []"
       (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
     >
       <thead>
@@ -93,6 +93,7 @@
         </tr>
       </tbody>
     </nz-table>
+
     <!-- <div *ngFor="let candidate of listCom$ | async" class="list">
       <div *ngIf="!load" class="item">
         <div class="itemcon">
