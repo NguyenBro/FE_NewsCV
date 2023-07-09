@@ -50,6 +50,7 @@ export class CompetenceFrameViewComponent implements OnInit {
   public comFrameInfo$ = this.route.params
     .pipe(
       mergeMap((p) => {
+        console.log('Đã vào được đayyyyyyy');
         this.id = p['comFrameId'];
         return this.service.getRecruitInfo(p['comFrameId']);
       }),

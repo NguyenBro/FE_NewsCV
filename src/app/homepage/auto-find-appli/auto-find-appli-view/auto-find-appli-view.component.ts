@@ -35,16 +35,15 @@ export class AutoFindAppliViewComponent implements OnInit {
   subscriptions = new Subscription();
   public comFrameInfo$ = this.route.params.pipe(
     mergeMap((p) => {
-      if (!this.service.isComFrameExist(p['comFrameId'])) {
-        this.cancel();
-      }
+      console.log('Đã vào được đayyyyyyy');
       this.id = p['comFrameId'];
       return this.service.getAutoJobInfo(p['comFrameId']);
     }),
     tap((it) => {
-      this.comFrame = it;
-      if (this.comFrame !== null && this.comFrame !== undefined) {
-        this.cv = this.comFrame.cv.toString();
+      console.log('---------------- data', it);
+      this.comFrame = it?.data;
+      if (!this.comFrame) {
+        this.cancel();
       }
       if (this.comFrame?.userId !== undefined) {
         if (
@@ -57,7 +56,7 @@ export class AutoFindAppliViewComponent implements OnInit {
           this.showEdit = true;
         }
       }
-      console.log('----------------', this.comFrame);
+
       console.log(
         '<<<<<<<<<<<<<<<<<<---------------->>>>>>>>>>>>>>>>>>',
         this.comFrame
@@ -86,11 +85,28 @@ export class AutoFindAppliViewComponent implements OnInit {
     } else {
       this.showQt = false;
     }
+    // this.service
+    //   .getAutoJobInfo(
+    //     this.route.snapshot.paramMap.get('comFrameId')?.toString()
+    //   )
+    //   .subscribe((res) => {
+    //     console.log('---------------- data', res);
+    //     this.comFrame = res?.data;
+    //   });
   }
   ngAfterViewInit() {
     this.cdr.detectChanges();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.service
+      .getAutoJobInfo(
+        this.route.snapshot.paramMap.get('comFrameId')?.toString()
+      )
+      .subscribe((res) => {
+        console.log('---------------- data', res);
+        this.comFrame = res?.data;
+      });
+  }
 
   public create() {
     this.service.conditionDup = false;

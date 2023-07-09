@@ -5,10 +5,8 @@ import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { listOfVietnamese } from 'src/app/shared/config';
 import { AutoJob, ResponseObject } from '../model/news.model';
 
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AutoFindAppliService {
   public listviet = listOfVietnamese;
@@ -57,9 +55,16 @@ export class AutoFindAppliService {
     );
   }
   getAutoJobByCode(code: string) {
+    const token = localStorage.getItem('token');
+    console.log('token', token);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.post<ResponseObject>(
-      `${this.urlPath + '/api/v1/company/get-by-code/' + code}`,
-      ''
+      `${this.urlPath + '/api/v1/auto-job/get-by-id/' + code + '?status='}`,
+      '',
+      { headers: headers }
     );
   }
   addAutoJob(AutoJob: AutoJob) {
@@ -125,11 +130,12 @@ export class AutoFindAppliService {
   //   }
   //   return of(this.listCom.find((item) => item.id === id));
   // }
-  public getAutoJobInfo(id?: string): Observable<AutoJob | undefined> {
+  public getAutoJobInfo(id?: string): Observable<ResponseObject | undefined> {
     if (!id) {
-      return of(new AutoJob());
+      return of(new ResponseObject());
+    } else {
+      return this.getAutoJobByCode(id);
     }
-    return of(this.listAutoJob.find((item) => item.userId=Number(id)));
   }
   public getRandomId(): string {
     let text = '';
@@ -140,7 +146,9 @@ export class AutoFindAppliService {
   }
 
   public isComFrameExist(id: string) {
-    return this.listAutoJob.find((item) => item.userId === Number(id)) ? true : false;
+    return this.listAutoJob.find((item) => item.userId === Number(id))
+      ? true
+      : false;
   }
 
   public getComFrame(id: string) {

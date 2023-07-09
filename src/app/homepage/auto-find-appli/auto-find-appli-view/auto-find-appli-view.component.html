@@ -26,8 +26,8 @@
     </button>
 
     <div container-title>
-      Tên ứng viên: {{ (comFrameInfo$ | async)?.fullName }}
-      <div class="font-normal">Email: {{ (comFrameInfo$ | async)?.email }}</div>
+      Tên ứng viên: {{ comFrame?.fullName }}
+      <div class="font-normal">Email: {{ comFrame?.email }}</div>
     </div>
     <div container-body>
       <div class="content list-section">
@@ -114,7 +114,7 @@
                 style="text-align: -webkit-center"
               >
                 <pdf-viewer
-                  [src]="cv"
+                  [src]="comFrame?.cv || ''"
                   [original-size]="false"
                   [show-all]="false"
                   [zoom]="1"
@@ -129,7 +129,7 @@
               >
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">
-                    {{ (comFrameInfo$ | async)?.phone || "Không có" }}
+                    {{ comFrame?.phone || "Không có" }}
                   </dt>
                   <dd
                     class="text-2xl font-bold leading-9 tracking-tight text-white"
@@ -139,7 +139,7 @@
                 </div>
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">
-                    {{ (comFrameInfo$ | async)?.specialize || "Không có" }}
+                    {{ comFrame?.specialize || "Không có" }}
                   </dt>
                   <dd
                     class="text-2xl font-bold leading-9 tracking-tight text-white"
@@ -149,7 +149,7 @@
                 </div>
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">
-                    {{ (comFrameInfo$ | async)?.language || "Không có" }}
+                    {{ comFrame?.language || "Không có" }}
                   </dt>
                   <dd
                     class="text-2xl font-bold leading-9 tracking-tight text-white"
@@ -159,7 +159,7 @@
                 </div>
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">
-                    {{ (comFrameInfo$ | async)?.position || "Không có" }}
+                    {{ comFrame?.position || "Không có" }}
                   </dt>
                   <dd
                     class="text-2xl font-bold leading-9 tracking-tight text-white"
@@ -173,7 +173,7 @@
               >
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">
-                    {{ (comFrameInfo$ | async)?.experience || "Không có" }}
+                    {{ comFrame?.experience || "Không có" }}
                   </dt>
                   <dd
                     class="text-2xl font-bold leading-9 tracking-tight text-white"
@@ -183,7 +183,7 @@
                 </div>
                 <div class="flex flex-col-reverse">
                   <dt class="text-base leading-7 text-gray-300">
-                    {{ (comFrameInfo$ | async)?.location || "Không có" }}
+                    {{ comFrame?.location || "Không có" }}
                   </dt>
                   <dd
                     class="text-2xl font-bold leading-9 tracking-tight text-white"

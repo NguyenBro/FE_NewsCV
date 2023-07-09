@@ -16,6 +16,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NgxEchartsModule } from 'ngx-echarts';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -37,6 +38,9 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzButtonModule,
     PdfViewerModule,
     NzTableModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
 })
 export class AdminModule {}
