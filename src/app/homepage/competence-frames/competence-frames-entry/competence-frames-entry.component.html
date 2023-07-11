@@ -95,16 +95,16 @@
     </div>
   </ng-template>
   <ng-template #competenceFrameList>
-    <div class="h-full">
+    <div class="h-full scra">
       <div class="site-showList">
         <div
-          class="layout-grid"
+          class="layout-grid gap-4"
           [ngClass]="
             isDetailShown ? 'grid-cols-1' : 'md:grid-cols-3 grid-cols-1'
           "
         >
           <div
-            class="card rounded-lg bg-white h-fit relative"
+            class="card rounded-lg bg-white h-full relative"
             [ngClass]="test.code === selectedCompetenceFrame ? 'active' : ''"
             *ngFor="let test of listCom$ | async"
             (click)="selectCompetenceFrame(test.code, test, cardRef)"

@@ -143,23 +143,25 @@ export class CompanyFormComponent {
           .toLowerCase();
         this.service.addCompany(this.currentComFrame).subscribe((res) => {
           if (res.errorCode === null) {
+            console.log('giá trị cảu company', res);
             this.user.name = this.currentComFrame.name;
             this.user.email = this.currentComFrame.code + '@newscv.tech';
-            this.user.password = this.currentComFrame.code + '@NEWSCV';
+            this.user.password = 'Nguyen14092001@';
             this.user.roleCodes = ['COMPANY'];
             this.user.avatar = this.currentComFrame.logo;
             this.user.background = this.currentComFrame.background;
-            this.newsServices.addUser(this.user).subscribe((res) => {
-              if (res.errorCode === null) {
+            this.newsServices.addUser(this.user).subscribe((data) => {
+              console.log('giá trị cảu user', data);
+              if (data.errorCode === null) {
                 this.cancel();
                 setTimeout(this.loadPage, 1000);
                 this.message.success('Thêm thành công');
               } else {
-                this.message.error('Thêm thất bại');
+                this.message.error('Thêm user thất bại');
               }
             });
           } else {
-            this.message.error('Thêm thất bại');
+            this.message.error('Thêm công ty thất bại');
           }
         });
       }

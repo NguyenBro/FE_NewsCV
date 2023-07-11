@@ -131,6 +131,9 @@ export class NewsEventEntryComponent
           .includes(search.toLocaleLowerCase()) ||
         competence.codeCategory
           ?.toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        competence.location
+          ?.toLocaleLowerCase()
           .includes(search.toLocaleLowerCase())
     );
   }
@@ -262,7 +265,6 @@ export class NewsEventEntryComponent
             const lowerFilterKeyword = filterKeyword.toLowerCase();
             if (comFrame.shortContent === undefined) {
               return (
-                // if(this.sevices.checkVietnames())
                 this.service
                   .toLowerCaseNonAccentVietnamese(comFrame.title)
                   .includes(lowerFilterKeyword) ||
