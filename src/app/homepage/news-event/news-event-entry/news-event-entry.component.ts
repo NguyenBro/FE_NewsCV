@@ -375,7 +375,7 @@ export class NewsEventEntryComponent
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listCom.length;
+      this.listLength = this.service.listEvent.length;
       this.list = this.service.listEvent.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount

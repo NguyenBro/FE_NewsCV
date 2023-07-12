@@ -378,7 +378,7 @@ export class NewsEntryComponent implements OnInit, OnDestroy, AfterViewInit {
         (this.currentPage + 1) * this.paginationAmount
       );
     } else {
-      this.listLength = this.service.listCom.length;
+      this.listLength = this.service.listCompetion.length;
       this.list = this.service.listCompetion.slice(
         this.currentPage * this.paginationAmount,
         (this.currentPage + 1) * this.paginationAmount
