@@ -204,6 +204,7 @@ export class InfomationComponent implements OnInit {
       console.log('thay đổi', res);
       if (res.errorCode === null) {
         this.message.success('Cập nhật ảnh đại diện thành công');
+        this.imageVisible = false;
       } else {
         this.message.success('Đã có lỗi xảy ra');
       }
