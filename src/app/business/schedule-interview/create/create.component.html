@@ -38,6 +38,71 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone"
+        >Số điện thoại ứng viên:
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng nhập số diện thoại của ứng viên!"
+      >
+        <input
+          nz-input
+          formControlName="phone"
+          id="phone"
+          placeholder="Số điện thoại"
+          [(ngModel)]="intervSche.phone"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
+        >CV ứng viên
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Vui lòng chọn CV cho ứng viên!"
+      >
+        <div class="flex items-center">
+          <input
+            (change)="chooseCv($event)"
+            type="file"
+            formControlName="file"
+            name="file"
+            id="file"
+            class="inputfile"
+          />
+          <label for="file">{{
+            intervSche.cv === null || intervSche.cv === ""
+              ? "Chọn CV "
+              : "Đã chọn"
+          }}</label>
+          <a
+            *ngIf="intervSche.cv"
+            [href]="intervSche.cv"
+            target="_blank"
+            class="info date"
+          >
+            <pdf-viewer
+              [src]="intervSche.cv"
+              [original-size]="false"
+              [show-all]="false"
+              [zoom]="1"
+              style="width: 15vh; height: 23vh"
+            ></pdf-viewer>
+          </a>
+        </div>
+        <!-- <input
+          nz-input
+          formControlName="cv"
+          id="cv"
+          placeholder="Số điện thoại"
+          [(ngModel)]="intervSche.phone"
+        /> -->
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="location" nzRequired
         >Đỉa chỉ phỏng vấn</nz-form-label
       >

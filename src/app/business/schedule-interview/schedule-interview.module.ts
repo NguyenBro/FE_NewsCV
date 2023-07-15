@@ -16,6 +16,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ListDateComponent } from './list-date/list-date.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ModalComponent } from 'src/app/shared/styles/modal/modal.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NzTableModule } from 'ng-zorro-antd/table';
 @NgModule({
   declarations: [CreateComponent, ListScheduleComponent, ListDateComponent],
   imports: [
@@ -33,8 +35,9 @@ import { ModalComponent } from 'src/app/shared/styles/modal/modal.component';
     NzDatePickerModule,
     NzIconModule,
     NzRadioModule,
-
+    PdfViewerModule,
     ModalComponent,
+    NzTableModule,
   ],
 })
 export class ScheduleInterviewModule {}

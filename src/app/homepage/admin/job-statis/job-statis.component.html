@@ -92,13 +92,7 @@
             <button
               nz-button
               class="but"
-              (click)="
-                createScheduleInterview(
-                  apply.id.toString(),
-                  apply.fullName,
-                  apply.email
-                )
-              "
+              (click)="createScheduleInterview(apply)"
               *ngIf="apply.status === 'Done'"
             >
               Tạo cuộc phỏng vấn

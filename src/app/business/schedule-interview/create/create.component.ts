@@ -10,18 +10,23 @@ import {
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { NzI18nService, en_US, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ScheduleInterview } from 'src/app/homepage/model/news.model';
+import {
+  ResponseObject,
+  ScheduleInterview,
+} from 'src/app/homepage/model/news.model';
 import { ScheduleInterviewService } from '../schedule-interview.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { JobStatisComponent } from 'src/app/homepage/admin/job-statis/job-statis.component';
 import { AdminService } from 'src/app/homepage/admin/services/admin.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.less'],
 })
 export class CreateComponent implements OnInit {
+  urlPath = 'https://server-api.newscv.tech';
   intervSche: ScheduleInterview = new ScheduleInterview();
   countDate = [1];
   dataModal: string[] = [];
@@ -33,16 +38,20 @@ export class CreateComponent implements OnInit {
     private message: NzMessageService,
     private router: Router,
     private service: ScheduleInterviewService,
-    private adService: AdminService
+    private adService: AdminService,
+    private http: HttpClient
   ) {
     this.i18n.setLocale(this.isEnglish ? zh_CN : en_US);
-    this.intervSche.name = service.applicantName;
-    this.intervSche.email = service.applicantEmail;
+    this.intervSche.name = service.apply.fullName;
+    this.intervSche.email = service.apply.email;
+    this.intervSche.phone = service.apply.phone;
+    this.intervSche.cv = service.apply.cv;
   }
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       email: [null, [Validators.email, Validators.required]],
       name: [null, [Validators.required]],
+      phone: [null, [Validators.required]],
       location: [null, [Validators.required]],
       contact: [null, [Validators.required]],
       schedules: new FormArray([new FormControl(null, Validators.required)]),
@@ -75,6 +84,7 @@ export class CreateComponent implements OnInit {
   submitForm(): void {
     if (this.validateForm.valid) {
       this.intervSche.name = this.validateForm.value['name'];
+      this.intervSche.phone = this.validateForm.value['phone'];
       this.intervSche.company =
         localStorage
           .getItem('email')
@@ -97,7 +107,7 @@ export class CreateComponent implements OnInit {
         console.log('resssssss', res);
         if (res.errorCode === null) {
           this.message.success('Tạo lịch phỏng vấn thành công');
-          this.snapStatus(this.service.applicantId, 'Cancel');
+          this.snapStatus(this.service.apply.id.toString(), 'Cancel');
           this.router.navigate(['./Business/Schedule-Interview/Schedules']);
         } else {
           this.message.error('Đã có lỗi xảy ra');
@@ -131,5 +141,34 @@ export class CreateComponent implements OnInit {
 
   get schedules() {
     return this.validateForm.get('schedules') as FormArray;
+  }
+  chooseCv(event: any) {
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData = new FormData();
+      formData.append('file', file);
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      });
+
+      this.http
+        .post<ResponseObject>(
+          `${this.urlPath + '/api/v1/imageFirebase'}`,
+          formData,
+          {
+            headers: headers,
+          }
+        )
+        .subscribe((res) => {
+          if (res.data != null) {
+            console.log('fileasdasd', res.data);
+            this.intervSche.cv = res.data;
+            this.message.success(`Tải file thành công`);
+          } else {
+            this.message.error(`Không thể tải file`);
+          }
+        });
+    }
   }
 }

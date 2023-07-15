@@ -3,6 +3,7 @@ import { NzI18nService, en_US, vi_VN, zh_CN } from 'ng-zorro-antd/i18n';
 import { ScheduleInterviewService } from '../schedule-interview.service';
 import * as moment from 'moment';
 import { ScheduleInterview } from 'src/app/homepage/model/news.model';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-list-schedule',
@@ -25,7 +26,7 @@ export class ListScheduleComponent implements OnInit {
   listMonth: string[] = [];
   test = '';
   intervSche: ScheduleInterview[] = [];
-  modalIntervSche: ScheduleInterview = new ScheduleInterview();
+  modalIntervSche: ScheduleInterview[] = [];
   constructor(
     private i18n: NzI18nService,
     private service: ScheduleInterviewService
@@ -42,7 +43,7 @@ export class ListScheduleComponent implements OnInit {
           this.intervSche.push(res.data[i]);
           this.test = this.test + res.data[i].schedule + ',';
         }
-
+        console.log('giá trị mảng test', this.test);
         while (this.test.length > 0) {
           this.listDataMap.push(this.test.slice(0, this.test.indexOf(',')));
           this.test = this.test.replace(
@@ -50,7 +51,7 @@ export class ListScheduleComponent implements OnInit {
             ''
           );
         }
-
+        console.log('giá trị mảng chưa loại', this.listDataMap);
         for (let i = 0; i < this.listDataMap.length; i++) {
           this.listMonth.push(
             moment(this.listDataMap[i], 'hh:mm-DD/MM/YYYY').format('M')
@@ -60,12 +61,15 @@ export class ListScheduleComponent implements OnInit {
             'hh:mm-DD/MM/YYYY'
           ).format('DMYYYY');
         }
-        console.log('giá trị mảng', this.listDataMap);
-        console.log('giá trị mảng tháng', this.listMonth);
+        this.listDataMap = this.unique(this.listDataMap);
         console.log('giá trị mảng intervSche', this.intervSche);
+        console.log('giá trị mảng', this.unique(this.listDataMap));
+        console.log('giá trị mảng tháng', this.listMonth);
       });
   }
-
+  unique(arr: string[]) {
+    return Array.from(new Set(arr)); //
+  }
   ngOnInit(): void {}
   getMonthData(date: Date) {
     for (let i = 0; i < this.listMonth.length; i++) {
@@ -82,13 +86,16 @@ export class ListScheduleComponent implements OnInit {
     this.isVisible = false;
   }
   selectChange(select: Date): void {
+    console.log('ngày chọn thí sinh', this.intervSche);
+    this.modalIntervSche = [];
     for (let i = 0; i < this.intervSche.length; i++) {
       if (
         moment(this.intervSche[i].schedule, 'hh:mm-DD/MM/YYYY').format(
           'DMYYYY'
         ) === moment(select, 'dddd MMMM Do YYYY hh:mm:ss Z').format('DMYYYY')
       ) {
-        this.modalIntervSche = this.intervSche[i];
+        this.modalIntervSche.push(this.intervSche[i]);
+        console.log('ngày chọn thí sinh được hiển thị', i, this.intervSche[i]);
       }
     }
     this.isVisible = true;

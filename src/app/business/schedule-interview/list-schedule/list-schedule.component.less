@@ -32,6 +32,7 @@
 // }
 ::ng-deep.ant-modal-content {
   border-radius: 1rem;
+  width: fit-content;
 }
 ::ng-deep.ant-modal-header {
   background-color: #6a5ae0;
@@ -41,4 +42,13 @@
 }
 ::ng-deep.ant-modal-title {
   color: white;
+}
+::ng-deep.ant-modal-mask {
+  div {
+    overflow: auto;
+  }
+  div::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+  }
 }

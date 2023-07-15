@@ -161,10 +161,8 @@ export class JobStatisComponent implements OnInit {
       listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) &&
       !this.checked;
   }
-  createScheduleInterview(id: string, name: string, email: string) {
-    this.SIService.applicantName = name;
-    this.SIService.applicantEmail = email;
-    this.SIService.applicantId = id;
+  createScheduleInterview(apply: Application) {
+    this.SIService.apply = apply;
     this.router.navigate(['./Business/Schedule-Interview/Create-Schedule']);
   }
 }

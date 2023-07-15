@@ -668,6 +668,8 @@ export class ScheduleInterview {
   contact: string;
   note: string;
   status: string;
+  cv: string;
+  phone: string;
   constructor(clone?: ScheduleInterview) {
     if (clone) {
       this.id = clone.id;
@@ -679,6 +681,8 @@ export class ScheduleInterview {
       this.contact = clone.contact;
       this.note = clone.note;
       this.status = clone.status;
+      this.cv = clone.cv;
+      this.phone = clone.phone;
     } else {
       this.id = 0;
       this.company = '';
@@ -689,6 +693,8 @@ export class ScheduleInterview {
       this.contact = '';
       this.note = '';
       this.status = '';
+      this.cv = '';
+      this.phone = '';
     }
   }
 }

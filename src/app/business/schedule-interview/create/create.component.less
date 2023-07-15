@@ -9,3 +9,25 @@
 .register-are {
   margin-bottom: 8px;
 }
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.inputfile + label {
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.85);
+  background-color: #bfbfbf;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  color: #ffffff;
+  background-color: #40a9ff;
+}

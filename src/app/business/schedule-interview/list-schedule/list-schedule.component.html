@@ -1,29 +1,3 @@
-<!-- <nz-calendar (ngModel)="(date)" [nzFullscreen]="false">
-  <ul *nzDateCell="let date" class="events">
-    <ng-container
-      [ngSwitch]="
-        date.getDate().toString() +
-        (date.getMonth() + 1).toString() +
-        date.getFullYear().toString()
-      "
-      *ngFor="let item of listDataMap"
-    >
-      <ng-container *ngSwitchCase="item">
-        <li
-          style="background-color: #45f3eaba; padding: 0.25rem 0.5rem"
-          (click)="selectChange(date)"
-        >
-          <nz-badge nzStatus="success" nzText="Xem lịch"></nz-badge>
-        </li>
-      </ng-container>
-    </ng-container>
-  </ul>
-  <ng-container *nzMonthCell="let month">
-    <div *ngIf="getMonthData(month) as monthData" class="notes-month">
-      <nz-badge nzStatus="success" nzText="Có lịch"></nz-badge>
-    </div>
-  </ng-container>
-</nz-calendar> -->
 <nz-modal
   [(nzVisible)]="isVisible"
   nzTitle="Lịch phỏng vấn ngày {{
@@ -36,8 +10,59 @@
   (nzOnCancel)="handleCancel()"
 >
   <div *nzModalContent class="flex flex-col gap-4">
-    <div>Tên Ứng viên: {{ modalIntervSche.name }}</div>
-    <div>Email: {{ modalIntervSche.email }}</div>
+    <nz-table #basicTable [nzData]="modalIntervSche">
+      <thead>
+        <tr>
+          <th>Thời gian</th>
+          <th>Tên ứng viên</th>
+          <th>Email</th>
+          <th>Số điện thoại</th>
+          <th>CV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.schedule.toString() }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.phone }}</td>
+          <td>
+            <a
+              *ngIf="data.cv"
+              [href]="data.cv"
+              target="_blank"
+              class="info date"
+            >
+              <pdf-viewer
+                [src]="data.cv"
+                [original-size]="false"
+                [show-all]="false"
+                [zoom]="1"
+                style="width: 15vh; height: 23vh"
+              ></pdf-viewer>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <!-- <div *ngFor="let modal of modalIntervSche">
+      <div>Thời gian: {{ modal.schedule.toString() }}</div>
+      <div>Tên Ứng viên: {{ modal.name }}</div>
+      <div>Email: {{ modal.email }}</div>
+      <div>Số điện thoại: {{ modal.phone }}</div>
+      <div class="flex gap-2">
+        CV:
+        <a *ngIf="modal.cv" [href]="modal.cv" target="_blank" class="info date">
+          <pdf-viewer
+            [src]="modal.cv"
+            [original-size]="false"
+            [show-all]="false"
+            [zoom]="1"
+            style="width: 15vh; height: 23vh"
+          ></pdf-viewer>
+        </a>
+      </div>
+    </div> -->
   </div>
   <div *nzModalFooter>
     <button nz-button nzType="primary" (click)="handleCancel()">Đóng</button>

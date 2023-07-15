@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  Application,
   ResponseObject,
   ScheduleInterview,
 } from 'src/app/homepage/model/news.model';
@@ -11,9 +12,7 @@ import {
 })
 export class ScheduleInterviewService {
   urlPath = 'https://server-api.newscv.tech';
-  applicantName = '';
-  applicantEmail = '';
-  applicantId = '';
+  apply: Application = new Application();
   constructor(private http: HttpClient) {}
   addInterviewSchedule(model: ScheduleInterview): Observable<any> {
     const token = localStorage.getItem('token');
