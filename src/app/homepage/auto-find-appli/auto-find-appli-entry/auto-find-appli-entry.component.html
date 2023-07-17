@@ -65,18 +65,18 @@
     </div>
   </ng-template>
   <ng-template #competenceFrameList>
-    <div class="h-full">
+    <div class="h-full scra">
       <!-- *ngIf="!loadDing" -->
       <div class="site-showList">
         <!-- <div class="site-showList">  -->
         <div
-          class="layout-grid"
+          class="layout-grid gap-4"
           [ngClass]="
             isDetailShown ? 'grid-cols-1' : 'md:grid-cols-3 grid-cols-1'
           "
         >
           <div
-            class="card rounded-lg bg-white relative h-fit"
+            class="card rounded-lg bg-white relative h-full"
             [ngClass]="
               test.userId.toString() === selectedCompetenceFrame ? 'active' : ''
             "
